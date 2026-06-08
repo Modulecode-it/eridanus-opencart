@@ -1,0 +1,209 @@
+{#
+/**
+ * @author    p0v1n0m <p0v1n0m@gmail.com>
+ * @license   Commercial
+ * @link      https://github.com/p0v1n0m
+ */
+#}
+<script>
+var ll_country_id, ll_country, ll_iso_code_2, ll_iso_code_3, ll_zone_id, ll_zone, ll_zone_code, ll_city, ll_postcode, ll_quantity;
+
+$(document).ready(function() {
+  {% if selector != '' %}
+  $('{{ selector }}').{{ insert }}($('.ll_shipping_widget'));
+  {% endif %}
+
+  {% if autocomplete %}
+  $('input[name=\'ll_city\']').autocomplete({
+    'source': function(request, response) {
+      $.ajax({
+        url: 'index.php?route=extension/module/ll_shipping_widget/autocomplete&city=' + encodeURIComponent(request),
+        dataType: 'json',
+        success: function(json) {
+          response($.map(json, function(item) {
+            return {
+              label: item['name'],
+              value: item['value']
+            }
+          }));
+        }
+      });
+    },
+    'select': function(item) {
+      $('input[name=\'ll_city\']').val(item['value']);
+
+      ll_shipping_widget_load();
+    }
+  });
+  {% endif %}
+
+  $('input[name=\'ll_city\'], input[name=\'ll_postcode\'], input[name=\'quantity\']').on('blur', function() {
+    ll_shipping_widget_load();
+  });
+
+  $('input[name=\'ll_city\'], input[name=\'ll_postcode\'], input[name=\'quantity\']').on('keyup', function(e) {
+    if(e.keyCode == 13){
+      ll_shipping_widget_load();
+    }
+  });
+
+  {% if country_status or zone_status %}
+  $('*[name=\'ll_country_id\']').on('change', function() {
+    $.ajax({
+      url: 'index.php?route=account/account/country&country_id=' + this.value,
+      dataType: 'json',
+      success: function(json) {
+        html = '<option value="0">{{ text_zone }}</option>';
+
+        if (json['zone'] && json['zone'] != '') {
+          for (i = 0; i < json['zone'].length; i++) {
+            html += '<option value="' + json['zone'][i]['zone_id'] + '" data-code="' + json['zone'][i]['code'] + '"';
+
+            if (json['zone'][i]['zone_id'] == '{{ zone_id }}') {
+              html += ' selected="selected"';
+            }
+
+            html += '>' + json['zone'][i]['name'] + '</option>';
+          }
+
+          $('input[name=\'ll_iso_code_2\']').val(json['iso_code_2']);
+          $('input[name=\'ll_iso_code_3\']').val(json['iso_code_3']);
+          $('input[name=\'ll_country\']').val(json['name']);
+        } else {
+          html += '<option value="0">{{ text_none }}</option>';
+        }
+
+        $('select[name=\'ll_zone_id\']').html(html);
+
+        $('select[name=\'ll_zone_id\']').trigger('change');
+      },
+      error: function(xhr, ajaxOptions, thrownError) {
+        alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+      }
+    });
+  });
+
+  $('*[name=\'ll_country_id\']').trigger('change');
+
+  $('select[name=\'ll_zone_id\']').on('change', function() {
+    if ($(this).val() > 0) {
+      $('input[name=\'ll_zone\']').val($('select[name=\'ll_zone_id\'] :selected').text());
+      $('input[name=\'ll_zone_code\']').val($('select[name=\'ll_zone_id\'] :selected').data('code'));
+    } else {
+      $('input[name=\'ll_zone\']').val('');
+      $('input[name=\'ll_zone_code\']').val('');
+    }
+
+    ll_shipping_widget_load();
+  });
+  {% else %}
+  ll_shipping_widget_load();
+  {% endif %}
+});
+
+function ll_shipping_widget_load(required) {
+  $('.tooltip.fade.top.in').removeClass('in').addClass('hidden');
+
+  if (required
+   || ll_country_id != $('*[name=\'ll_country_id\']').val()
+   || ll_zone_id != $('*[name=\'ll_zone_id\']').val()
+   || ll_city != $('input[name=\'ll_city\']').val()
+   || ll_postcode != $('input[name=\'ll_postcode\']').val()
+   || (ll_quantity != $('input[name=\'quantity\']').val() && typeof $('input[name=\'quantity\']').val() != 'undefined')
+  ) {
+    ll_country_id = $('*[name=\'ll_country_id\']').val();
+    ll_country = $('*[name=\'ll_country\']').val();
+    ll_iso_code_2 = $('*[name=\'ll_iso_code_2\']').val();
+    ll_iso_code_3 = $('*[name=\'ll_iso_code_3\']').val();
+    ll_zone_id = $('*[name=\'ll_zone_id\']').val();
+    ll_zone = $('*[name=\'ll_zone\']').val();
+    ll_zone_code = $('*[name=\'ll_zone_code\']').val();
+    ll_city = $('input[name=\'ll_city\']').val();
+    ll_postcode = $('input[name=\'ll_postcode\']').val();
+    ll_quantity = $('input[name=\'quantity\']').val();
+
+    $.ajax({
+      url: 'index.php?route=extension/module/ll_shipping_widget/getShippingMethods&product={{ product_id }}&quantity=' + encodeURIComponent(ll_quantity) + '&country_id=' + encodeURIComponent(ll_country_id) + '&zone_id=' + encodeURIComponent(ll_zone_id) + '&city=' + encodeURIComponent(ll_city) + '&postcode=' + encodeURIComponent(ll_postcode) + '&country=' + encodeURIComponent(ll_country) + '&iso_code_2=' + encodeURIComponent(ll_iso_code_2) + '&iso_code_3=' + encodeURIComponent(ll_iso_code_3) + '&zone=' + encodeURIComponent(ll_zone) + '&zone_code=' + encodeURIComponent(ll_zone_code),
+      {% if not map and options %}
+      data: $('#product input[type=\'text\'], #product input[type=\'hidden\'][name!=\'product_id\'], #product input[type=\'radio\']:checked, #product input[type=\'checkbox\']:checked, #product select, #product textarea'),
+      {% endif %}
+      dataType: 'html',
+      beforeSend: function() {
+        {% if map and allowed %}
+        $('.ll_shipping_widget #{{ allowed }}_map').remove();
+        {% endif %}
+        $('.ll_shipping_widget_content').html('<tr class="info"><td><i class="fa fa-spinner fa-spin"></i> {{ text_calculate }}</td></tr>');
+      },
+      success: function(result) {
+        $('.ll_shipping_widget_content').html(result);
+
+        setTimeout(function () {
+          {% if map and allowed %}
+          $('.ll_set_button').remove();
+          $('#{{ allowed }}_map').css({width: '100%', height: '{{ height }}px'});
+          $('.ll_shipping_widget table').before($('#{{ allowed }}_map'));
+          {% endif %}
+        }, 500);
+      }
+    });
+  }
+}
+
+function ll_shipping_widget_set_method(code) {
+  $.ajax({
+    url: 'index.php?route=extension/module/ll_shipping_widget/setShippingMethod',
+    type: 'post',
+    data: $('.ll_shipping_widget_content tr[data-code=\'' + code + '\']').data(),
+    dataType: 'json',
+    complete: function() {
+      ll_shipping_widget_load(true);
+    }
+  });
+};
+</script>
+<div class="ll_shipping_widget" style="clear: both;">
+  <div class="panel panel-default">
+    <div class="panel-heading form-inline">
+      {{ title }}
+      <input type="text" name="ll_city" value="{{ city }}" placeholder="{{ text_city }}" class="form-control input-sm" />
+      {% if country_status %}
+      <select name="ll_country_id" class="form-control input-sm" style="width: 100%;margin-top: 5px;">
+        <option value="0">{{ text_country }}</option>
+        {% for country in countries %}
+        <option value="{{ country.country_id }}" {% if country_id == country.country_id %}selected="selected"{% endif %}>{{ country.name }}</option>
+        {% endfor %}
+      </select>
+      {% else %}
+      <input type="hidden" name="ll_country_id" value="{{ country_id }}" />
+      {% endif %}
+      <input type="hidden" name="ll_country" value="{{ country }}" />
+      <input type="hidden" name="ll_iso_code_2" value="{{ iso_code_2 }}" />
+      <input type="hidden" name="ll_iso_code_3" value="{{ iso_code_3 }}" />
+      {% if zone_status %}
+      <select name="ll_zone_id" class="form-control input-sm" style="width: 100%;margin-top: 5px;"><option value="0">{{ text_none }}</option></select>
+      {% else %}
+      <input type="hidden" name="ll_zone_id" value="{{ zone_id }}" />
+      {% endif %}
+      <input type="hidden" name="ll_zone" value="{{ zone }}" />
+      <input type="hidden" name="ll_zone_code" value="{{ zone_code }}" />
+      {% if postcode_status %}
+      <input type="text" name="ll_postcode" value="{{ postcode }}" placeholder="{{ text_postcode }}" class="form-control input-sm" style="width: 100%;margin-top: 5px;" />
+      {% else %}
+      <input type="hidden" name="ll_postcode" value="{{ postcode }}" />
+      {% endif %}
+    </div>
+    <table class="table">
+      <tbody class="ll_shipping_widget_content">
+        <tr class="info">
+          <td>
+            <i class="fa fa-spinner fa-spin"></i>
+            {{ text_calculate }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    {% if description %}
+    <div class="panel-footer">{{ description }}</div>
+    {% endif %}
+  </div>
+</div>

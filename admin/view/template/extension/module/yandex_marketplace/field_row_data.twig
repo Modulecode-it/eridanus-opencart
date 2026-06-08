@@ -1,0 +1,61 @@
+{% if rows %}
+	<div class="field-group" id="field_row_{{ row_key }}">
+	{% if row_data %}
+	<div class="container-fluid" style="
+    padding: 10px 0px;">
+		<b>{{ row_data.name }}</b>
+		<div class="pull-right">
+			<button type="button" class="btn btn-danger" onclick="confirm('{{ text_confirm_delete_field }}') ? $('#field_row_{{ row_key }}').remove() : false;" data-original-title="{{ text_delete }}"><i class="fa fa-trash-o"></i></button>
+		</div>
+	</div>
+	{% endif %}
+	{% for key, row in rows %}
+	<div class="form-row" id="field_row_{{ row_key }}_{{ key }}">
+		<div class="col">
+			<label class="control-label"><span data-toggle="tooltip" title="">{{ row.name }}</span></label>
+		</div>
+		<div class="col">
+			<select name="yandex_beru_fieldsets[{{ row_key }}][{{ key }}][source]" data-field_key="field_row_{{ row_key }}_{{ key }}" class="form-control source_select">
+			<option value="0">{{ text_select }}</option>
+			{% for source in sources%}
+				<option value="{{ source.key }}">{{ source.name }}</option>
+			{% endfor %}
+			</select>
+		</div>
+		<div class="col">
+			<select name="yandex_beru_fieldsets[{{ row_key }}][{{ key }}][field]" class="form-control val">
+				<option value="0">{{ text_select }}</option>
+				{% for field in fields %}
+					<option value="{{ field.key }}">{{ field.name }}</option>
+				{% endfor %}
+		</select>
+		</div>
+	</div>
+	{% endfor %}
+	</div>
+{% else %}
+	<div class="form-row" id="field_row_{{ row_key }}">
+		<div class="col">
+			<label class="control-label"><span data-toggle="tooltip" title="">{{ row_data.name }}</span></label>
+		</div>
+		<div class="col">
+			<select name="yandex_beru_fieldsets[{{ row_key }}][source]" class="form-control source_select" data-field_key="field_row_{{ row_key }}">
+				<option value="0">{{ text_select }}</option>
+				{% for source in sources%}
+					<option value="{{ source.key }}">{{ source.name }}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div class="col">
+			<select name="yandex_beru_fieldsets[{{ row_key }}][field]" class="form-control val">
+				<option value="0">{{ text_select }}</option>
+				{% for field in fields %}
+					<option value="{{ field.key }}">{{ field.name }}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div class="pull-right">
+			<button type="button" class="btn btn-danger" onclick="confirm('{{ text_confirm_delete_field }}') ? $('#field_row_{{ row_key }}').remove() : false;" data-original-title="{{ text_delete }}"><i class="fa fa-trash-o"></i></button>
+		</div>
+	</div>
+{% endif %}

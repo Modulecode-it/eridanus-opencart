@@ -1,0 +1,72 @@
+<div class="form-row {% if row_data.unique == false %} not_unique {% endif %} field_row_{{ row_key }}" id="field_row_{{ row_key }}">
+	<div class="col">
+		{% if row_data.info %}<label class="control-label"> <span data-toggle="tooltip" title="{{row_data.info}}">{{ row_data.name }}</span></label>{% else %}<label class="control-label">{{ row_data.name }}</label>{% endif %}
+	</div>
+	<div class="col">
+		<select name="all_fields[{{ row_key }}][source]" class="form-control source_select" data-field_key="field_row_{{ row_key }}">
+			<option value="0">{{ text_select }}</option>
+			{% for source in sources%}
+				<option value="{{ source.key }}">{{ source.name }}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<div class="col">
+		<select name="all_fields[{{ row_key }}][field]" class="form-control val">
+			<option value="0">{{ text_select }}</option>
+			{% for field in fields %}
+				<option value="{{ field.key }}">{{ field.name }}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<div class="pull-right col-sm-1">
+		<button type="button" class="btn btn-danger" onclick="confirm('{{ text_confirm_delete_field }}') ? $('.field_row_{{ row_key }}').remove() : false;" data-original-title="{{ text_delete }}"><i class="fa fa-trash-o"></i></button>
+	</div>
+</div>
+{% if row_data.childs %}
+	{% for child in row_data.childs %}
+	<div class="form-row field_row_{{ row_key }}" id="field_row_{{ row_key }}">
+		<div class="col">
+			{% if child.info %}<label class="control-label"> <span data-toggle="tooltip" title="{{child.info}}">{{ child.name }}</span></label>{% else %}<label class="control-label">{{ child.name }}</label>{% endif %}
+		</div>
+		<div class="col">
+			<select name="all_fields[{{ row_key }}][childs][{{child.row_key}}][source]" class="form-control source_select" data-field_key="field_row_{{ child.row_key }}">
+				<option value="0">{{ text_select }}</option>
+				{% for source in sources%}
+					<option value="{{ source.key }}">{{ source.name }}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div class="col">
+			<select name="all_fields[{{ row_key }}][childs][{{child.row_key}}][field]" class="form-control val">
+				<option value="0">{{ text_select }}</option>
+				{% for field in fields %}
+					<option value="{{ field.key }}">{{ field.name }}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div class="pull-right col-sm-1"></div>
+	</div>
+	{% endfor %}
+{% endif %}
+<div class="form-row field_row_{{ row_key }}">
+	{% if row_key == 'param' %}
+		<div class="col"></div>
+		<div class="col">
+			<input type="text" value='' placeholder="{{text_unit}}" name="all_fields[{{ row_key }}][unit]" class="col-sm-12">
+		</div>
+		<div class="col">
+			<input type="text" value='' placeholder="{{text_name_param}}" name="all_fields[{{ row_key }}][name_param]" class="col-sm-12">
+		</div>
+	{% elseif row_key == 'age' %}
+		<div class="col"></div>
+		<div class="col">
+			<select name="all_fields[{{ row_key }}][unit]" class="form-control val">
+				<option value="year">{{text_year}}</option>
+				<option value="month">{{text_month}}</option>
+			</select>
+		</div>
+		<div class="col"></div>
+		<div class="pull-right col-sm-1"></div>
+	{% endif %}
+</div>
+	

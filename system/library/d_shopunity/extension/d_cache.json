@@ -1,0 +1,55 @@
+{
+    "codename": "d_cache",
+    "version": "1.0.6",
+    "name": "Cache",
+    "description": "Simple and fast library of file caching.",
+    
+    "author": {
+        "name": "Dreamvention",
+        "email": "info@dreamvention.com",
+        "url": "https://dreamvention.com"
+    },
+    "opencart_version": "2-4",
+    "type": "library",
+	"license": {
+        "type": "free",
+        "url": "https://shopunity.net/licenses/free"
+    },
+    "support": {
+        "email": "support@dreamvention.com",
+        "url": "https://dreamvention.com/support"
+    },
+    "files": [
+		"system/library/d_shopunity/extension/d_cache.json",
+		"system/library/d_cache.php"
+    ],
+    "dirs": [
+        "system/library/d_cache"
+    ],
+    "changelog": [
+      {
+            "version": "1.0.6",
+            "change": "sem var"
+        },
+		{
+            "version": "1.0.5",
+            "change": "Added supported version oc v 3.0.3.1"
+        },
+		{
+            "version": "1.0.4",
+            "change": "Bugs fixed"
+        },
+		{
+            "version": "1.0.3",
+            "change": "Any Content"
+        },
+		{
+            "version": "1.0.2",
+            "change": "Bugs fixed"
+        },
+		{
+            "version": "1.0.0",
+            "change": ""
+        }
+    ]
+}

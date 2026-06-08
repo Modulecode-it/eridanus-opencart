@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html dir="{{ direction }}" lang="{{ lang }}">
+<head>
+<meta charset="UTF-8" />
+<title>{{ title }}</title>
+<base href="{{ base }}" />
+<link href="view/javascript/bootstrap/css/bootstrap.css" rel="stylesheet" media="all" />
+<script type="text/javascript" src="view/javascript/jquery/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="view/javascript/bootstrap/js/bootstrap.min.js"></script>
+<link href="view/javascript/font-awesome/css/font-awesome.min.css" type="text/css" rel="stylesheet" />
+<link type="text/css" href="view/stylesheet/stylesheet.css" rel="stylesheet" media="all" />
+<style type="text/css" media="print">
+	@page {
+		size: auto;
+		/* auto is the initial value */
+		margin: 0;
+		/* this affects the margin in the printer settings */
+	}
+	.hidden_print{
+		display: none;
+	}
+	.table{
+		margin-top: 20px;
+	}
+</style>
+</head>
+<body>
+<div class="container">
+  
+  <div style="page-break-after: always;">
+    <h1>Листо комплектации отгрузки #{{ shipment_id }} {{ shipment_date }}</h1>
+
+	<table class="table table-bordered">
+		<tbody>
+			<tr>
+				<td>
+					<div> Номер заказа магазина </div>
+				</td>
+				<td>
+					<div> Номер заказа Маркета </div>
+				</td>
+				<td>
+					<div> shop-sku </div>
+				</td>
+				<td>
+					<div> Название товара </div>
+				</td>
+				<td>
+					<div> Количество </div>
+				</td>
+			</tr>
+			{% if items %}
+			{% for item in items %}
+			<tr>
+				<td><div>{{ item.shop_order_id }}</div></td>
+				<td><div>{{ item.market_order_id }}</div></td>
+				<td><div>{{ item.offerId }}</div></td>
+				<td><div>{{ item.name }}</div></td>
+				<td><div>{{ item.count }}</div></td>
+			</tr>
+			{% endfor %}
+			{% else %}
+			<tr>
+				<td colspan=6><div>Список пуст</div></td>
+			</tr>
+			{% endif %}
+		</tbody>
+	</table>
+  </div>
+{% for order in orders %}
+  {% endfor %}
+	<div class="btn-group">
+		<button onclick = "window.print()" class="hidden_print btn btn-primary">Печать</button>
+	</div>
+</div>
+</body>
+</html>

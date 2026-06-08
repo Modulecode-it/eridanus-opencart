@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <code>AvailPro</code>
+    <name>AvailPro 9.7.1</name>
+    <version>9.7.1</version>
+    <author>Sitemix</author>
+    <link>http://myopencart.club/</link>
+
+    <file path="catalog/language/english/product/{product,category,manufacturer,search,special}.php">
+        <operation>
+            <search><![CDATA[// Text]]></search>
+            <add position="after"><![CDATA[$_['notify_me'] = 'Notify Me!';]]></add>
+        </operation>
+    </file>
+    <file path="catalog/model/catalog/product.php">
+        <operation error="skip">
+            <search trim="true"><![CDATA['stock_status'     => $query->row['stock_status'],]]></search>
+            <add position="after"><![CDATA[
+            'stock_status_id'     => $query->row['stock_status_id'],
+        ]]></add>
+        </operation>
+    </file>
+    <file path="catalog/controller/product/product.php">
+        <operation>
+            <search><![CDATA[$this->load->language('product/product');]]></search>
+            <add position="after" index="1"><![CDATA[$this->load->model('setting/setting');]]></add>
+        </operation>
+        <operation>
+            <search><![CDATA[$product_info = $this->model_catalog_product->getProduct($product_id);]]></search>
+            <add position="after"><![CDATA[$data['avail_status'] = $this->config->get('avail_status');
+                                      $AvailArray = Array(
+                                            'quantity' => $product_info['quantity'],
+                                            'stock_status_id' => $product_info['stock_status_id'],
+                                            'product_id' => $product_info['product_id'],
+                                            );
+
+                                         $avail_product_quantity =  $this->load->controller('extension/module/avail/GetProductStatus', $AvailArray);
+										$data['avail_product_quantity'] = $avail_product_quantity;
+										$data['language_id'] = (int)$this->config->get('config_language_id');
+										$avail_text = $this->config->get('avail_text');
+										$data['text_button_avail'] = $avail_text[$data['language_id']]['button_avail']?$avail_text[$data['language_id']]['button_avail']:$this->language->get('notify_me');
+										$data['avail_button_cart_productpage'] = $this->config->get('avail_button_cart_productpage');//avail
+										$data['avail_options_status'] = $this->config->get('avail_options_status')?$this->config->get('avail_options_status'):'0';//avail
+										$data['change_buttom'] = $this->config->get('avail_status')?$this->config->get('avail_status'):'0';
+										$data['avail_default'] = $this->config->get('avail_default');
+			]]></add>
+        </operation>
+        <operation>
+            <search><![CDATA[if (!$option_value['subtract'] || ($option_value['quantity'] > 0)) {]]></search>
+            <add position="replace"><![CDATA[if (!$option_value['subtract'] || ($this->config->get('module_avail_status')?$option_value['quantity'] >= 0 : $option_value['quantity'] > 0 )) {]]></add>
+        </operation>
+    </file>
+    <file path="catalog/controller/extension/module/*.php">
+        <operation error="skip">
+            <search trim="true"><![CDATA[$data['products'][] = array(]]></search>
+            <add position="before"><![CDATA[
+          if(!empty($result['stock_status_id'])){
+            $AvailArray = Array(
+                'quantity' => $result['quantity'],
+                'stock_status_id' => $result['stock_status_id'],
+                'product_id' => $result['product_id'],
+                );
+            } else if(!empty($product_info['stock_status_id'])){
+             $AvailArray = Array(
+                'quantity' => $product_info['quantity'],
+                'stock_status_id' => $product_info['stock_status_id'],
+                'product_id' => $product_info['product_id'],
+                );
+            } else if(!empty($product['stock_status_id'])){
+            $AvailArray = Array(
+                'quantity' => $product['quantity'],
+                'stock_status_id' => $product['stock_status_id'],
+                'product_id' => $product['product_id'],
+                );
+            } else {
+            $AvailArray = false;
+            }
+
+           if($AvailArray) {
+                $avail_product_quantity =  $this->load->controller('extension/module/avail/GetProductStatus',$AvailArray);
+           }  else {
+               $avail_product_quantity = false;
+           }
+        ]]></add>
+        </operation>
+        <operation error="skip">
+            <search trim="true"><![CDATA[$data['products'][] = array(]]></search>
+            <add position="after"><![CDATA[ 'avail_product_quantity'	  => $avail_product_quantity,]]></add>
+        </operation>
+    </file>
+    <file path="catalog/controller/product/{product,category,manufacturer,search,special}.php">
+        <operation error="skip">
+            <search trim="true"><![CDATA[$data['products'][] = array(]]></search>
+            <add position="before"><![CDATA[
+           if(!empty($result['product_id'])){
+            $AvailArray = Array(
+                'quantity' => $result['quantity'],
+                'stock_status_id' => $result['stock_status_id'],
+                'product_id' => $result['product_id'],
+                );
+            } else if(!empty($product_info['product_id'])){
+             $AvailArray = Array(
+                'quantity' => $product_info['quantity'],
+                'stock_status_id' => $product_info['stock_status_id'],
+                'product_id' => $product_info['product_id'],
+                );
+            } else if(!empty($product['product_id'])){
+            $AvailArray = Array(
+                'quantity' => $product['quantity'],
+                'stock_status_id' => $product['stock_status_id'],
+                'product_id' => $product['product_id'],
+                );
+            } else {
+            $AvailArray = false;
+            }
+
+
+           if($AvailArray) {
+                $avail_product_quantity =  $this->load->controller('extension/module/avail/GetProductStatus',$AvailArray);
+           }  else {
+               $avail_product_quantity = false;
+           }
+        ]]></add>
+        </operation>
+        <operation error="skip">
+            <search trim="true"><![CDATA[$data['products'][] = array(]]></search>
+            <add position="after"><![CDATA[ 'avail_product_quantity'	  => $avail_product_quantity,]]></add>
+        </operation>
+    </file>
+    <file path="catalog/controller/product/compare.php">
+        <operation error="skip">
+            <search trim="true"><![CDATA[$data['products'][$product_id] = array(]]></search>
+            <add position="before"><![CDATA[
+            if(!empty($result['product_id'])){
+            $AvailArray = Array(
+                'quantity' => $result['quantity'],
+                'stock_status_id' => $result['stock_status_id'],
+                'product_id' => $result['product_id'],
+                );
+            } else if(!empty($product_info['product_id'])){
+             $AvailArray = Array(
+                'quantity' => $product_info['quantity'],
+                'stock_status_id' => $product_info['stock_status_id'],
+                'product_id' => $product_info['product_id'],
+                );
+            } else if(!empty($product['product_id'])){
+            $AvailArray = Array(
+                'quantity' => $product['quantity'],
+                'stock_status_id' => $product['stock_status_id'],
+                'product_id' => $product['product_id'],
+                );
+            } else {
+            $AvailArray = false;
+            }
+
+
+           if($AvailArray) {
+                $avail_product_quantity =  $this->load->controller('extension/module/avail/GetProductStatus',$AvailArray);
+           }  else {
+               $avail_product_quantity = false;
+           }
+        ]]></add>
+        </operation>
+        <operation error="skip">
+            <search trim="true"><![CDATA[$data['products'][$product_id] = array(]]></search>
+            <add position="after"><![CDATA['avail_product_quantity'	  => $avail_product_quantity,]]></add>
+        </operation>
+    </file>
+    <file path="catalog/controller/account/wishlist.php">
+        <operation error="skip">
+            <search trim="true"><![CDATA[$data['products'][] = array(]]></search>
+            <add position="before"><![CDATA[
+            if(!empty($result['stock_status_id'])){
+            $AvailArray = Array(
+                'quantity' => $result['quantity'],
+                'stock_status_id' => $result['stock_status_id'],
+                'product_id' =>  $result['product_id'],
+                );
+            } else if(!empty($product_info['stock_status_id'])){
+             $AvailArray = Array(
+                'quantity' => $product_info['quantity'],
+                'stock_status_id' => $product_info['stock_status_id'],
+                'product_id' =>  $product_info['product_id'],
+                );
+            } else if(!empty($product['stock_status_id'])){
+            $AvailArray = Array(
+                'quantity' => $product['quantity'],
+                'stock_status_id' => $product['stock_status_id'],
+                'product_id' =>  $product['product_id'],
+                );
+            } else {
+            $AvailArray = false;
+            }
+
+
+           if($AvailArray) {
+                $avail_product_quantity =  $this->load->controller('extension/module/avail/GetProductStatus',$AvailArray);
+           }  else {
+               $avail_product_quantity = false;
+           }
+        ]]></add>
+        </operation>
+        <operation error="skip">
+            <search trim="true"><![CDATA['product_id' => $product_info['product_id'],]]></search>
+            <add position="after"><![CDATA['avail_product_quantity'	  => $avail_product_quantity,]]></add>
+        </operation>
+    </file>
+    <file path="catalog/controller/common/footer.php">
+        <operation>
+            <search><![CDATA[$this->load->model('catalog/information');]]></search>
+            <add position="after"><![CDATA[$data['avail_config_google_captcha_status'] = $this->config->get('avail_config_google_captcha_status');
+					$data['google_captcha_key'] = $this->config->get('avail_config_google_captcha_public');
+					$data['google_captcha_secret'] = $this->config->get('avail_config_google_captcha_secret');
+			]]></add>
+        </operation>
+    </file>
+    <file path="catalog/view/theme/*/template/extension/module/*.twig">
+        <operation error="skip">
+            <search trim="true"><![CDATA[<div class="product-thumb]]></search>
+            <add position="after"><![CDATA[<div class="aval-product-quantity hidden">{{ product.avail_product_quantity }}</div><div class="aval-product-id hidden">{{ product.product_id }}</div>]]></add>
+        </operation>
+    </file>
+    <file path="catalog/view/theme/*/template/product/product.twig">
+        <operation error="skip">
+            <search trim="true"><![CDATA[ {{ header }} ]]></search>
+            <add position="after"><![CDATA[<div  class="aval-product-page-quantity hidden">{{ avail_product_quantity }} </div><div class="aval-product-page-id hidden">{{ product_id }}</div>]]></add>
+        </operation>
+    </file>
+    <file path="catalog/view/theme/*/template/product/compare.twig">
+        <operation error="skip">
+            <search trim="true"><![CDATA[<a href="{{ product.remove }}"]]></search>
+            <add position="before"><![CDATA[<div class="aval-product-quantity hidden">{{ product.avail_product_quantity }}</div><div class="aval-product-id hidden">{{ product.product_id }}</div>]]></add>
+        </operation>
+    </file>
+    <file path="catalog/view/theme/*/template/product/*.twig">
+        <operation error="skip">
+            <search trim="true"><![CDATA[<div class="product-thumb]]></search>
+            <add position="after"><![CDATA[<div class="aval-product-quantity hidden">{{ product.avail_product_quantity }}</div><div class="aval-product-id hidden">{{ product.product_id }}</div>]]></add>
+        </operation>
+    </file>
+    <file path="catalog/view/theme/*/template/common/footer.twig">
+        <operation>
+            <search><![CDATA[</body>]]></search>
+            <add position="before"><![CDATA[<div id="edit-modal-avail" class="modal fade avanoti" role="dialog">
+			<form id="notify">
+			<div class="modal-dialog">
+            <div class="modal-content">
+
+							<div class="before-captcha"></div>
+							{% if avail_config_google_captcha_status == '1' %}
+							<div class="block-with-avail-captcha col-sm-12">
+
+								<div class="form-group hidden center">
+															<input type="text" name="captcha_status" class="form-control " value="{{ avail_config_google_captcha_status }}">
+													</div>
+													<div id="capcha" class="form-group center">
+															<div id="avail-captcha" class="g-recaptcha"   data-sitekey="{{ google_captcha_key }}"></div>
+													</div>
+								<div class="form-group hidden center">
+															<input type="text" name="avail_config_google_captcha_public" class="form-control " value="{{ google_captcha_key }}">
+													</div>
+								<div class="form-group hidden center">
+															<input type="text" name="avail_config_google_captcha_secret" class="form-control " value="{{ google_captcha_secret }}">
+													</div>
+
+							</div>
+
+							{% endif %}
+							<div class="after-captcha"></div>
+
+			    </div>
+        </div>
+        </form>
+		</div>]]></add>
+        </operation>
+    </file>
+      <file path="catalog/view/theme/*/template/account/account.twig">
+          <operation>
+              <search><![CDATA[{{ content_bottom }}]]></search>
+              <add position="before"><![CDATA[<h2>{{ text_my_notifications }}</h2>
+        <ul class="list-unstyled">
+          <li><a href="{{ notifications }}">{{ text_notifications }}</a></li>
+        </ul>]]></add>
+          </operation>
+      </file>
+      <file path="catalog/view/theme/*/template/account/wishlist.twig">
+          <operation error="skip">
+              <search trim="true"><![CDATA[<a href="{{ product.remove }}" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-times"></i></a></td>]]></search>
+              <add position="before"><![CDATA[<div class="aval-product-quantity hidden">{{ product.avail_product_quantity }}</div><div class="aval-product-id hidden">{{ product.product_id }}</div>]]></add>
+          </operation>
+      </file>
+    <file path="catalog/controller/account/account.php">
+        <operation>
+            <search><![CDATA[$data['edit']]]></search>
+            <add position="before"><![CDATA[$data['text_my_notifications'] = $this->language->get('text_my_notifications');]]></add>
+        </operation>
+        <operation>
+            <search><![CDATA[$data['edit']]]></search>
+            <add position="before"><![CDATA[$data['text_notifications'] = $this->language->get('text_notifications');]]></add>
+        </operation>
+        <operation>
+            <search><![CDATA[$data['newsletter']]]></search>
+            <add position="before"><![CDATA[
+
+            if(version_compare(VERSION, '2.2.0.0', '<') == true) {
+           $data['notifications'] = $this->url->link('extension/module/avail/accountavail', '', 'SSL');
+        } else {
+           $data['notifications'] = $this->url->link('extension/module/avail/accountavail', '', true);
+        }]]></add>
+        </operation>
+    </file>
+    <file path="admin/controller/catalog/product.php">
+        <operation>
+            <search><![CDATA[$this->model_catalog_product->editProduct($this->request->get['product_id'], $this->request->post);]]></search>
+            <add position="after"><![CDATA[if ( $this->config->get('avail_config_product_edit') == '1' ) {
+
+					$this->load->model('extension/module/avail');
+					$this->model_extension_module_avail->notifyByProductId($this->request->get['product_id']);
+
+
+			}]]></add>
+        </operation>
+    </file>
+
+
+    <file path="catalog/language/russian/account/account.php">
+        <operation>
+            <search><![CDATA[$_['text_my_newsletter']]]></search>
+            <add position="before"><![CDATA[$_['text_my_notifications'] = 'Заявки на уведомление';
+				$_['text_notifications'] = 'Мои заявки о поступлении товара';]]></add>
+        </operation>
+    </file>
+    <file path="catalog/language/english/account/account.php">
+        <operation>
+            <search><![CDATA[$_['text_my_newsletter']]]></search>
+            <add position="before"><![CDATA[$_['text_my_notifications'] = 'Requests for notification';
+				$_['text_notifications'] = 'My notifications';]]></add>
+        </operation>
+    </file>
+    <file path="catalog/language/ru-ru/account/account.php">
+        <operation>
+            <search><![CDATA[$_['text_my_newsletter']]]></search>
+            <add position="before"><![CDATA[$_['text_my_notifications'] = 'Заявки на уведомление';
+				$_['text_notifications'] = 'Мои заявки о поступлении товара';]]></add>
+        </operation>
+    </file>
+    <file path="catalog/language/en-gb/account/account.php">
+        <operation>
+            <search><![CDATA[$_['text_my_newsletter']]]></search>
+            <add position="before"><![CDATA[$_['text_my_notifications'] = 'Requests for notification';
+				$_['text_notifications'] = 'My notifications';]]></add>
+        </operation>
+    </file>
+    <file path="catalog/view/theme/*/template/captcha/google_captcha.twig">
+        <operation>
+            <search><![CDATA[<script src="https://www.google.com/recaptcha/api.js"></script>]]></search>
+            <add position="replace"><![CDATA[<?php if($avail_config_google_captcha_status == '1') { ?>
+				<?php } else {?>
+				<script src="https://www.google.com/recaptcha/api.js"></script>
+				<?php } ?>
+			]]></add>
+
+        </operation>
+    </file>
+
+    <file path="catalog/controller/captcha/google_captcha.php">
+        <operation>
+            <search><![CDATA[  $this->document->addScript('https://www.google.com/recaptcha/api.js');]]></search>
+            <add position="replace"><![CDATA[
+			if($this->config->get('avail_config_google_captcha_status') == '1') {
+           } else {
+               $this->document->addScript('https://www.google.com/recaptcha/api.js');
+           }
+           $data.avail_config_google_captcha_status'] = $this->config->get('avail_config_google_captcha_status');
+			]]></add>
+        </operation>
+    </file>
+
+
+    <!-- Frame Theme  -->
+
+    <file path="catalog/view/theme/ft_frame/template/product/*.twig">
+        <operation error="skip">
+            <search trim="true"><![CDATA[<div class="image]]></search>
+            <add position="before"><![CDATA[<div class="aval-product-quantity hidden">{{ product.avail_product_quantity }}</div><div class="aval-product-id hidden">{{ product.product_id }}</div>]]></add>
+        </operation>
+    </file>
+
+
+    <file path="catalog/view/theme/ft_frame/template/extension/module/*.twig">
+        <operation error="skip">
+            <search trim="true"><![CDATA[<div class="image]]></search>
+            <add position="before"><![CDATA[<div class="aval-product-quantity hidden">{{ product.avail_product_quantity }}</div><div class="aval-product-id hidden">{{ product.product_id }}</div>]]></add>
+        </operation>
+    </file>
+    <!-- Frame Theme  -->
+    <!-- Journal3-->
+    <file path="catalog/view/theme/journal3/template/common/header.twig">
+        <operation error="skip">
+            <search trim="true"><![CDATA[</head>]]></search>
+            <add position="before"><![CDATA[<script src="catalog/view/javascript/avail.js" ></script>
+           <link href="catalog/view/theme/default/stylesheet/availability.css" type="text/css" rel="stylesheet" media="all" />
+
+]]></add>
+        </operation>
+    </file>
+    <file path="catalog/view/theme/journal3/template/journal3/product_card.twig">
+        <operation error="skip">
+            <search trim="true"><![CDATA[<div class="product-layout]]></search>
+            <add position="after"><![CDATA[<div class="aval-product-quantity hidden">{{ product.avail_product_quantity }}</div><div class="aval-product-id hidden">{{ product.product_id }}</div>]]></add>
+        </operation>
+    </file>
+
+
+
+    <file path="catalog/view/theme/journal3/template/account/account.twig">
+        <operation>
+            <search><![CDATA[{{ content_bottom }}]]></search>
+            <add position="before"><![CDATA[<h2>{{ text_my_notifications }}</h2>
+      <ul class="list-unstyled account-list">
+        <li><a class="icon-mail-envelope-closed" href="{{ notifications }}">{{ text_notifications }}</a></li>
+      </ul>]]></add>
+        </operation>
+    </file>
+    <file path="catalog/view/theme/journal3/template/account/wishlist.twig">
+        <operation error="skip">
+            <search trim="true"><![CDATA[<a href="{{ product.remove }}" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger btn-remove"><i class="fa fa-times"></i></a></td>]]></search>
+            <add position="before"><![CDATA[<div class="aval-product-quantity hidden">{{ product.avail_product_quantity }}</div><div class="aval-product-id hidden">{{ product.product_id }}</div>]]></add>
+        </operation>
+    </file>
+
+    <!-- Journal3-->
+</modification>

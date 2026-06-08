@@ -1,0 +1,1489 @@
+{{header}}
+<style>
+	.title-fields {font-size:16px;text-align:right;color:orange !important;}
+	.jPicker.Container {position:fixed !important;}
+	.form-control.jpicker-csseditor-fastorder_20 {display: inline-block;float: left;margin-right: 5px;width: 25%;}
+</style>
+<link rel="Stylesheet" type="text/css" href="view/stylesheet/jpicker-1.1.6.min.css" />
+<link rel="Stylesheet" type="text/css" href="view/stylesheet/jpicker.css" />
+<script src="view/javascript/jquery/jpicker-1.1.6.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function(){
+        $.fn.jPicker.defaults.images.clientPath='view/image/';
+        var LiveCallbackElement = $('#Live'),
+            LiveCallbackButton = $('#LiveButton');
+        $('.jpicker-csseditor-fastorder_20').jPicker({window:{title:'Binded Example'},color:{active:new $.jPicker.Color({ahex:'993300ff'})}});
+    });
+</script>
+{{column_left}}
+
+<div id="content">
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="pull-right">
+				<button type="submit" form="form-availability" data-toggle="tooltip" title="{{button_save}}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+				<a href="{{cancel}}" data-toggle="tooltip" title="{{button_cancel}}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+			</div>
+			<h1>{{heading_title}}</h1>
+			<ul class="breadcrumb">
+				{% for breadcrumb in breadcrumbs  %}
+				<li><a href="{{breadcrumb.href }}">{{breadcrumb.text }}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<div class="container-fluid">
+		{% if error_warning %}
+		<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{error_warning}}
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+		{% endif %}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title"><i class="fa fa-pencil"></i> {{heading_title}}</h3> / {{text_varsion }}
+			</div>
+			<div class="panel-body">
+				<div class="content">
+					{% if leyout %}
+					<div class="form-group error">
+                       {{leyout}}
+					</div>
+					{% endif %}
+                    {% if module_avail_status %}
+					{% else %}
+					<div class="form-group error">
+						{{error_status}}
+					</div>
+					{% endif %}
+					<div class="form-group">
+						<a href="{{getAvailabilityList}}" class="btn btn-info">{{text_get_availabilitylist}}</a>
+					</div>
+
+
+
+					{% if count_create_column == 1 %}
+					<div class="form-group">
+						<button type="button"  class="btn btn-warning create_column">{{ text_create_column }}</button>
+					</div>
+                    {% endif %}
+
+
+
+					<div>
+						<ul class="nav nav-tabs">
+							<li class="active"><a  href="#tab-general" data-toggle="tab" aria-expanded="true">{{text_general }}</a></li>
+							<li><a  href="#tab-mail" data-toggle="tab" aria-expanded="true">{{text_settings_mail }}</a></li>
+							<li><a  href="#tab-appearance" data-toggle="tab" aria-expanded="true">{{text_settings_appearance }}</a></li>
+							<li><a  href="#tab-css" data-toggle="tab" aria-expanded="true">{{text_settings_css }}</a></li>
+							<li><a  href="#tab-arbitrary" data-toggle="tab" aria-expanded="true">{{text_arbitrary_fields }}</a></li>
+
+						</ul>
+					</div>
+
+					<form action="{{action}}" method="post" enctype="multipart/form-data" id="form-availability" class="form-horizontal">
+						<div class="tab-content">
+							<div class="tab-pane active" id="tab-general">
+
+								<div class="well">
+									<h4>{{text_product_page }}</h4>
+									<div class="close-ptooltipe"></div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="input-button_cart_productpage">{{text_button_cart_productpage }}
+											<a  class="test" href="#" onclick="event.preventDefault()" data-toggle="popover" data-placement="b" title="{{text_button_product_help }}<div class='close-tooltipe'>x</div>" data-html="true" data-content="<img src='view/image/avail/help-1.jpg' width='760' />"> <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+										</label>
+										<div class="col-sm-10">
+											{% if error_button_cart_productpage %}
+											<div class="text-danger">{{button_cart_productpage}}</div>
+											{% endif %}
+											<input class="form-control" rows="3" name="avail_button_cart_productpage" id="input-button_cart_productpage" value="{{button_cart_productpage?button_cart_productpage:'#button-cart' }}" placeholder="{{text_button_cart_productpage}}">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="input-button_other_productpage">{{text_button_other_productpage }}
+											<a  class="test" href="#" onclick="event.preventDefault()" data-toggle="popover" data-placement="b" title="{{text_button_other_product_help }}<div class='close-tooltipe'>x</div>" data-html="true" data-content="<img src='view/image/avail/help-1.jpg' width='760' />"> <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+										</label>
+										<div class="col-sm-10">
+											{% if error_button_other_productpage %}
+											<div class="text-danger">{{button_other_productpage}}</div>
+                                            {% endif %}
+											<input class="form-control" rows="3" name="avail_button_other_productpage" id="input-button_other_productpage" value="{{button_other_productpage?button_other_productpage:'' }}" placeholder="{{text_button_other_productpage}}">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="input_block_option_productpage">{{text_block_option_productpage }}
+											<a  class="test" href="#" onclick="event.preventDefault()" data-toggle="popover" data-placement="b" title="{{text_block_option_productpage_help }}<div class='close-tooltipe'>x</div>" data-html="true" data-content="<img src='view/image/avail/help-2.jpg' width='760' />"> <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+										</label>
+										<div class="col-sm-10">
+											{% if error_block_option_productpage %}
+											<div class="text-danger">{{block_option_productpage}}</div>
+                                            {% endif %}
+											<input class="form-control" rows="3" name="avail_block_option_productpage" id="input_block_option_productpage" value="{{block_option_productpage?block_option_productpage:'#product' }}" placeholder="{{text_block_option_productpage}}">
+										</div>
+									</div>
+								</div>
+								<div class="well">
+									<h4>{{text_ather_page }}</h4>
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="input-button_them">{{text_button_them }}</label>
+										<div class="col-sm-10">
+
+											{% if avail_default == null %}
+											<label class="radio-inline">
+												<input class="in" type="radio" name="avail_default" value="1" checked="checked" />
+												{{text_yes}}
+											</label>
+											<label class="radio-inline">
+												<input class="off" type="radio" name="avail_default" value="0" />
+												{{text_no}}
+											</label>
+                                            {% else %}
+                                            {% if avail_default == '1' %}
+
+                                            <label class="radio-inline">
+                                            <input class="in" type="radio" name="avail_default" value="1" checked="checked" />
+                                            {{text_yes}}
+                                            </label>
+                                            <label class="radio-inline">
+                                            <input class="off" type="radio" name="avail_default" value="0" />
+                                            {{text_no}}
+                                            </label>
+                                            {% else %}
+                                            <label class="radio-inline">
+                                            <input class="in" type="radio" name="avail_default" value="1"  />
+                                            {{text_yes}}
+                                            </label>
+                                            <label class="radio-inline">
+                                            <input class="off" type="radio" name="avail_default" value="0" checked="checked"/>
+                                            {{text_no}}
+                                            </label>
+                                            {% endif %}
+                                            {% endif %}
+										</div>
+									</div>
+									<div id="demo" class="form-group collapse" >
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="input-button_cart_other">{{text_button_cart_other }}
+												<a  class="test" href="#" onclick="event.preventDefault()" data-toggle="popover" data-placement="b" title="{{text_button_other_help }}<div class='close-tooltipe'>x</div>" data-html="true" data-content="<img src='view/image/avail/help-3.jpg' width='760' />"> <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+											</label>
+											<div class="col-sm-10">
+												{% if error_button_cart_other %}
+												<div class="text-danger">{{button_cart_other}}</div>
+                                                {% endif %}
+												<input class="form-control" rows="3" name="avail_button_cart_other" id="input-button_cart_other" value="{{button_cart_other?button_cart_other:'.avail-button-cart' }}" placeholder="{{text_button_cart_other}}">
+											</div>
+										</div>
+										<div class="form-group ">
+											<label class="col-sm-2 control-label" for="input-block_product">{{text_block_product }}
+												<a  class="test" href="#" onclick="event.preventDefault()" data-toggle="popover" data-placement="b" title="{{text_block_product_help }}<div class='close-tooltipe'>x</div>" data-html="true" data-content="<img src='view/image/avail/help-3_1.jpg' width='760' />"> <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+											</label>
+											<div class="col-sm-10">
+												{% if error_block_product %}
+												<div class="text-danger">{{avail_block_product}}</div>
+                                                {% endif %}
+												<input class="form-control" rows="3" name="avail_block_product" id="input-block_product" value="{{avail_block_product?avail_block_product:'.product-thumb' }}" placeholder="{{text_block_product}}">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="well2 hidden">
+									<h4>{{text_google_captcha }}</h4>
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="input-google-captcha-status">{{entry_capcha_status}}
+											<a  class="test" href="#" onclick="event.preventDefault()" data-toggle="popover" data-placement="b" title="{{entry_capcha_status}}<div class='close-tooltipe'>x</div>" data-html="true" data-content="<img src='view/image/avail/help-4.jpg' width='760' />"> <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+
+										</label>
+										<div class="col-sm-10">
+											<select name="avail_config_google_captcha_status" id="input-google-captcha-status" class="form-control">
+												{% if avail_config_google_captcha_status %}
+												<option class="in_google" value="1" selected="selected">{{text_enabled}}</option>
+												<option class="off_google" value="0">{{text_disabled}}</option>
+                                                {% else %}
+												<option class="in_google" value="1">{{text_enabled}}</option>
+												<option class="off_google" value="0" selected="selected">{{text_disabled}}</option>
+                                                {% endif %}
+											</select>
+										</div>
+									</div>
+									<div id="google-hight" class="collapse ">
+										<div   class="alert alert-info ">{{help_google_captcha}}</div>
+										<div  class="form-group ">
+											<label class="col-sm-2 control-label" for="input-google-captcha-public">{{entry_google_captcha_public}}</label>
+											<div class="col-sm-10">
+												{% if error_avail_google_captcha_public %}
+												<div class="text-danger">{{error_avail_google_captcha_public}}</div>
+                                                {% endif %}
+												<input type="text" name="avail_config_google_captcha_public" value="{{avail_config_google_captcha_public}}" placeholder="{{entry_google_captcha_public}}" id="input-google-captcha-public" class="form-control" />
+											</div>
+										</div>
+
+										<div  class="form-group ">
+											<label class="col-sm-2 control-label" for="input-google-captcha-secret">{{entry_google_captcha_secret}}</label>
+											<div class="col-sm-10">
+												{% if error_avail_google_captcha_secret %}
+												<div class="text-danger">{{error_avail_google_captcha_secret}}</div>
+                                                {% endif %}
+												<input type="text" name="avail_config_google_captcha_secret" value="{{avail_config_google_captcha_secret}}" placeholder="{{entry_google_captcha_secret}}" id="input-google-captcha-secret" class="form-control" />
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="well">
+									<h4>{{text_global_settings }}</h4>
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="input_config_product_edit">{{entry_config_product_edit}}
+											<a  class="test" href="#" onclick="event.preventDefault()" data-toggle="popover" data-placement="b" title="{{entry_config_product_edit_help}}<div class='close-tooltipe'>x</div>" data-html="true" data-content="<img src='view/image/avail/help-5.jpg' width='760' />"> <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+										</label>
+										<div class="col-sm-10">
+											<select name="avail_config_product_edit" id="input_config_product_edit" class="form-control">
+												{% if avail_config_product_edit %}
+												<option value="1" selected="selected">{{text_enabled}}</option>
+												<option value="0">{{text_disabled}}</option>
+                                                {% else %}
+												<option value="1">{{text_enabled}}</option>
+												<option value="0" selected="selected">{{text_disabled}}</option>
+                                                {% endif %}
+											</select>
+										</div>
+									</div>
+                                    {% if availsms_status %}
+                                        <div class="form-group ">
+                                            <label class="col-sm-2 control-label" for="input-smsstatus">{{entry_sms_status}}</label>
+                                            <div class="col-sm-10">
+                                                <select name="availsmssend_status" id="input-smsstatus" class="form-control">
+                                                    {% if availsmssend_status%}
+                                                        <option value="1" selected="selected">{{text_enabled}}</option>
+                                                        <option value="0">{{text_disabled}}</option>
+                                                    {% else %}
+                                                        <option value="1">{{text_enabled}}</option>
+                                                        <option value="0" selected="selected">{{text_disabled}}</option>
+                                                    {% endif %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" for="input-availsms_admin">{{entry_sms_admin}}
+
+                                            </label>
+                                            <div class="col-sm-10">
+                                                <select name="availsmssend_admin" id="input-sms-admin" class="form-control">
+                                                    {% if availsms_admin %}
+                                                        <option  value="1" selected="selected">{{text_enabled}}</option>
+                                                        <option  value="0">{{text_disabled}}</option>
+                                                    {% else %}
+                                                        <option  value="1">{{text_enabled}}</option>
+                                                        <option  value="0" selected="selected">{{text_disabled}}</option>
+                                                    {% endif %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" for="input-availsms_send1">{{entry_sms_send1}}
+                                            </label>
+                                            <div class="col-sm-10">
+                                                <select name="availsms_send1" id="input-google-captcha-status" class="form-control">
+                                                    {% if availsms_send1 %}
+                                                        <option value="1" selected="selected">{{text_enabled}}</option>
+                                                        <option value="0">{{text_disabled}}</option>
+                                                    {% else %}
+                                                        <option value="1">{{text_enabled}}</option>
+                                                        <option value="0" selected="selected">{{text_disabled}}</option>
+                                                    {% endif %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" for="input-availsms_send2">{{entry_sms_send2}}
+                                                  </label>
+                                            <div class="col-sm-10">
+                                                <select name="availsms_send2" id="input-avail_send2" class="form-control">
+                                                    {% if availsms_send2 %}
+                                                        <option value="1" selected="selected">{{text_enabled}}</option>
+                                                        <option  value="0">{{text_disabled}}</option>
+                                                    {% else %}
+                                                        <option  value="1">{{text_enabled}}</option>
+                                                        <option  value="0" selected="selected">{{text_disabled}}</option>
+                                                    {% endif %}
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    {% endif %}
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="input-avail-options-status">{{text_options_status}}</label>
+										<div class="col-sm-10">
+											<select name="avail_options_status" id="input-avail-options-status" class="form-control">
+												{% if avail_options_status == 1 %}
+
+												<option value="0">{{text_work_product_quantity}}</option>
+                                                <option value="1" selected="selected">{{text_work_option_quantity}}</option>
+                                                <option value="2">{{text_work_status}}</option>
+
+												{%  elseif avail_options_status == 2 %}
+
+												<option value="0">{{text_work_product_quantity}}</option>
+                                                <option value="1">{{text_work_option_quantity}}</option>
+												<option value="2" selected="selected">{{text_work_status}}</option>
+                                                {% else %}
+                                                    <option value="0" selected="selected">{{text_work_product_quantity}}</option>
+                                                    <option value="1">{{text_work_option_quantity}}</option>
+                                                    <option value="2">{{text_work_status}}</option>
+                                                {% endif %}
+											</select>
+										</div>
+									</div>
+                                 <div id="avail-stock-status" class="collapse ">
+                                        <label class="col-sm-2 control-label" for="input-complete-status"><span data-toggle="tooltip" title="{{help_avail_work_status}}">{{entry_avail_work_status}}</span></label>
+                                        <div class="col-sm-10">
+                                            <div class="well well-sm" style="height: 150px; overflow: auto;">
+                                                {% for stock_status in stock_statuses  %}
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            {%  if stock_status.stock_status_id in avail_button_cange_status %}
+                                                                <input type="checkbox" name="avail_button_cange_status[]" value="{{stock_status.stock_status_id }}" checked="checked" />
+                                                                {{stock_status.name }}
+                                                            {% else %}
+                                                                <input type="checkbox" name="avail_button_cange_status[]" value="{{stock_status.stock_status_id }}" />
+                                                                {{stock_status.name }}
+                                                            {% endif %}
+                                                        </label>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                            {% if notify_status %}
+                                                <div class="text-danger">{{notify_status}}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div id="avail-stock-status2" class="collapse">
+                                        <label class="col-sm-2 control-label" for="input-complete-status"><span data-toggle="tooltip" title="{{help_avail_notify_status}}">{{entry_avail_notify_status}}</span></label>
+                                        <div class="col-sm-10">
+                                            <div class="well well-sm" style="height: 150px; overflow: auto;">
+                                                {% for stock_status in stock_statuses %}
+                                                    <div class="checkbox">
+                                                        <label>
+                                                           {%  if stock_status.stock_status_id in avail_notify_status %}
+                                                                <input type="checkbox" name="avail_notify_status[]" value="{{stock_status.stock_status_id }}" checked="checked" />
+                                                                {{stock_status.name }}
+                                                           {% else %}
+                                                                <input type="checkbox" name="avail_notify_status[]" value="{{stock_status.stock_status_id }}" />
+                                                                {{stock_status.name }}
+                                                           {% endif %}
+                                                        </label>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                            {% if error_complete_status %}
+                                                <div class="text-danger">{{error_complete_status}}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+
+									<div class="form-group ">
+										<label class="col-sm-2 control-label" for="input-avail_quantity">{{ entry_avail_quantity }}</label>
+										<div class="col-sm-10">
+												<select name="avail_quantity" id="input-avail_quantity" class="form-control">
+														{%  if avail_quantity %}
+														<option value="1" selected="selected">{{ text_enabled }}</option>
+														<option value="0">{{ text_disabled }}</option>
+														{%  else %}
+														<option value="1">{{ text_enabled }}</option>
+														<option value="0" selected="selected">{{ text_disabled }}</option>
+                                                        {% endif %}
+													</select>
+											</div>
+									</div>
+									<!-- работать по количеству или по статусу -->
+
+									<div class="form-group ">
+										<label class="col-sm-2 control-label" for="input-status">{{entry_status}}</label>
+										<div class="col-sm-10">
+											<select name="module_avail_status" id="input-status" class="form-control">
+                                                {% if module_avail_status == '1' %}
+													<option value="1" selected="selected">{{text_enabled}}</option>
+													<option value="0">{{text_disabled}}</option>
+                                                {% else %}
+													<option value="1">{{text_enabled}}</option>
+													<option value="0" selected="selected">{{text_disabled}}</option>
+                                                {% endif %}
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="input-cron">{{ text_cron }}
+
+										<a  class="test" href="#" onclick="event.preventDefault()" data-toggle="popover" data-placement="b" title="{{ entry_avail_text_cron_help }}<div class='close-tooltipe'>x</div>" data-html="true" data-content="{{ text_data_content_cron_help }}"> <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+
+										</label>
+										<div class="col-sm-10">
+											<input class="form-control"  name = "avail_cron_link" value="{{cron_link}}" disabled>
+
+										</div>
+									</div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" for="input-cron">{{text_cron_key}}</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control"  name = "avail_cron_key" placeholder="{{text_cron_key}}" value="{{cron_key}}">
+
+                                        </div>
+                                    </div>
+
+								</div>
+							</div>
+							<div class="tab-pane" id="tab-appearance">
+								<div class="tab-pane">
+									<div class="tab-content">
+
+											<h4>{{text_popup_page }}</h4>
+											<div class="form-group">
+												<label class="col-sm-4 control-label" for="input-button_them">{{text_show_img }}</label>
+												<div class="col-sm-8">
+													{% if avail_show_img == '1' %}
+													<label class="radio-inline">
+														<input class="in" type="radio" name="avail_show_img" value="1" checked="checked" />
+														{{text_yes}}
+													</label>
+													<label class="radio-inline">
+														<input class="off" type="radio" name="avail_show_img" value="0" />
+														{{text_no}}
+													</label>
+                                                    {% else %}
+                                                    <label class="radio-inline">
+                                                    <input class="in" type="radio" name="avail_show_img" value="1"  />
+                                                    {{text_yes}}
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                    <input class="off" type="radio" name="avail_show_img" value="0" checked="checked"/>
+                                                    {{text_no}}
+                                                    </label>
+                                                    {% endif %}
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-4 control-label" for="input-button_them">{{text_show_comment }}</label>
+												<div class="col-sm-8">
+													{% if avail_show_comment == '1' %}
+													<label class="radio-inline">
+														<input class="in" type="radio" name="avail_show_comment" value="1" checked="checked" />
+														{{text_yes}}
+													</label>
+													<label class="radio-inline">
+														<input class="off" type="radio" name="avail_show_comment" value="0" />
+														{{text_no}}
+													</label>
+                                                    {% else %}
+                                                    <label class="radio-inline">
+                                                    <input class="in" type="radio" name="avail_show_comment" value="1"  />
+                                                    {{text_yes}}
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                    <input class="off" type="radio" name="avail_show_comment" value="0" checked="checked"/>
+                                                    {{text_no}}
+                                                    </label>
+                                                    {% endif %}
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-4 control-label" for="input-button_them">{{text_show_terms_conditions }}</label>
+												<div class="col-sm-8">
+													{% if avail_show_terms_conditions == '1' %}
+													<label class="radio-inline">
+														<input class="in" type="radio" name="avail_show_terms_conditions" value="1" checked="checked" />
+														{{text_yes}}
+													</label>
+													<label class="radio-inline">
+														<input class="off" type="radio" name="avail_show_terms_conditions" value="0" />
+														{{text_no}}
+													</label>
+                                                    {% else %}
+                                                    <label class="radio-inline">
+                                                    <input class="in" type="radio" name="avail_show_terms_conditions" value="1"  />
+                                                    {{text_yes}}
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                    <input class="off" type="radio" name="avail_show_terms_conditions" value="0" checked="checked"/>
+                                                    {{text_no}}
+                                                    </label>
+                                                    {% endif %}
+
+												</div>
+
+
+										</div>
+											<div class="form-group">
+												<label class="col-sm-4 control-label" for="input-account">{{ text_href_terms_conditions }}</label>
+												<div class="col-sm-8">
+													<select name="avail_config_account_id" id="input-account" class="form-control">
+														<option value="0">{{ text_none }}</option>
+
+                                                        {% for information in informations %}
+                                                            {% if information.information_id == avail_config_account_id %}
+
+																<option value="{{ information.information_id }}" selected="selected">{{ information.title }}</option>
+
+                                                            {% else %}
+
+																<option value="{{ information.information_id }}">{{ information.title }}</option>
+
+                                                            {% endif %}
+                                                        {% endfor %}
+
+													</select>
+												</div>
+											</div>
+										<!-- Email admin -->
+
+										<ul class="nav nav-tabs" id="language-disain">
+											{% for language in languages  %}
+											<li>
+												<a href="#language-disain{{language.language_id }}" data-toggle="tab"><img src="language/{{language.code }}/{{language.code }}.png" title="{{language.name }}" /> {{language.name }}</a>
+											</li>
+                                            {% endfor %}
+										</ul>
+
+                                        {% for language in languages %}
+											<div class="tab-pane" id="language-disain{{language.language_id}}">
+												<div class="col-sx-12 well">
+													<div class="col-sx-12"> <h4>{{text_config_booton}}</h4></div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="button_avail">{{entry_avail_text_button_avail}}
+															<a  class="test" href="#" onclick="event.preventDefault()" data-toggle="popover" data-placement="b" title="{{entry_avail_text_button_avail_help}}<div class='close-tooltipe'>x</div>" data-html="true" data-content="<img src='view/image/avail/help-6.jpg' width='760' />"> <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+														</label>
+														<div class="col-sm-10">
+															<input type="text" name="avail_text[{{language.language_id}}][button_avail]" value="{{ avail_text[language.language_id].button_avail ? avail_text[language.language_id].button_avail : text_avail_button_avail}}" placeholder="{{entry_avail_text_button_avail}}" id="button_avail[{{language.language_id}}]" class="form-control" />
+														</div>
+													</div>
+
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="button_avail_help">{{entry_avail_text_button_avail_help}}</label>
+														<div class="col-sm-10">
+															<input type="text" name="avail_text[{{language.language_id}}][button_avail_help]" value="{{ avail_text[language.language_id].button_avail_help ? avail_text[language.language_id].button_avail_help}}" placeholder="{{entry_avail_text_button_avail_help}}" id="button_avail_help[{{language.language_id}}]" class="form-control" />
+														</div>
+													</div>
+
+												</div>
+											</div>
+                                        {% endfor %}
+
+
+
+										<!-- END Email admin -->
+										<!-- color -->
+										<div class="col-sm-12">
+											<div class="col-sm-5 well2 right">
+												<h4>{{text_button_send_notify}}</h4>
+												<div class="form-group">
+													<label class="col-sm-6 control-label">{{entry_background_button_send_notify}}</label>
+													<div class="col-sm-4">
+														<input class="form-control jpicker-csseditor-fastorder_20" type="text" name="avail_background_button_send_notify" value="{{avail_background_button_send_notify}}"/>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-6 control-label">{{entry_border_button_send_notify}}</label>
+													<div class="col-sm-4">
+														<input class="form-control jpicker-csseditor-fastorder_20" type="text" name="avail_border_button_send_notify" value="{{avail_border_button_send_notify}}"/>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-6 control-label">{{entry_text_button_send_notify}}</label>
+													<div class="col-sm-4">
+														<input class="form-control jpicker-csseditor-fastorder_20" type="text" name="avail_text_button_send_notify" value="{{avail_text_button_send_notify}}"/>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-6 control-label">{{entry_icon_send_notify}}</label>
+
+													<div class="col-sm-4">
+														<input class="col-sm-10" type="text" name="avail_icon_send_notify" value="{{avail_icon_send_notify}}"/>
+													</div>
+													<label class="col-sm-2 control-label"></label>
+													<i class="fa {{avail_icon_send_notify}}"></i>
+												</div>
+											</div>
+											<div class="col-sm-2">
+											</div>
+
+											<div class="col-sm-5 well2 right">
+												<h4>{{text_button_open_notify}}</h4>
+												<div class="form-group">
+													<label class="col-sm-6 control-label">{{entry_background_button_open_notify}}</label>
+													<div class="col-sm-4">
+														<input class="form-control jpicker-csseditor-fastorder_20" type="text" name="avail_background_button_open_notify" value="{{avail_background_button_open_notify}}"/>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-6 control-label">{{entry_border_button_open_notify}}</label>
+													<div class="col-sm-4">
+														<input class="form-control jpicker-csseditor-fastorder_20" type="text" name="avail_border_button_open_notify" value="{{avail_border_button_open_notify}}"/>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-6 control-label">{{entry_text_button_open_notify}}</label>
+													<div class="col-sm-4">
+														<input class="form-control jpicker-csseditor-fastorder_20" type="text" name="avail_text_button_open_notify" value="{{avail_text_button_open_notify}}"/>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-6 control-label">{{entry_icon_open_notify}}</label>
+													<div class="col-sm-4">
+														<input class="col-sm-10" type="text" name="avail_icon_open_notify" value="{{avail_icon_open_notify}}"/>
+													</div>
+													<label class="col-sm-2 control-label"><i class="fa {{avail_icon_open_notify}}"></i></label>
+												</div>
+                                                <!-- стиль для кнокпи-->
+                                                <div class="form-group">
+                                                    <label class="col-sm-6 control-label">{{entry_button_athepage_class}}</label>
+                                                    <div class="col-sm-4">
+                                                        <input class="col-sm-10" type="text" name="avail_button_athepage_class" value="{{avail_button_athepage_class}}"/>
+                                                    </div>
+                                                </div>
+                                                <!-- стиль для кнокпи-->
+                                                <div class="form-group">
+                                                    <label class="col-sm-6 control-label">{{entry_button_product_class}}</label>
+                                                    <div class="col-sm-4">
+                                                        <input class="col-sm-10" type="text" name="avail_button_product_class" value="{{avail_button_product_class}}"/>
+                                                    </div>
+                                                </div>
+                                                <!-- тип кнопки-->
+                                                <div class="form-group">
+                                                    <label class="col-sm-6 control-label" for="input-avail-button-type">{{text_button_type}}</label>
+                                                    <div class="col-sm-4">
+                                                        <select name="avail_button_type" id="input-avail-options-status" class="form-control">
+                                                            {% if avail_button_type == 1 %}
+
+                                                                <option value="0">{{text_button_type_button}}</option>
+                                                                <option value="1" selected="selected">{{text_button_type_a}}</option>
+                                                                <option value="2">{{text_button_type_input}}</option>
+
+                                                            {% elseif avail_button_type == 2 %}
+
+                                                                <option value="0">{{text_button_type_button}}</option>
+                                                                <option value="1">{{text_button_type_a}}</option>
+                                                                <option value="2" selected="selected" >{{text_button_type_input}}</option>
+                                                            {% else %}
+                                                                <option value="0" selected="selected" >{{text_button_type_button}}</option>
+                                                                <option value="1">{{text_button_type_a}}</option>
+                                                                <option value="2">{{text_button_type_input}}</option>
+                                                            {% endif %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+											</div>
+
+										</div>
+										<!-- end color -->
+
+										<!--  column settings -->
+										<div class="col-sm-12">
+											<div class="col-sm-12 well right">
+												<h4>{{text_column_settings}}</h4>
+												<div class="form-group">
+													<label class="col-sm-3 control-label" for="input-column-setting">{{text_show_model }}</label>
+													<div class="col-sm-8">
+														{% if avail_show_model == '1' %}
+														<label class="radio-inline">
+															<input class="in" type="radio" name="avail_show_model" value="1" checked="checked" />
+															{{text_yes}}
+														</label>
+														<label class="radio-inline">
+															<input class="off" type="radio" name="avail_show_model" value="0" />
+															{{text_no}}
+														</label>
+                                                        {% else %}
+                                                        <label class="radio-inline">
+                                                        <input class="in" type="radio" name="avail_show_model" value="1"  />
+                                                        {{text_yes}}
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                        <input class="off" type="radio" name="avail_show_model" value="0" checked="checked"/>
+                                                        {{text_no}}
+                                                        </label>
+                                                        {% endif %}
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-3 control-label" for="input-column-setting">{{text_show_sku }}</label>
+													<div class="col-sm-8">
+                                                        {% if avail_show_sku == '1' %}
+															<label class="radio-inline">
+																<input class="in" type="radio" name="avail_show_sku" value="1" checked="checked" />
+                                                                {{text_yes}}
+															</label>
+															<label class="radio-inline">
+																<input class="off" type="radio" name="avail_show_sku" value="0" />
+                                                                {{text_no}}
+															</label>
+                                                        {% else %}
+															<label class="radio-inline">
+																<input class="in" type="radio" name="avail_show_sku" value="1"  />
+                                                                {{text_yes}}
+															</label>
+															<label class="radio-inline">
+																<input class="off" type="radio" name="avail_show_sku" value="0" checked="checked"/>
+                                                                {{text_no}}
+															</label>
+                                                        {% endif %}
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-3 control-label" for="input-column-setting">{{text_show_comment }}</label>
+													<div class="col-sm-8">
+														{% if avail_show_comment_column == '1' %}
+														<label class="radio-inline">
+															<input class="in" type="radio" name="avail_show_comment_column" value="1" checked="checked" />
+															{{text_yes}}
+														</label>
+														<label class="radio-inline">
+															<input class="off" type="radio" name="avail_show_comment_column" value="0" />
+															{{text_no}}
+														</label>
+                                                        {% else %}
+                                                        <label class="radio-inline">
+                                                        <input class="in" type="radio" name="avail_show_comment_column" value="1"  />
+                                                        {{text_yes}}
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                        <input class="off" type="radio" name="avail_show_comment_column" value="0" checked="checked"/>
+                                                        {{text_no}}
+                                                        </label>
+                                                        {% endif %}
+													</div>
+												</div>
+											</div>
+										</div>
+										<!--  end column settings -->
+
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane" id="tab-mail">
+								<div class="well">
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="input-email">{{text_mail_on }}
+											<a href="#" data-toggle="tooltip" data-placement="top" title="{{text_mail_help }}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+										</label>
+										<div class="col-sm-10">
+											{% if error_email %}
+											<div class="text-danger">{{error_email}}</div>
+                                            {% endif %}
+											<input class="form-control" rows="3" name="avail_email" id="input-email" value="{{avail_email?avail_email:text_mail_defoult }}" placeholder="{{text_mail}}">
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane">
+									<ul class="nav nav-tabs" id="language">
+										{% for language in languages  %}
+										<li>
+											<a href="#language{{language.language_id }}" data-toggle="tab"><img src="language/{{language.code }}/{{language.code }}.png" title="{{language.name }}" /> {{language.name }}</a>
+                                        </li>
+                                        {% endfor %}
+									</ul>
+									<div class="tab-content">
+                                        {% for language in languages  %}
+										<div class="tab-pane" id="language{{language.language_id }}">
+
+											<div class="col-sx-12 well2">
+												<div class="col-sx-12"> <h4>{{text_config_mail}}</h4></div>
+												<div class="form-group well">
+													<label class="col-sm-2 control-label">{{entry_avail_sender}}</label>
+													<div class="col-sm-10">
+														<input name="avail[{{language.language_id}}][sender]" placeholder="{{entry_notification_sender}}" id="sender{{language.language_id}}" class="form-control" value="{{ message[language.language_id].sender ? message[language.language_id].sender : mail_notification_sender }}"/>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="">
+														<label class="col-sm-2 control-label" for="shortcodes{{language.language_id }}">{{shortcodes}}</label>
+														<div class="col-sm-10">
+															<p>{{text_shortcode_name}}</p>
+															<p>{{text_shortcode_product_name}}</p>
+															<p>{{text_shortcode_price}}</p>
+															<p>{{text_shortcode_model}}</p>
+															<p>{{text_shortcode_sku}}</p>
+															<p>{{text_shortcode_image}}</p>
+															<p>{{text_shortcode_big_image}}</p>
+															<p>{{text_shortcode_link}}</p>
+															<p>{{text_shortcode_option_name}}</p>
+														</div>
+													</div>
+												</div>
+												<div class="form-group well">
+													<label class="col-sm-2 control-label" for="notification_title{{language.language_id}}">{{entry_notification_title}}</label>
+													<div class="col-sm-10">
+														<input name="avail[{{language.language_id}}][notification_title]" placeholder="{{entry_notification_title}}" id="notification_title{{language.language_id}}" class="form-control" value="{{ message[language.language_id].notification_title ? message[language.language_id].notification_title : mail_notification_title }}"/>
+													</div>
+												</div>
+												<div class="form-group ">
+													{% if error_mail_send %}
+													<div class="text-danger">{{error_mail_send}}</div>
+                                                    {% endif %}
+													<label class="col-sm-2 control-label" for="notification_message{{language.language_id}}">{{entry_notification_message}}</label>
+													<div class="col-sm-10">
+														<textarea name="avail[{{language.language_id}}][notification_message]" placeholder="{{entry_notification_message}}" id="notification_message{{language.language_id}}" data-toggle="summernote" data-lang="{{ summernote }}" class="form-control summernote">{{ message[language.language_id].notification_message ? message[language.language_id].notification_message }}</textarea>
+													</div>
+												</div>
+												<div class="form-group well">
+													<label class="col-sm-2 control-label" for="client_title{{language.language_id}}">{{entry_client_title}}</label>
+													<div class="col-sm-10">
+														<input name="avail[{{language.language_id}}][client_title]" placeholder="{{entry_client_title}}" id="client_title{{language.language_id}}" class="form-control" value="{{  message[language.language_id].client_title ? message[language.language_id].client_title : mail_client_title }}"/>
+													</div>
+												</div>
+												<div class="form-group">
+													{% if error_mail_send %}
+													<div class="text-danger">{{error_mail_send}}</div>
+                                                    {% endif %}
+													<label class="col-sm-2 control-label" for="client_message{{language.language_id}}">{{entry_client_message}}</label>
+													<div class="col-sm-10">
+														<textarea name="avail[{{language.language_id}}][client_message]" placeholder="{{entry_client_message}}" data-toggle="summernote" data-lang="{{ summernote }}" id="client_message{{language.language_id}}"  class="form-control summernote">{{  message[language.language_id].client_message ? message[language.language_id].client_message }}</textarea>
+													</div>
+												</div>
+												<div class="form-group well">
+													<label class="col-sm-2 control-label" for="client_title{{language.language_id}}">{{entry_admin_title}}</label>
+													<div class="col-sm-10">
+														<input name="avail[{{language.language_id}}][admin_title]" placeholder="{{entry_admin_title}}" id="admin_title{{language.language_id}}" class="form-control" value="{{  message[language.language_id].admin_title ? message[language.language_id].admin_title : mail_admin_title }}"/>
+													</div>
+												</div>
+												<div class="form-group ">
+													{% if error_mail_send %}
+													<div class="text-danger">{{error_mail_send}}</div>
+                                                    {% endif %}
+													<label class="col-sm-2 control-label" for="admin_message{{language.language_id}}">{{entry_admin_message}}</label>
+													<div class="col-sm-10">
+														<textarea name="avail[{{language.language_id}}][admin_message]" placeholder="{{entry_admin_message}}" data-toggle="summernote" data-lang="{{ summernote }}" id="admin_message{{language.language_id}}" class="form-control summernote">{{ message[language.language_id].admin_message ? message[language.language_id].admin_message }}</textarea>
+													</div>
+												</div>
+											</div>
+										</div>
+                                        {% endfor %}
+									</div>
+								</div>
+							</div>
+
+
+
+                            <div class="tab-pane" id="tab-css">
+                                <div class="tab-pane">
+                                    <div class="tab-content">
+                                        <div class="well2">
+
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">Css style :</label>
+                                                <div class="col-sm-10">
+                                                    <textarea style="min-height: 300px;" class="col-sm-10" type="text" name="avail_customer_class"> {{avail_customer_class}} </textarea>
+
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+							<div class="tab-pane" id="tab-arbitrary">
+
+								<!--ЗМІННА-->
+								<!--ЗМІННА-->
+								<!--ЗМІННА-->
+								{% set av_field_row = 0 %}
+
+								<div class="tab-pane">
+									<div class="tab-content">
+										<div id="add_arb_add">
+											<!--
+                                                ТРЕТЄ ПОЛЕ
+                                                ТРЕТЄ ПОЛЕ
+                                                ТРЕТЄ ПОЛЕ
+                                                ТРЕТЄ ПОЛЕ
+                                            -->
+											{% if avail_arbitrary != '' %}
+                                            {% for avail_arbitrary in avail_arbitrary  %}
+											<div id="arbitrary_field_block_{{av_field_row}}" class="arbitrary_field_block">
+												<div class="form-group" style="border: 1px solid #dddddd; border-radius: 15px;">
+													<label class="col-sm-1 control-label" for="">{{text_arbitrary_fieldname}}</label>
+                                                    {% for language in languages  %}
+														{% if language.code == config_admin_language %}
+															<span class="col-sm-2" style="padding-top: 10px;">{{avail_arbitrary.field_shortcode}}</span>
+														{% endif %}
+                                                    {% endfor %}
+													<label class="col-sm-2 control-label" for="">{{text_arbitrary_shortcode}}</label>
+													<span class="col-sm-1" style="padding-top: 10px;">{{ avail_arbitrary.field_shortcode }}</span>
+													<label class="col-sm-1 control-label" for="">{{ text_arbitrary_on_off }}</label>
+													<div class="col-sm-2">
+														{% if avail_arbitrary.field_on == '1' %}
+														<label class="radio-inline">
+															<input class="in" type="radio" id="field_on" name="avail_arbitrary[{{ av_field_row }}][field_on]" value="1" checked="checked" />
+															{{ text_yes }}
+														</label>
+														<label class="radio-inline">
+															<input class="off" type="radio" id="field_off" name="avail_arbitrary[{{ av_field_row }}][field_on]" value="0" />
+															{{ text_no }}
+														</label>
+                                                        {% else %}
+														<label class="radio-inline">
+															<input class="in" type="radio" id="field_on" name="avail_arbitrary[{{ av_field_row }}][field_on]" value="1"  />
+															{{ text_yes }}
+														</label>
+														<label class="radio-inline">
+															<input class="off" type="radio" id="field_off" name="avail_arbitrary[{{ av_field_row }}][field_on]" value="0" checked="checked"/>
+                                                            {{ text_no }}
+														</label>
+                                                        {% endif %}
+													</div>
+													<span class="avail_arbitrary_setting_hs col-sm-2">{{ text_arbitrary_show }}</span>
+													<span class="col-sm-1"><button type="button" onclick="$('#arbitrary_field_block_{{av_field_row}}, .tooltip').remove();" data-toggle="tooltip" title="{{text_arbitrary_delfield}}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></span>
+												</div>
+
+												<div class="well2 avail_arbitrary_field_block" id="avail_arbitrary_field_block" style="display: none;">
+													<div class="form-group">
+                                                        {% for language in languages  %}
+														<label class="col-sm-2 control-label" for="input_arbitrary_field_name">{{text_arbitrary_namefieldlabel}}
+															<img src="language/{{language.code}}/{{language.code}}.png" title="{{language.name}}" />
+
+														</label>
+
+														<div class="col-sm-10">
+															<input class="form-control" rows="3" name="avail_arbitrary[{{av_field_row}}][{{language.language_id}}][field_name]" id="input_arbitrary_field_name" value="{{avail_arbitrary[language.language_id].field_name}}" placeholder="{{text_arbitrary_namefield}}">
+
+														</div>
+														<br>
+														<br>
+														<br>
+                                                        {% endfor %}
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="input_arbitrary_field_shortcode">{{text_arbitrary_shortcode}}
+															<a href="#" data-toggle="tooltip" onclick="event.preventDefault()" data-placement="top" title="{{text_arb_shortcode_help}}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+														</label>
+														<div class="col-sm-10">
+															<input class="form-control" rows="3" name="avail_arbitrary[{{av_field_row}}][field_shortcode]" id="input_arbitrary_field_shortcode" value="{{avail_arbitrary.field_shortcode}}" placeholder="{{text_arbitrary_shortcode_field}}">
+														</div>
+													</div>
+
+
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="avail_arbitrary_field_type">{{text_arbitrary_type_field}}
+															<a href="#" data-toggle="tooltip" onclick="event.preventDefault()" data-placement="top" title="{{text_arb_type_help}}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+														</label>
+														<div class="col-sm-10">
+															<select name="avail_arbitrary[{{av_field_row}}][field_type]" id="avail_arbitrary_field_type" class="form-control">
+																{%  if avail_arbitrary.field_type == "text"%}
+
+																<option value="text" selected="selected">{{text_arbitrary_littletext}}</option>
+																<option value="textarea">{{text_arbitrary_bigtext}}</option>
+																<option value="email">{{text_mail}}</option>
+																<option value="phone">{{text_arbitrary_phone}}</option>
+																<option value="number">{{text_arbitrary_number}}</option>
+
+																{%  elseif avail_arbitrary.field_type == "textarea" %}
+
+																<option value="text">{{text_arbitrary_littletext}}</option>
+																<option value="textarea" selected="selected">{{text_arbitrary_bigtext}}</option>
+																<option value="email">{{text_mail}}</option>
+																<option value="phone">{{text_arbitrary_phone}}</option>
+																<option value="number">{{text_arbitrary_number}}</option>
+
+                                                                {%  elseif avail_arbitrary.field_type == "email" %}
+																<option value="text">{{text_arbitrary_littletext}}</option>
+																<option value="textarea">{{text_arbitrary_bigtext}}</option>
+																<option value="email" selected="selected">{{text_mail}}</option>
+																<option value="phone">{{text_arbitrary_phone}}</option>
+																<option value="number">{{text_arbitrary_number}}</option>
+
+                                                                {%  elseif avail_arbitrary.field_type == "phone" %}
+																<option value="text">{{text_arbitrary_littletext}}</option>
+																<option value="textarea">{{text_arbitrary_bigtext}}</option>
+																<option value="email">{{text_mail}}</option>
+																<option value="phone" selected="selected">{{text_arbitrary_phone}}</option>
+																<option value="number">{{text_arbitrary_number}}</option>
+
+                                                                {%  elseif avail_arbitrary.field_type == "number" %}
+																<option value="text">{{text_arbitrary_littletext}}</option>
+																<option value="textarea">{{text_arbitrary_bigtext}}</option>
+																<option value="email">{{text_mail}}</option>
+																<option value="phone">{{text_arbitrary_phone}}</option>
+																<option value="number" selected="selected">{{text_arbitrary_number}}</option>
+                                                                {% endif %}
+															</select>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="input_arbitrary_field_di">{{text_arbitrary_idlabel}}
+															<a href="#" data-toggle="tooltip" onclick="event.preventDefault()" data-placement="top" title="{{text_arb_id_help}}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+														</label>
+														<div class="col-sm-10">
+															<input class="form-control" rows="3" name="avail_arbitrary[{{av_field_row}}][field_di]" id="input_arbitrary_field_di" value="{{avail_arbitrary.field_di}}" placeholder="{{text_arbitrary_idfield}}">
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="input_arbitrary_field_class">{{text_arbitrary_classlabel}}
+															<a href="#" data-toggle="tooltip" onclick="event.preventDefault()" data-placement="top" title="{{text_arb_class_help}}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+														</label>
+														<div class="col-sm-10">
+															<input class="form-control" rows="3" name="avail_arbitrary[{{av_field_row}}][field_class]" value="{{avail_arbitrary.field_class}}" id="input_arbitrary_field_class" placeholder="{{ text_arbitrary_classfield }}">
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-4 control-label" for="">{{text_arbitrary_required}}</label>
+														<div class="col-sm-8">
+															{% if avail_arbitrary.field_requir == 'required'%}
+															<label class="radio-inline">
+																<input class="in" type="radio" name="avail_arbitrary[{{av_field_row}}][field_requir]" value="required" checked="checked" />
+																{{text_yes}}
+															</label>
+															<label class="radio-inline">
+																<input class="off" type="radio" name="avail_arbitrary[{{av_field_row}}][field_requir]" value="" />
+																{{text_no}}
+															</label>
+                                                            {% else %}
+															<label class="radio-inline">
+																<input class="in" type="radio" name="avail_arbitrary[{{av_field_row}}][field_requir]" value="required"  />
+																{{text_yes}}
+															</label>
+															<label class="radio-inline">
+																<input class="off" type="radio" name="avail_arbitrary[{{av_field_row}}][field_requir]" value="" checked="checked"/>
+																{{text_no}}
+															</label>
+                                                            {% endif %}
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-4 control-label" for="">{{text_arbitrary_validon}}</label>
+														<div class="col-sm-8">
+															{% if avail_arbitrary.field_valid == '1' %}
+															<label class="radio-inline">
+																<input class="in valid_on" type="radio" name="avail_arbitrary[{{av_field_row}}][field_valid]" value="1" checked="checked" />
+																{{text_yes}}
+															</label>
+															<label class="radio-inline">
+																<input class="off valid_off" type="radio" name="avail_arbitrary[{{av_field_row}}][field_valid]" value="0" />
+																{{text_no}}
+															</label>
+															{% elseif avail_arbitrary.field_valid == '0'%}
+															<label class="radio-inline">
+																<input class="in valid_on" type="radio" name="avail_arbitrary[{{av_field_row}}][field_valid]" value="1"  />
+																{{text_yes}}
+															</label>
+															<label class="radio-inline">
+																<input class="off valid_off" type="radio" name="avail_arbitrary[{{av_field_row}}][field_valid]" value="0" checked="checked"/>
+																{{text_no}}
+															</label>
+                                                            {% endif %}
+														</div>
+													</div>
+													{%  if avail_arbitrary.field_valid == '1'%}
+													<div class="form-group type_valid" id="type_valid">
+														{%  elseif avail_arbitrary.field_valid == '0'%}
+														<div class="form-group type_valid" id="type_valid" style="display: none;">
+                                                            {% endif %}
+															<label class="col-sm-2 control-label" for="avail_arbitrary_field_typeval">{{text_arbitrary_type_valid}}
+																<a href="#" data-toggle="tooltip" onclick="event.preventDefault()" data-placement="top" title="{{text_arb_type_valid_help}}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+															</label>
+															<div class="col-sm-10">
+																<select name="avail_arbitrary[{{av_field_row}}][field_typeval]" id="avail_arbitrary_field_typeval" class="form-control">
+																	{%  if avail_arbitrary.field_typeval == "text" %}
+
+																	<option value="text" selected="selected">{{text_arbitrary_littletext}}</option>
+																	<option value="textarea">{{text_arbitrary_bigtext}}</option>
+																	<option value="email">{{text_mail}}</option>
+																	<option value="phone">{{text_arbitrary_phone}}</option>
+																	<option value="number">{{text_arbitrary_number}}</option>
+
+                                                                    {%  elseif avail_arbitrary.field_typeval == "textarea" %}
+
+																	<option value="text">{{text_arbitrary_littletext}}</option>
+																	<option value="textarea" selected="selected">{{text_arbitrary_bigtext}}</option>
+																	<option value="email">{{text_mail}}</option>
+																	<option value="phone">{{text_arbitrary_phone}}</option>
+																	<option value="number">{{text_arbitrary_number}}</option>
+
+                                                                    {%  elseif avail_arbitrary.field_typeval == "email" %}
+																	<option value="text">{{text_arbitrary_littletext}}</option>
+																	<option value="textarea">{{text_arbitrary_bigtext}}</option>
+																	<option value="email" selected="selected">{{text_mail}}</option>
+																	<option value="phone">{{text_arbitrary_phone}}</option>
+																	<option value="number">{{text_arbitrary_number}}</option>
+
+                                                                    {%  elseif avail_arbitrary.field_typeval == "phone" %}
+																	<option value="text">{{text_arbitrary_littletext}}</option>
+																	<option value="textarea">{{text_arbitrary_bigtext}}</option>
+																	<option value="email">{{text_mail}}</option>
+																	<option value="phone" selected="selected">{{text_arbitrary_phone}}</option>
+																	<option value="number">{{text_arbitrary_number}}</option>
+
+                                                                    {%  elseif avail_arbitrary.field_typeval == "number" %}
+																	<option value="text">{{text_arbitrary_littletext}}</option>
+																	<option value="textarea">{{text_arbitrary_bigtext}}</option>
+																	<option value="email">{{text_mail}}</option>
+																	<option value="phone">{{text_arbitrary_phone}}</option>
+																	<option value="number" selected="selected">{{text_arbitrary_number}}</option>
+                                                                    {% endif %}
+																</select>
+															</div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label" for="input_arbitrary_field_sort">{{text_arbitrary_sort}}
+																<a href="#" data-toggle="tooltip" onclick="event.preventDefault()" data-placement="top" title="{{text_arb_sort_help}}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+															</label>
+															<div class="col-sm-10">
+																<input class="form-control" type="number" rows="3" name="avail_arbitrary[{{av_field_row}}][field_sort]" value="{{avail_arbitrary.field_sort}}" id="input_arbitrary_field_sort" placeholder="{{text_arbitrary_sort}}">
+															</div>
+														</div>
+													</div>
+												</div>
+												<br>
+                                                {% set av_field_row = av_field_row + 1 %}
+                                                {% endfor %}
+                                                {% endif %}
+												<!--
+                                                ДОДАВАННЯ ПОЛЯ
+                                                ДОДАВАННЯ ПОЛЯ
+                                                -->
+
+											</div>
+											<!--
+                                            ДОДАВАННЯ ПОЛЯ
+                                            ДОДАВАННЯ ПОЛЯ
+                                            -->
+
+											<div class="text-right" style="margin-top: 70px;">
+												<button type="button" onclick="addArb();" data-toggle="tooltip" title="{{text_arbitrary_addfield}}" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button>
+
+											</div>
+									<script type="text/javascript">
+                                                var av_field_row = {{ av_field_row }};
+                                                function addArb() {
+                                                    html  = '<div id="arbitrary_field_block_' + av_field_row + '" class="arbitrary_field_block" style="margin-top: 30px;">';
+                                                    html  += '<div><h3 style="font-weight: bold; text-align: center;">{{text_arbitrary_addfield}}</h3></div>';
+                                                    html  += '<div class="well2 avail_arbitrary_field_block" id="avail_arbitrary_field_block">';
+                                                    html  += '	<div class="col-sm-2" style="display: none;">';
+                                                    html  += '		<label class="radio-inline">';
+                                                    html  += '			<input class="in" type="radio" id="field_on" name="avail_arbitrary[' + av_field_row + '][field_on]" value="1" checked="checked" />';
+                                                    html  += '			{{text_yes}}';
+                                                    html  += '		</label>';
+                                                    html  += '		<label class="radio-inline">';
+                                                    html  += '			<input class="off" type="radio" id="field_off" name="avail_arbitrary[' + av_field_row + '][field_on]" value="0" />';
+                                                    html  += '			{{text_no}}';
+                                                    html  += '		</label>';
+                                                    html  += '	</div>';
+                                                    html  += '	<div class="form-group">';
+                                                    html  += '	{% for language in languages  %}';
+                                                    html  += '		<label class="col-sm-2 control-label" for="input_arbitrary_field_name">{{text_arbitrary_namefieldlabel}}';
+                                                    html  += '			<img src="language/{{language.code}}/{{language.code}}.png" title="{{language.name}}" />';
+                                                    html  += '		</label>';
+                                                    html  += '		<div class="col-sm-10">';
+                                                    html  += '			<input class="form-control" rows="3" name="avail_arbitrary[' + av_field_row + '][{{language.language_id}}][field_name]" id="input_arbitrary_field_name" value="" placeholder="{{text_arbitrary_namefield}}">';
+                                                    html  += '		</div>';
+                                                    html  += '		<br>';
+                                                    html  += '		<br>';
+                                                    html  += '		<br>';
+                                                    html  += '		{% endfor %}';
+                                                    html  += '	</div>';
+                                                    html  += '	<div class="form-group">';
+                                                    html  += '		<label class="col-sm-2 control-label" for="input_arbitrary_field_shortcode">{{text_arbitrary_shortcode}}';
+                                                    html  += '			<a href="#" data-toggle="tooltip" onclick="event.preventDefault()" data-placement="top" title="{{text_arb_shortcode_help}}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>';
+                                                    html  += '		</label>';
+                                                    html  += '		<div class="col-sm-10">';
+                                                    html  += '			<input class="form-control" rows="3" name="avail_arbitrary[' + av_field_row + '][field_shortcode]" id="input_arbitrary_field_shortcode" value="" placeholder="{{text_arbitrary_shortcode_field}}">';
+                                                    html  += '		</div>';
+                                                    html  += '	</div>';
+                                                    html  += '	<div class="form-group">';
+                                                    html  += '		<label class="col-sm-2 control-label" for="avail_arbitrary_field_type">{{text_arbitrary_type_field}}';
+                                                    html  += '			<a href="#" data-toggle="tooltip" onclick="event.preventDefault()" data-placement="top" title="{{text_arb_type_help}}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>';
+                                                    html  += '		</label>';
+                                                    html  += '		<div class="col-sm-10">';
+                                                    html  += '			<select name="avail_arbitrary[' + av_field_row + '][field_type]" id="avail_arbitrary_field_type" class="form-control">';
+                                                    html  += '				<option value="text" selected="selected">{{text_arbitrary_littletext}}</option>';
+                                                    html  += '				<option value="textarea">{{text_arbitrary_bigtext}}</option>';
+                                                    html  += '				<option value="email">{{text_mail}}</option>';
+                                                    html  += '				<option value="phone">{{text_arbitrary_phone}}</option>';
+                                                    html  += '				<option value="number">{{text_arbitrary_number}}</option>';
+                                                    html  += '			</select>';
+                                                    html  += '		</div>';
+                                                    html  += '	</div>';
+                                                    html  += '	<div class="form-group">';
+                                                    html  += '		<label class="col-sm-2 control-label" for="input_arbitrary_field_di">{{text_arbitrary_idlabel}}';
+                                                    html  += '			<a href="#" data-toggle="tooltip" onclick="event.preventDefault()" data-placement="top" title="{{text_arb_id_help}}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>';
+                                                    html  += '		</label>';
+                                                    html  += '		<div class="col-sm-10">';
+                                                    html  += '			<input class="form-control" rows="3" name="avail_arbitrary[' + av_field_row + '][field_di]" id="input_arbitrary_field_di" value="" placeholder="{{text_arbitrary_idfield}}">';
+                                                    html  += '		</div>';
+                                                    html  += '	</div>';
+                                                    html  += '	<div class="form-group">';
+                                                    html  += '		<label class="col-sm-2 control-label" for="input_arbitrary_field_class">{{text_arbitrary_classlabel}}';
+                                                    html  += '			<a href="#" data-toggle="tooltip" onclick="event.preventDefault()" data-placement="top" title="{{text_arb_class_help}}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>';
+                                                    html  += '		</label>';
+                                                    html  += '		<div class="col-sm-10">';
+                                                    html  += '			<input class="form-control" rows="3" name="avail_arbitrary[' + av_field_row + '][field_class]" value="" id="input_arbitrary_field_class" placeholder="{{text_arbitrary_classfield}}">';
+                                                    html  += '		</div>';
+                                                    html  += '	</div>';
+                                                    html  += '	<div class="form-group">';
+                                                    html  += '		<label class="col-sm-4 control-label" for="">{{text_arbitrary_required}}</label>';
+                                                    html  += '		<div class="col-sm-8">';
+                                                    html  += '			<label class="radio-inline">';
+                                                    html  += '				<input class="in" type="radio" name="avail_arbitrary[' + av_field_row + '][field_requir]" value="required" checked="checked" />';
+                                                    html  += '				{{text_yes}}';
+                                                    html  += '			</label>';
+                                                    html  += '			<label class="radio-inline">';
+                                                    html  += '				<input class="off" type="radio" name="avail_arbitrary[' + av_field_row + '][field_requir]" value="" />';
+                                                    html  += '				{{text_no}}';
+                                                    html  += '			</label>';
+                                                    html  += '		</div>';
+                                                    html  += '	</div>';
+                                                    html  += '	<div class="form-group">';
+                                                    html  += '		<label class="col-sm-4 control-label" for="">{{text_arbitrary_validon}}</label>';
+                                                    html  += '		<div class="col-sm-8">';
+                                                    html  += '			<label class="radio-inline">';
+                                                    html  += '				<input class="in valid_on" type="radio" name="avail_arbitrary[' + av_field_row + '][field_valid]" value="1" />';
+                                                    html  += '				{{text_yes}}';
+                                                    html  += '			</label>';
+                                                    html  += '			<label class="radio-inline">';
+                                                    html  += '				<input class="off valid_off" type="radio" name="avail_arbitrary[' + av_field_row + '][field_valid]" value="0" checked="checked" />';
+                                                    html  += '				{{text_no}}';
+                                                    html  += '			</label>';
+                                                    html  += '		</div>';
+                                                    html  += '	</div>';
+                                                    html  += '	<div class="form-group type_valid" id="type_valid">';
+                                                    html  += '		<label class="col-sm-2 control-label" for="avail_arbitrary_field_typeval">{{text_arbitrary_type_valid}}';
+                                                    html  += '			<a href="#" data-toggle="tooltip" onclick="event.preventDefault()" data-placement="top" title="{{text_arb_type_valid_help}}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>';
+                                                    html  += '		</label>';
+                                                    html  += '		<div class="col-sm-10">';
+                                                    html  += '			<select name="avail_arbitrary[' + av_field_row + '][field_typeval]" id="avail_arbitrary_field_typeval" class="form-control">';
+                                                    html  += '				<option value="text" selected="selected">{{text_arbitrary_littletext}}</option>';
+                                                    html  += '				<option value="textarea">{{text_arbitrary_bigtext}}</option>';
+                                                    html  += '				<option value="email">{{text_mail}}</option>';
+                                                    html  += '				<option value="phone">{{text_arbitrary_phone}}</option>';
+                                                    html  += '				<option value="number">{{text_arbitrary_number}}</option>';
+                                                    html  += '			</select>';
+                                                    html  += '		</div>';
+                                                    html  += '	</div>';
+                                                    html  += '	<div class="form-group">';
+                                                    html  += '		<label class="col-sm-2 control-label" for="input_arbitrary_field_sort">{{text_arbitrary_sort}}';
+                                                    html  += '			<a href="#" data-toggle="tooltip" onclick="event.preventDefault()" data-placement="top" title="{{text_arb_sort_help}}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>';
+                                                    html  += '		</label>';
+                                                    html  += '		<div class="col-sm-10">';
+                                                    html  += '			<input class="form-control" type="number" rows="3" name="avail_arbitrary[' + av_field_row + '][field_sort]" value="" id="input_arbitrary_field_sort" placeholder="{{text_arbitrary_sort}}">';
+                                                    html  += '		</div>';
+                                                    html  += '	</div>';
+                                                    html  += '</div>';
+
+
+                                                    html += '<script>$(document).ready(function(){$(\'.valid_off\').on(\'click\', function(){$(this).closest(\'.arbitrary_field_block\').find(\'.type_valid\').hide(200);});$(\'.valid_on\').on(\'click\', function(){$(this).closest(\'.arbitrary_field_block\').find(\'.type_valid\').show(200);});});<\/script>';
+
+											html  += '<span class="col-sm-12" style="text-align: right;"><button type="button" onclick="$(\'#arbitrary_field_block_' + av_field_row  + ', .tooltip\').remove();" data-toggle="tooltip" title="{{text_arbitrary_delfield}}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></span>';
+											html  += '</div>';
+
+
+										$('#add_arb_add').append(html);
+
+										av_field_row++;
+										
+										$(function () {
+											$('[data-toggle="tooltip"]').tooltip()
+											});
+										}
+
+									</script>
+
+
+
+
+
+                                        </div>
+
+                                        </div>
+
+
+                                        </div>
+                                        </div>
+
+
+
+
+                            </div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript"><!--
+                                                $( document ).ready(function(){
+
+                                                    $(".create_column").click(function() {
+                                                        $.ajax({
+                                                            url: 'index.php?route=extension/module/avail/UpdateTo96&user_token={{  user_token }}',
+                                                            dataType: 'json',
+                                                            success: function(json) {
+                                                                console.log(json);
+
+                                                                if(json == 'ok') {
+                                                                    $('.create_column').addClass('hidden');
+                                                                } else {
+
+                                                                }
+                                                            }
+                                                        });
+                                                    });
+
+                                                    $(".off").click(function() {
+                                                        $("#demo").addClass("in");
+                                                    });
+                                                    $(".in").click(function() {
+                                                        $("#demo").removeClass("in");
+                                                    });
+
+
+                                                    var input = $("input[name=\'avail_default\']:checked").val();
+
+                                                    if (input == '0'){
+                                                        $("#demo").addClass("in");
+                                                    }
+
+
+
+
+                                                    $('select#input-google-captcha-status').on('change', function() {
+                                                        console.log(this.value);
+                                                        if( this.value == 0) {
+                                                            $("#google-hight").removeClass("in");
+                                                        }
+
+                                                        if( this.value == 1) {
+                                                            $("#google-hight").addClass("in");
+                                                        }
+                                                    })
+
+                                                    var input = $("#input-google-captcha-status option:selected").val();
+                                                    if (input == 1){
+                                                        $("#google-hight").addClass("in");
+                                                    }
+													/* визуалицация полей настройки статусов*/
+
+                                                    $('select#input-avail-options-status').on('change', function() {
+														/*console.log(this.value); */
+                                                        if( this.value !== 2) {
+                                                            $("#avail-stock-status, #avail-stock-status2").removeClass("in");
+                                                        }
+
+                                                        if( this.value == 2) {
+                                                            $("#avail-stock-status, #avail-stock-status2").addClass("in");
+                                                        }
+                                                    })
+
+                                                    var input = $("#input-avail-options-status option:selected").val();
+                                                    if (input == 2){
+                                                        $("#avail-stock-status, #avail-stock-status2").addClass("in");
+                                                    }
+
+													/*ТЕСТУЄМО ВИВІД ПОЛЯ*/
+													/*ТЕСТУЄМО ВИВІД ПОЛЯ*/
+													/*ТЕСТУЄМО ВИВІД ПОЛЯ*/
+													/*ТЕСТУЄМО ВИВІД ПОЛЯ*/
+
+                                                    $('.valid_off').on('click', function(){
+                                                        $(this).closest('.arbitrary_field_block').find('.type_valid').hide(200);
+                                                    });
+                                                    $('.valid_on').on('click', function(){
+                                                        $(this).closest('.arbitrary_field_block').find('.type_valid').show(200);
+                                                    });
+
+                                                    $('.avail_arbitrary_setting_hs').on('click', function(){
+                                                        $(this).closest('.arbitrary_field_block').find('.avail_arbitrary_field_block').slideToggle(400);
+                                                    });
+
+													/*ТЕСТУЄМО ВИВІД ПОЛЯ*/
+													/*ТЕСТУЄМО ВИВІД ПОЛЯ*/
+													/*ТЕСТУЄМО ВИВІД ПОЛЯ*/
+													/*ТЕСТУЄМО ВИВІД ПОЛЯ*/
+
+
+                                                });
+
+
+
+
+
+        {% for language in languages  %}
+            $('#admin_message{{language.language_id }}').summernote({height: 300});
+            $('#client_message{{language.language_id }}').summernote({height: 300});
+            $('#notification_message{{language.language_id }}').summernote({height: 300});
+        {% endfor %}
+        //--></script>
+	<script type="text/javascript"><!--
+        $('#language a:first').tab('show');
+        $('#language-disain a:first').tab('show');
+
+        $(document).ready(function(){
+            $('.test').click(hideTooltip).popover();
+            $('.footer_sm').click(hideTooltip).popover();
+            $('.help-ico').click(hideTooltip).popover();
+            function hideTooltip(){
+                setTimeout(function(){
+                    $('h3 .close-tooltipe').click(function(){
+                        $(this).closest('.popover').siblings('.test').trigger('click');
+                    });
+                },400)
+            };
+
+        });
+
+        //--></script></div>
+
+<style>
+
+	.close-tooltipe{
+		float: right;
+		font-size: 16px;
+		top: 50%;
+		-webkit-transform: translateY(-50%);
+		-moz-transform: translateY(-50%);
+		-ms-transform: translateY(-50%);
+		-o-transform: translateY(-50%);
+		transform: translateY(-50%);
+	}
+
+	.popover {
+		width: 800px;
+		max-width: 800px;
+	}
+	#demo {
+		margin-left: 0px;
+		margin-right: 0px;
+	}
+	.well2 {
+		min-height: 20px;
+		padding: 19px;
+		margin-bottom: 20px;
+		border: 1px solid #e3e3e3;
+		border-radius: 3px;
+		-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+		box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+	}
+	#language-disain {
+
+		border-top: 1px solid #e3e3e3;
+		border-left: 1px solid #e3e3e3;
+		border-right: 1px solid #e3e3e3;
+	}
+	.nav-tabs {
+		margin-bottom: 0px;
+	}
+	.error {
+		background-color: #f9b5b5;
+		padding: 10px 10px;
+	}
+	.avail_arbitrary_setting_hs {
+		border: 1px solid #dddddd;
+		border-radius: 5px;
+		padding: 5px;
+		background-color: #ededed;
+		box-shadow: 0 3px 2px rgba(0,0,0,0.2);
+		cursor: pointer;
+	}
+	.avail_arbitrary_setting_hs:hover {
+		background-color: #f0f0f0;
+	}
+	.avail_arbitrary_setting_hs:active {
+		box-shadow: none;
+	}
+</style>
+{{footer}}

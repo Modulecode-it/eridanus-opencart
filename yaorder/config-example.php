@@ -1,0 +1,4 @@
+<?php
+define('APP_ID', '4d2f123123434fdf89657ca85568571d');
+define('APP_PASSWORD', '14a25a9ef6667563452342250886a605');
+?>

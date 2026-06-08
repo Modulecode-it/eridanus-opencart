@@ -1,0 +1,58 @@
+<div class="col-md-12 col-sm-12">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title"><i class="fa fa-list"></i> {{ text_group_products }}</h3>
+		</div>
+		<div class="panel-body">
+			<div class="table-responsive">
+				<table class="table table-bordered table-hover">
+					<thead>
+						<tr>
+							<td class="text-center">{{ column_image }}</td>
+							<td class="text-left">{{ column_name }}</td>
+							<td class="text-left">{{ column_model }}</td>
+							<td class="text-right">{{ column_price }}</td>
+							<td class="text-right">{{ column_quantity }}</td>
+						</tr>
+					</thead>
+					<tbody>
+						{% if products %}
+						{% for product in products %}
+						<tr>
+							<td class="text-center">{% if product.image %} <img src="{{ product.image }}" alt="{{ product.name }}" class="img-thumbnail" /> {% else %} <span class="img-thumbnail list"><i class="fa fa-camera fa-2x"></i></span> {% endif %}</td>
+							<td class="text-left">{{ product.name }}</td>
+							<td class="text-left">{{ product.model }}</td>
+							<td class="text-right">
+								{% if product.special %}
+								<span style="text-decoration: line-through;">{{ product.price }}</span><br />
+								<div class="text-danger">{{ product.special }}</div>
+								{% else %}
+								{{ product.price }}
+								{% endif %}
+							</td>
+							<td class="text-right">
+								{% if product.quantity < 1 %}
+								<span class="label label-warning">{{ product.quantity }}</span>
+								{% elseif product.quantity < 6 %}
+								<span class="label label-danger">{{ product.quantity }}</span>
+								{% else %}
+								<span class="label label-success">{{ product.quantity }}</span>
+								{% endif %}
+							</td>
+						</tr>
+						{% endfor %}
+						{% else %}
+						<tr>
+							<td class="text-center" colspan="8">{{ text_no_results }}</td>
+						</tr>
+						{% endif %}
+					</tbody>
+				</table>
+			</div>
+			<div class="row">
+				<div class="col-sm-6 text-left">{{ pagination }}</div>
+				<div class="col-sm-6 text-right">{{ results }}</div>
+			</div>
+		</div>
+	</div>
+</div>

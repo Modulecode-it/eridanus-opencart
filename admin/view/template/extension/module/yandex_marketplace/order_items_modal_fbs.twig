@@ -1,0 +1,66 @@
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h4 class="modal-title"><i class="fa fa-cog"></i> Состав заказа</h4>
+		</div>
+		<div class="modal-body">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<td class="text-left">{{ column_product }}</td>
+						<td class="text-right">{{ column_quantity }}</td>
+						<td class="text-right">{{ column_price }}</td>
+						<td class="text-right">{{ column_total }}</td>
+						<td class="text-right"></td>
+					</tr>
+				</thead>
+				<tbody>
+					{% for product in products %}
+					<tr>
+						<td class="text-left">{{ product.name }}</td>
+						<td class="text-right"><input type="text" name="products[{{ product.yanex_item_id }}][quantity]" value="{{ product.quantity }}" id="input-quantity" class="form-control"></td>
+						<td class="text-right">{{ product.price }}</td>
+						<td class="text-right">{{ product.total }}</td>
+						<td><button type="button" data-toggle="tooltip" title="" class="btn btn-danger" onclick="$(this).closest('tr').remove();" data-original-title="Удалить"><i class="fa fa-trash-o"></i></button></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			
+			{% if error_products %}
+				<div class="text-danger">{{ error_products }}</div>
+            {% endif %}
+			
+			<div class="form-group text-right">
+				<button type="button" id="button-items-submit" class="btn btn-success">{{ button_submit }}</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+{% if refresh_page %}
+	location.reload();
+{% endif %}
+$('#button-items-submit').on('click',function(){
+	$.ajax({
+		url: 'index.php?route=extension/module/yandex_marketplace/order_items_fbs&order_id={{ order_id }}&user_token={{ user_token }}',
+		type: 'post',
+		dataType: 'html',
+		data:$('#modal-items input[type=\'text\']'),
+		beforeSend: function() {
+			$('#button-items-submit').button('loading');
+		},
+		complete: function() {
+			$('#button-items-submit').button('reset');
+		},
+		success: function(html) {
+			$('#modal-items').html(html);
+		},
+		error: function(xhr, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
+	});	
+
+});	
+</script>

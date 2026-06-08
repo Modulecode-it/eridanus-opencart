@@ -1,0 +1,435 @@
+<div class="tab-pane {% if key == active_tab %} active  {% endif %} shipping_nav" id="shipping-block-{{ key }}">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="#tab-settings-{{ key }}" data-toggle="tab">{{ text_dbs_settings_tab }}</a></li>
+		<li><a href="#tab-product-{{ key }}" data-toggle="tab">{{ text_dbs_product_tab}}</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane panel panel-default active form-horizontal" id="tab-settings-{{ key }}">
+			<div class="panel-heading">
+				<h3 class="panel-title"><i class="fa fa-filter"></i> {{ text_dbs_shipping_heading }}</h3>
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">{{ text_dbs_shipping_heading }}</label>
+					<div class="col-sm-10">
+						<input name="shippings[{{ key }}][name]" value="{{shipping.name}}" />
+						{% if error_name[key] %}
+						<div class="text-danger">{{ error_name[key] }}</div>
+						{% endif %}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">{{ text_dbs_shipping_fromDate }}</label>
+					<div class="col-sm-10">
+						<input name="shippings[{{ key }}][fromDate]" value="{{shipping.fromDate}}" />
+						{% if error_fromDate[key] %}
+						<div class="text-danger">{{ error_fromDate[key] }}</div>
+						{% endif %}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">{{ text_dbs_shipping_toDate }}</label>
+					<div class="col-sm-10">
+						<input name="shippings[{{ key }}][toDate]" value="{{shipping.toDate}}" />
+						{% if error_toDate[key] %}
+						<div class="text-danger">{{ error_toDate[key] }}</div>
+						{% endif %}
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-sm-2 control-label">{{ text_dbs_shipping_shipmentDate }}</label>
+					<div class="col-sm-10">
+						<input name="shippings[{{ key }}][shipmentDate]" value="{{shipping.shipmentDate}}" />
+						{% if error_shipmentDate[key] %}
+						<div class="text-danger">{{ error_shipmentDate[key] }}</div>
+						{% endif %}
+					</div>
+				</div>
+				
+				<div class="form-group" id="interval-{{ key }}">
+					<label class="col-sm-2 control-label">{{ text_dbs_shipping_interval }}</label>
+					<div class="col-sm-10">
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>{{ text_dbs_shipping_interval_from }}</th>
+									<th>{{ text_dbs_shipping_interval_to }}</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								{% set  interval_row = 0 %}
+								{% for interval in shipping.intervals %}
+								<tr id="interval-row-{{ key }}-{{ interval_row }}">
+									<td>
+										<input type="hidden" name="shippings[{{ key }}][intervals][{{ interval_row }}][from]" value="{{ interval.from }}" placeholder="{{ text_dbs_shipping_interval_from_placeholder }}">
+										<div class="input-group interval-selector">
+											<label type="text" class="form-control">{{ interval.from }}</label>
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Выбрать <span class="caret"></span></button>
+												<ul class="dropdown-menu scrollable-menu dropdown-menu-right" role="menu">
+													<li><a href="#">00:00</a></li>
+													<li><a href="#">01:00</a></li>
+													<li><a href="#">02:00</a></li>
+													<li><a href="#">03:00</a></li>
+													<li><a href="#">04:00</a></li>
+													<li><a href="#">05:00</a></li>
+													<li><a href="#">06:00</a></li>
+													<li><a href="#">07:00</a></li>
+													<li><a href="#">08:00</a></li>
+													<li><a href="#">09:00</a></li>
+													<li><a href="#">12:00</a></li>
+													<li><a href="#">13:00</a></li>
+													<li><a href="#">14:00</a></li>
+													<li><a href="#">15:00</a></li>
+													<li><a href="#">16:00</a></li>
+													<li><a href="#">17:00</a></li>
+													<li><a href="#">18:00</a></li>
+													<li><a href="#">19:00</a></li>
+													<li><a href="#">20:00</a></li>
+													<li><a href="#">21:00</a></li>
+													<li><a href="#">22:00</a></li>
+													<li><a href="#">23:00</a></li>
+													<li><a href="#">23:59</a></li>
+												</ul>
+											  </div>
+										</div>
+									</td>
+									<td>
+										<input type="hidden" name="shippings[{{ key }}][intervals][{{ interval_row }}][to]" value="{{ interval.to }}" placeholder="{{ text_dbs_shipping_interval_to_placeholder }}">
+										<div class="input-group interval-selector">
+											<label type="text" class="form-control">{{ interval.to }}</label>
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Выбрать <span class="caret"></span></button>
+												<ul class="dropdown-menu scrollable-menu dropdown-menu-right" role="menu">
+													<li><a href="#">00:00</a></li>
+													<li><a href="#">01:00</a></li>
+													<li><a href="#">02:00</a></li>
+													<li><a href="#">03:00</a></li>
+													<li><a href="#">04:00</a></li>
+													<li><a href="#">05:00</a></li>
+													<li><a href="#">06:00</a></li>
+													<li><a href="#">07:00</a></li>
+													<li><a href="#">08:00</a></li>
+													<li><a href="#">09:00</a></li>
+													<li><a href="#">12:00</a></li>
+													<li><a href="#">13:00</a></li>
+													<li><a href="#">14:00</a></li>
+													<li><a href="#">15:00</a></li>
+													<li><a href="#">16:00</a></li>
+													<li><a href="#">17:00</a></li>
+													<li><a href="#">18:00</a></li>
+													<li><a href="#">19:00</a></li>
+													<li><a href="#">20:00</a></li>
+													<li><a href="#">21:00</a></li>
+													<li><a href="#">22:00</a></li>
+													<li><a href="#">23:00</a></li>
+													<li><a href="#">23:59</a></li>
+												</ul>
+											  </div>
+										</div>
+										
+									</td>
+									<td><button type="button" data-toggle="tooltip" title="" class="btn btn-danger" data-original-title="{{text_delete}}" onclick="$('#interval-row-{{ key }}-{{ interval_row }}').remove();"><i class="fa fa-trash"></i></button></td>
+								</tr>
+								{% set  interval_row =  interval_row + 1 %}
+								{% endfor %}
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan="2"></td>
+									<td><button type="button" data-toggle="tooltip" title="" class="btn btn-success" onclick="addInterval{{ key }}();"><i class="fa fa-plus"></i></button></td>
+								</tr>
+							</tfoot>
+						</table>
+						{% if error_intervals[key] %}
+						<div class="text-danger">{{ error_intervals[key] }}</div>
+						{% endif %}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">{{ text_dbs_shipping_paymentMethod }}</label>
+					<div class="col-sm-10">
+						<div class="col-sm-12"><input name='shippings[{{ key }}][paymentMethods][YANDEX]' type="checkbox" value="YANDEX" {{ (shipping['paymentMethods']['YANDEX'] ? ' checked="checked"' : '') }} />{{ text_dbs_shipping_paymentMethod_YANDEX }}</div>
+						<div class="col-sm-12"><input name='shippings[{{ key }}][paymentMethods][APPLE_PAY]' type="checkbox" value="APPLE_PAY" {{ (shipping['paymentMethods']['APPLE_PAY'] ? ' checked="checked"' : '') }} />{{ text_dbs_shipping_paymentMethod_APPLE_PAY }}</div>
+						<div class="col-sm-12"><input name='shippings[{{ key }}][paymentMethods][GOOGLE_PAY]' type="checkbox" value="GOOGLE_PAY" {{ (shipping['paymentMethods']['GOOGLE_PAY'] ? ' checked="checked"' : '') }} />{{ text_dbs_shipping_paymentMethod_GOOGLE_PAY }}</div>
+						<div class="col-sm-12"><input name='shippings[{{ key }}][paymentMethods][CARD_ON_DELIVERY]' type="checkbox" value="CARD_ON_DELIVERY" {{ (shipping['paymentMethods']['CARD_ON_DELIVERY'] ? ' checked="checked"' : '') }} />{{ text_dbs_shipping_paymentMethod_CARD_ON_DELIVERY }}</div>
+						<div class="col-sm-12"><input name='shippings[{{ key }}][paymentMethods][CASH_ON_DELIVERY]' type="checkbox" value="CASH_ON_DELIVERY" {{ (shipping['paymentMethods']['CASH_ON_DELIVERY'] ? ' checked="checked"' : '') }} />{{ text_dbs_shipping_paymentMethod_CASH_ON_DELIVERY }}</div>
+						{% if error_paymentMethods[key] %}
+						<div class="text-danger">{{ error_paymentMethods[key] }}</div>
+						{% endif %}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">{{ text_dbs_shipping_type }}</label>
+					<div class="col-sm-10">
+						<select name="shippings[{{ key }}][type]" id="input-type" class="form-control">
+							<option value="DELIVERY" {{ (shipping['type'] == "DELIVERY" ? ' selected="selected"' : '')}}>{{ text_dbs_shipping_type_DELIVERY }}</option>
+							<option value="PICKUP" {{ (shipping['type'] == "PICKUP" ? ' selected="selected"' : '')}}>{{ text_dbs_shipping_type_PICKUP }}</option>
+							<option value="POST" {{ (shipping['type'] == "POST" ? ' selected="selected"' : '')}}>{{ text_dbs_shipping_type_POST }}</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">{{ text_dbs_shipping_shipping_zone }}</label>
+					<div class="col-sm-10">
+						<div class="form-group col-md-12">
+							<select name="shippings[{{ key }}][shipping_zone][]" id="input-shipping_zone" class="form-control" multiple="multiple">
+								{% for zone in shipping_zone %}
+								<option id="zone-{{ key }}-{{ zone.id }}" value="{{ zone.id }}">{{ zone.name }} </option>
+								{% endfor %}
+							</select>
+						</div>
+						{% if error_shipping_zone[key] %}
+						<div class="text-danger">{{ error_shipping_zone[key] }}</div>
+						{% endif %}
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		<div class="tab-pane" id="tab-product-{{ key }}">
+
+			<div id="filter-product">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title"><i class="fa fa-filter"></i> {{ text_filter }}</h3>
+					</div>
+					<div class="panel-body">
+						<div class="form-group col-md-12">
+							<label class="control-label">{{ text_dbs_shipping_product_list }}</label>
+							<input type="text" name="shippings[{{ key }}][product]" value="" placeholder="" id="input-product-{{ key }}" class="form-control" />
+							<div id="product-{{ key }}" class="well well-sm" style="height: 150px; overflow: auto;">
+								{% for product in shipping.products %}
+								<div id="product-{{ key }}-{{ product.product_id }}"><i class="fa fa-minus-circle"></i> {{ product.name }}
+									<input type="hidden" name="shippings[{{ key }}][products][]" value="{{ product.product_id }}" />
+								</div>
+								{% endfor %}
+							</div>
+						</div>
+						<div class="form-group col-md-12">
+							<label class="control-label" for="input-model">{{ entry_model }}</label>
+							<input type="text" name="shippings[{{ key }}][filter][model]" value="{{ shipping['filter']['model'] }}" placeholder="{{ entry_model }}" class="form-control" />
+						</div>
+						<div class="form-group col-md-12">
+							<div class="row"><label class="col-md-12 control-label" for="input-category">{{ entry_category }}</label></div>
+							<select name="shippings[{{ key }}][filter][category][]" id="input-category" class="form-control" multiple="multiple">
+								{% for category in categories %}
+								<option id="category-{{ key }}-{{ category.category_id }}" value="{{ category.category_id }}">{{ category.name }} </option>
+								{% endfor %}
+							</select>
+						</div>
+						<div class="form-group col-md-12">
+							<div class="row">
+								<label class="col-md-12 control-label" for="input-price-from">{{ text_field_name_price }}</label>
+							</div>
+							<div class="row">
+								<div class="col-md-6"><input type="text" name="shippings[{{ key }}][filter][price_from]" value="{{ shipping['filter']['price_from'] }}" placeholder="{{ entry_from }}" class="form-control" /></div>
+								<div class="col-md-6"><input type="text" name="shippings[{{ key }}][filter][price_to]" value="{{ shipping['filter']['price_to'] }}" placeholder="{{ entry_to }}" class="form-control" /></div>
+							</div>
+						</div>
+						<div class="form-group col-md-12">
+							<div class="row">
+								<label class="col-md-12 control-label" for="input-quantity">{{ entry_quantity }}</label>
+							</div>
+							<div class="row">
+								<div class="col-md-6"><input type="text" name="shippings[{{ key }}][filter][quantity_from]" value="{{ shipping['filter']['quantity_from'] }}" placeholder="{{ entry_from }}" class="form-control" /></div>
+								<div class="col-md-6"><input type="text" name="shippings[{{ key }}][filter][quantity_to]" value="{{ shipping['filter']['quantity_to'] }}" placeholder="{{ entry_to }}" class="form-control" /></div>
+							</div>
+						</div>
+						<div class="form-group text-right">
+							<button type="button" id="button-filter-{{ key }}" class="btn btn-default"><i class="fa fa-filter"></i> {{ button_filter }}</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row products-{{key}}">
+				{{ shipping.product_list }}
+			</div>
+		</div>
+	</div>
+
+
+<script>
+	  var interval_{{ key }}_row = {{ interval_row }};
+
+	  function addInterval{{ key }}() {
+		  html = '<tr id="attribute-row' + interval_{{ key }}_row + '">';
+		  html = '<tr id="interval-row-{{ key }}-' + interval_{{ key }}_row + '">';
+		  html+= '<td>';
+		  html+= '<input type="hidden" name="shippings[{{ key }}][intervals][' + interval_{{ key }}_row + '][from]" value="12:00" placeholder="{{ text_dbs_shipping_interval_from_placeholder }}">';
+		  html+='<div class="input-group interval-selector"><label type="text" class="form-control">12:00</label><div class="input-group-btn"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Выбрать <span class="caret"></span></button><ul class="dropdown-menu scrollable-menu dropdown-menu-right" role="menu"><li><a href="#">00:00</a></li><li><a href="#">01:00</a></li><li><a href="#">02:00</a></li><li><a href="#">03:00</a></li><li><a href="#">04:00</a></li><li><a href="#">05:00</a></li><li><a href="#">06:00</a></li><li><a href="#">07:00</a></li><li><a href="#">08:00</a></li><li><a href="#">09:00</a></li><li><a href="#">12:00</a></li><li><a href="#">13:00</a></li><li><a href="#">14:00</a></li><li><a href="#">15:00</a></li><li><a href="#">16:00</a></li><li><a href="#">17:00</a></li><li><a href="#">18:00</a></li><li><a href="#">19:00</a></li><li><a href="#">20:00</a></li><li><a href="#">21:00</a></li><li><a href="#">22:00</a></li><li><a href="#">23:00</a></li><li><a href="#">23:59</a></li></ul></div></div>';
+		  html+= '</td>';
+		  html+= '<td>';
+		  html+= '<input type="hidden" name="shippings[{{ key }}][intervals][' + interval_{{ key }}_row + '][to]" value="13:00" placeholder="{{ text_dbs_shipping_interval_to_placeholder }}">';
+		  html+='<div class="input-group interval-selector"><label type="text" class="form-control">13:00</label><div class="input-group-btn"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Выбрать <span class="caret"></span></button><ul class="dropdown-menu scrollable-menu dropdown-menu-right" role="menu"><li><a href="#">00:00</a></li><li><a href="#">01:00</a></li><li><a href="#">02:00</a></li><li><a href="#">03:00</a></li><li><a href="#">04:00</a></li><li><a href="#">05:00</a></li><li><a href="#">06:00</a></li><li><a href="#">07:00</a></li><li><a href="#">08:00</a></li><li><a href="#">09:00</a></li><li><a href="#">12:00</a></li><li><a href="#">13:00</a></li><li><a href="#">14:00</a></li><li><a href="#">15:00</a></li><li><a href="#">16:00</a></li><li><a href="#">17:00</a></li><li><a href="#">18:00</a></li><li><a href="#">19:00</a></li><li><a href="#">20:00</a></li><li><a href="#">21:00</a></li><li><a href="#">22:00</a></li><li><a href="#">23:00</a></li><li><a href="#">23:59</a></li></ul></div></div>';
+		  html+= '</td>';
+		  html+= '<td>';
+		  html+= '<button type="button" data-toggle="tooltip" title="" class="btn btn-danger" data-original-title="{{text_delete}}" onclick="$(\'#interval-row-{{ key }}-' + interval_{{ key }}_row + '\').remove();"><i class="fa fa-trash"></i></button>';
+		  html+= '</td>';
+		  html+= '</tr>';
+
+		  $('#interval-{{ key }} tbody').append(html);
+
+		  interval_{{ key }}_row++;
+	  }
+	// product
+	$('input[name=\'shippings[{{ key }}][product]\']').autocomplete({
+		'source': function(request, response) {
+			$.ajax({
+				url: 'index.php?route=catalog/product/autocomplete&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
+				dataType: 'json',
+				success: function(json) {
+					response($.map(json, function(item) {
+						return {
+							label: item['name'],
+							value: item['product_id']
+						}
+					}));
+				}
+			});
+		},
+		'select': function(item) {
+			$('input[name=\'shippings[{{ key }}][product]\']').val('');
+
+			$('#product-{{ key }}' + item['value']).remove();
+
+			$('#product-{{ key }}').append('<div id="product-{{ key }}-' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="shippings[{{ key }}][products][]" value="' + item['value'] + '" /></div>');
+		}
+	});
+
+	$('#product-{{ key }}').delegate('.fa-minus-circle', 'click', function() {
+		$(this).parent().remove();
+	});
+	
+	
+
+	{% for category in categories %}
+
+		{% if category.category_id in shipping['filter']['category'] %}
+
+			$("#category-{{ key }}-{{ category.category_id }}").prop("selected", function( i, val) {
+				return !val;
+			});
+
+		{% endif %}
+
+	{% endfor %}
+
+
+	{% for zone in shipping_zone %}
+
+		{% if zone.id in shipping['shipping_zone'] %}
+
+			$("#zone-{{ key }}-{{ zone.id }}").prop("selected", function( i, val) {
+				return !val;
+			});
+
+		{% endif %}
+
+	{% endfor %}
+
+
+	$(document).delegate('#button-filter-{{ key }}', 'click', function(event) {
+
+		var products = [];
+
+		$('input[name=\'shippings[{{ key }}][products][]').each(function(){
+			products.push($(this).val());
+		});
+
+		var categories_check = [];
+
+		$('select[name=\'shippings[{{ key }}][filter][category][]\'] option:selected').each(function(){
+			categories_check.push($(this).val());
+		});
+
+		$.ajax({
+			url: 'index.php?route=extension/module/yandex_marketplace/shipping_dbs/getAjaxProductList&user_token={{ user_token }}',
+			dataType: 'json',
+			data: {
+				"index": 'ajax_filter',
+				"products": products,
+				"category" : categories_check,
+				"model": $('input[name=\'shippings[{{ key }}][filter][model]\']').val(),
+				"price_from": $('input[name=\'shippings[{{ key }}][filter][price_from]').val(),
+				"price_to": $('input[name=\'shippings[{{ key }}][filter][price_to]').val(),
+				"quantity_from": $('input[name=\'shippings[{{ key }}][filter][quantity_from]').val(),
+				"quantity_to": $('input[name=\'shippings[{{ key }}][filter][quantity_to]').val(),
+			},
+			type: 'POST',
+			success: function(json) {
+				if (json) {
+					$('.products-{{key}}').empty();
+					$('.products-{{key}}').append(json['html']);
+				}
+
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			}
+		});
+	});
+
+	$(document).delegate('#tab-product-{{ key }} .pagination a', 'click', function(event) {
+		event.preventDefault();
+
+		var page;
+
+		$($(this).attr('href').split('&')).each(function(e,val){
+
+			if(val.indexOf('key') !== -1 ){
+				var key_filter = val.split('=').pop();
+			}
+
+			if(val.indexOf('page') !== -1 ){
+				page = val.split('=').pop();
+			}
+
+		});
+
+		var products = [];
+
+		$('input[name=\'shippings[{{ key }}][products][]').each(function(){
+			products.push($(this).val());
+		});
+
+		var categories_check = [];
+
+		$('select[name=\'shippings[{{ key }}][filter][category][]\'] option:selected').each(function(){
+			categories_check.push($(this).val());
+		});
+		
+		$.ajax({
+			url: 'index.php?route=extension/module/yandex_marketplace/shipping_dbs/getAjaxProductList&user_token={{ user_token }}',
+			dataType: 'json',
+			data: {
+				"index": 'ajax_filter',
+				'page': page,
+				"products": products,
+				"category" : categories_check,
+				"model": $('input[name=\'shippings[{{ key }}][filter][model]\']').val(),
+				"price_from": $('input[name=\'shippings[{{ key }}][filter][price_from]').val(),
+				"price_to": $('input[name=\'shippings[{{ key }}][filter][price_to]').val(),
+				"quantity_from": $('input[name=\'shippings[{{ key }}][filter][quantity_from]').val(),
+				"quantity_to": $('input[name=\'shippings[{{ key }}][filter][quantity_to]').val(),
+			},
+			type: 'POST',
+			success: function(json) {
+				if (json) {
+					$('.products-{{key}}').empty();
+					$('.products-{{key}}').append(json['html']);
+				}
+
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			}
+		});
+
+	});
+
+</script>
+</div>

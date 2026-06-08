@@ -1,0 +1,371 @@
+{{ header }}{{ column_left }}
+
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="pull-right">
+                <button type="submit" id="save_form" form="form-measoftcourier" value="save" name="action" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary">
+                    <i class="fa fa-save"></i>
+                </button>
+                &nbsp;
+                <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default">
+                    <i class="fa fa-reply"></i>
+                </a>
+            </div>
+            <h1>{{ heading_title }}</h1>
+            <ul class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %}
+                    <li>
+                        <a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="container-fluid">
+        {% if error_warning %}
+            <div class="alert alert-danger">
+                <i class="fa fa-exclamation-circle"></i>
+                {{ error_warning }}
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
+        {% endif %}
+        {% if success %}
+            <div class="alert alert-success">
+                <i class="fa fa-exclamation-circle"></i>
+                {{ success }}
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
+        {% endif %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <i class="fa fa-pencil"></i>
+                    {{ text_edit }}
+                </h3>
+            </div>
+            <div class="panel-body">
+                <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-measoftcourier" class="form-horizontal">
+                    <div class="form-group required">
+                        <label class="col-sm-3 control-label">{{ account_login }}
+                        </label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="shipping_measoftcourier_login" value="{{ shipping_measoftcourier_login }}" id="input-login"/>
+                            {% if error_login %}
+                                <div class="text-danger">{{ error_login }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="form-group required">
+                        <label class="col-sm-3 control-label">{{ account_password }}
+                        </label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="shipping_measoftcourier_password" value="{{ shipping_measoftcourier_password }}" id="input-password"/>
+                            {% if error_password %}
+                                <div class="text-danger">{{ error_password }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="form-group required">
+                        <label class="col-sm-3 control-label">{{ account_extra }}
+                        </label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="shipping_measoftcourier_extra" value="{{ shipping_measoftcourier_extra }}" id="input-extra"/>
+                            {% if error_extra %}
+                                <div class="text-danger">{{ error_extra }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+					
+					<div class="form-group required">
+                        <label class="col-sm-3 control-label">{{ client_code }}
+                        </label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="shipping_measoftcourier_client_code" value="{{ shipping_measoftcourier_client_code }}" id="input-client_code"/ style="width: 20%;display: inline-block;"><input style="display: inline-block;margin-left:10px; display: inline-block;" button id="measoftcourier_auto_client_id" type=button value="{{ auto_client_code }}">
+                            {% if error_client_code %}
+                                <div class="text-danger">{{ error_client_code }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="form-group required">
+                        <label class="col-sm-3 control-label">{{ account_city }}
+                        </label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="shipping_measoftcourier_city" value="{{ shipping_measoftcourier_city }}" id="input-city"/>
+                            {% if error_city %}
+                                <div class="text-danger">{{ error_city }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{ order_prefix }}
+                        </label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="shipping_measoftcourier_order_prefix" value="{{ shipping_measoftcourier_order_prefix }}" id="input-order_prefix"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{ order_fixed_length }}
+                        </label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="shipping_measoftcourier_order_fixed_length" value="{{ shipping_measoftcourier_order_fixed_length ?: 0 }}" id="input-order_fixed_length"/>
+                            <p class="help-block">0 -
+                                {{ text_no_limits }}</p>
+                            <p class="help-block">{{ help_fixed_length }}</p>
+                        </div>
+                    </div>
+
+                    <!-- пвз -->
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{ entry_pvz_title }}
+                        </label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="shipping_measoftcourier_pvz_title" value="{{ shipping_measoftcourier_pvz_title ?: 0 }}" id="input-pvz-title"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{ entry_pvz_description }}
+                        </label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="shipping_measoftcourier_pvz_description" value="{{ shipping_measoftcourier_pvz_description ?: 0 }}" id="input-pvz-description"/>
+                        </div>
+                    </div>
+
+                    <!-- курьер -->
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{ entry_courier_title }}
+                        </label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="shipping_measoftcourier_courier_title" value="{{ shipping_measoftcourier_courier_title ?: 0 }}" id="input-courier-title"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{ entry_courier_description }}
+                        </label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="shipping_measoftcourier_courier_description" value="{{ shipping_measoftcourier_courier_description ?: 0 }}" id="input-courier-description"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{ use_articles }}
+                        </label>
+                        <div class="col-sm-9">
+                            <div class="checkbox">
+                                <label>
+                                    {% if shipping_measoftcourier_use_articles %}
+                                        <input type="checkbox" name="shipping_measoftcourier_use_articles" value="1" id="input-use_articles" checked="checked"/>
+                                    {% else %}
+                                        <input type="checkbox" name="shipping_measoftcourier_use_articles" value="1" id="input-use_articles"/>
+                                    {% endif %}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+					
+					<div class="form-group">
+                        <label class="col-sm-3 control-label">{{ pvz_off }}
+                        </label>
+                        <div class="col-sm-9">
+                            <div class="checkbox">
+                                <label>
+                                    {% if shipping_measoftcourier_pvz_off %}
+                                        <input type="checkbox" name="shipping_measoftcourier_pvz_off" value="1" id="input-pvz_off" checked="checked"/>
+                                    {% else %}
+                                        <input type="checkbox" name="shipping_measoftcourier_pvz_off" value="1" id="input-pvz_off"/>
+                                    {% endif %}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{ entry_default_weight }}</label>
+                        <div class="col-sm-9">
+                           <input class="form-control" type="text" name="shipping_measoftcourier_order_default_weight" value="{{ shipping_measoftcourier_order_default_weight ?: 0.1 }}" id="input-default-weight"/>
+                        </div>
+                    </div>
+
+
+{#
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{ use_for_calculation }}
+                        </label>
+                        <div class="col-sm-9">
+                            <div class="checkbox">
+                                <label>
+                                    {% if shipping_measoftcourier_use_for_calculation %}
+                                        <input type="checkbox" name="shipping_measoftcourier_use_for_calculation" value="1" id="input-use_for_calculation" checked="checked"/>
+                                    {% else %}
+                                        <input type="checkbox" name="shipping_measoftcourier_use_for_calculation" value="1" id="input-use_for_calculation"/>
+                                    {% endif %}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+#}
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{ shipping_rate }}</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="shipping_measoftcourier_shipping_rate" value="{{ shipping_measoftcourier_shipping_rate ?: 1 }}" id="input-shipping_rate"/>
+                            <p class="help-block">{{ text_shipping_rate }}</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{ shipping_add_sum }}</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="shipping_measoftcourier_shipping_add_sum" value="{{ shipping_measoftcourier_shipping_add_sum ?: 0 }}" id="input-shipping_add_sum"/>
+                            <p class="help-block">{{ text_shipping_add_sum }}</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="input-payment-cash">{{ entry_payment_cash }}</label>
+                        <div class="col-sm-9">
+                            <select name="shipping_measoftcourier_payment_cash[]" id="input-payment-cash" class="form-control" multiple="multiple">
+                                <option value="null">{{ text_none }}</option>
+                                {% for method in payment_methods %}
+                                    {% if method.id in shipping_measoftcourier_payment_cash %}
+                                        <option value="{{ method.id }}" selected="selected">{{ method.title }}</option>
+                                    {% else %}
+                                        <option value="{{ method.id }}">{{ method.title }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="input-payment-card">{{ entry_payment_card }}</label>
+                        <div class="col-sm-9">
+                            <select name="shipping_measoftcourier_payment_card[]" id="input-payment-card" class="form-control" multiple="multiple">
+                                <option value="null">{{ text_none }}</option>
+                                {% for method in payment_methods %}
+                                    {% if method.id in shipping_measoftcourier_payment_card %}
+                                        <option value="{{ method.id }}" selected="selected">{{ method.title }}</option>
+                                    {% else %}
+                                        <option value="{{ method.id }}">{{ method.title }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="input-payment-none">{{ entry_payment_none }}</label>
+                        <div class="col-sm-9">
+                            <select name="shipping_measoftcourier_payment_none[]" id="input-payment-none" class="form-control" multiple="multiple">
+                                <option value="null">{{ text_none }}</option>
+                                {% for method in payment_methods %}
+                                    {% if method.id in shipping_measoftcourier_payment_none %}
+                                        <option value="{{ method.id }}" selected="selected">{{ method.title }}</option>
+                                    {% else %}
+                                        <option value="{{ method.id }}">{{ method.title }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{ entry_default_widht }}</label>
+                        <div class="col-sm-9">
+                           <input class="form-control" type="text" name="shipping_measoftcourier_map_width" value="{{ shipping_measoftcourier_map_width ?: 'auto' }}" id="input-default-width"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{ entry_default_height }}</label>
+                        <div class="col-sm-9">
+                           <input class="form-control" type="text" name="shipping_measoftcourier_map_height" value="{{ shipping_measoftcourier_map_height ?: 755 }}" id="input-default-height"/>
+                        </div>
+                    </div>                    
+
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="input-tax-class">{{ entry_tax_class }}</label>
+                        <div class="col-sm-9">
+                            <select name="shipping_measoftcourier_tax_class_id" id="input-tax-class" class="form-control">
+                                <option value="0">{{ text_none }}</option>
+                                {% for tax_class in tax_classes %}
+                                    {% if tax_class.tax_class_id == shipping_measoftcourier_tax_class_id %}
+                                        <option value="{{ tax_class.tax_class_id }}" selected="selected">{{ tax_class.title }}</option>
+                                    {% else %}
+                                        <option value="{{ tax_class.tax_class_id }}">{{ tax_class.title }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="input-status">{{ entry_status }}
+                        </label>
+                        <div class="col-sm-9">
+                            <select name="shipping_measoftcourier_status" id="input-status" class="form-control">
+                                {% if shipping_measoftcourier_status %}
+                                    <option value="1" selected="selected">{{ text_enabled }}
+                                    </option>
+                                    <option value="0">{{ text_disabled }}
+                                    </option>
+                                {% else %}
+                                    <option value="1">{{ text_enabled }}
+                                    </option>
+                                    <option value="0" selected="selected">{{ text_disabled }}
+                                    </option>
+                                {% endif %}
+                            </select>
+                        </div>
+                    </div>
+					<div class="form-group">
+                        <label class="col-sm-3 control-label" for="input-status">{{ entry_disabled_shop }}
+                        </label>
+                        <div class="col-sm-9">						
+						<div class="well well-sm" style="height: 150px; overflow: auto;"> {% for store in stores %}
+							  <div class="checkbox">
+								<label> {% if store.store_id in shipping_measoftcourier_product_store %}
+									<input type="checkbox" name="shipping_measoftcourier_product_store[]" value="{{ store.store_id }}" checked="checked"/>
+									{{ store.name }}
+								  {% else %}
+									<input type="checkbox" name="shipping_measoftcourier_product_store[]" value="{{ store.store_id }}"/>
+									{{ store.name }}
+								  {% endif %} </label>
+							  </div>
+                    {% endfor %}</div>
+						</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="input-geo-zone">{{ entry_geo_zone }}</label>
+                        <div class="col-sm-9">
+                            <select name="shipping_measoftcourier_geo_zone_id" id="input-geo-zone" class="form-control">
+                                <option value="0">{{ text_all_zones }}</option>
+                                {% for geo_zone in geo_zones %}
+                                    {% if geo_zone.geo_zone_id == shipping_measoftcourier_geo_zone_id %}
+                                        <option value="{{ geo_zone.geo_zone_id }}" selected="selected">{{ geo_zone.name }}</option>
+                                    {% else %}
+                                        <option value="{{ geo_zone.geo_zone_id }}">{{ geo_zone.name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="input-sort-order">{{ entry_sort_order }}
+                        </label>
+                        <div class="col-sm-9">
+                            <input type="text" name="shipping_measoftcourier_sort_order" value="{{ shipping_measoftcourier_sort_order }}" placeholder="" id="input-sort-order" class="form-control"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{ footer }}

@@ -1,0 +1,147 @@
+/*
+ * @copyright Copyright &copy; Компания MEAsoft, 2014
+ */
+ .measoftWrapper {
+    margin-top: 20px;
+ }
+ #pvzname {
+    width: 100%;
+}
+#pvz_map_container {
+    left: 0;
+    top: -220px;
+    height: 430px;
+}
+#map_content_block {
+    height: 338px !important;
+}
+.form-group.meamap, .form-group.meamap_admin {
+    /* padding-bottom: 50px !important; */
+    position: relative;
+}
+.form-group.meamap > label, .form-group.meamap_admin > label {
+    position: absolute;
+    width: 100px;
+}
+.form-group.meamap img, .form-group.meamap_admin img {
+    width: 100%;
+}
+.measoftWrapper {
+    top: 20px;
+    display: flex;
+    width: 100%;
+    /* position: absolute; */
+}
+.meamap_admin .measoftWrapper {
+    top: 25px;
+}
+#measoftmapblock {
+    order: 2;
+    width: 30px;
+}
+#open_map_button {
+    width: 30px;
+    height: 100%;
+    position: relative;
+    background-image: url(../../image/measoftcourier/map.png);
+    background-size: 15px;
+    background-position: center;
+    font-size: 0;
+    border: 1px solid #a0a0a0;
+    background-repeat: no-repeat;
+    border-radius: 0;
+}
+#pvzname {
+    order: 1;
+}
+#ks2008_clean_pvz {
+    order: 3;
+    width: 35px;
+    display: flex;
+    align-items: center;
+    border-radius: 0;
+    border-color: #adadad;
+}
+
+
+.measoft-wrapper {
+    position: relative;
+    background: rgba(255,83,14,0.03);
+    border: 1px solid #ddd;
+}
+.measoft-wrapper.process:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,0.8) url(../../image/measoftcourier/ajax-loader.gif) center center no-repeat;
+}
+.measoft-logo {
+    margin: 0 20px;
+    width: 32px
+}
+.measoft-title {
+    margin: 0;
+    padding: 10px 12px 10px 0;
+    font-weight: bold;
+}
+.measoft-content {
+    padding: 12px;
+}
+
+.measoft-wrapper form {
+    overflow: visible;
+}
+.measoft-wrapper form .form-group {
+    padding: 5px;
+    border: none;
+}
+.measoft-wrapper form label {
+    display: block;
+    margin-bottom: 2px;
+}
+.measoft-wrapper form label span {
+    font-weight: bold;
+    font-size: .9em;
+}
+.measoft-wrapper form .from, .measoft-wrapper form .to {
+    text-align: right;
+}
+.measoft-wrapper form input[type="text"] {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+}
+.measoft-wrapper form input[type="submit"] {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+}
+
+.panel-body .measoft-wrapper form input[type="text"] {
+    background: #fff;
+}
+.panel-body .measoft-wrapper form input[type="submit"] {
+    background: #ccc;
+}
+
+.measoft-wrapper.process .loading {
+    display: block;
+}
+.measoft-wrapper .loading, .measoft-wrapper.process .loaded {
+    display: none;
+}
+
+.measoft-form-send {
+    display: none;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dotted #ddd;
+}
+#pvz_map_container {
+    max-height: 440px;
+}

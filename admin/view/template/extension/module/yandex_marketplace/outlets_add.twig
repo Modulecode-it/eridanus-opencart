@@ -1,0 +1,329 @@
+{{ header }}{{ column_left }}
+
+<div id="content">
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="pull-right">
+				<button type="submit" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save" ></i></button>
+        		<a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+			</div>
+			<h1>{{ heading_title_market }}</h1>
+			<ul class="breadcrumb">
+				{% for breadcrumb in breadcrumbs %}
+				<li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	
+	<div class="container-fluid">
+		{% if error_warning %}
+		<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+		{% endif %}
+		{% if success %}
+		<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+		{% endif %}
+		<div class="container-fluid">
+		<div class="panel-body">
+			<div class="row">
+                <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-sale-point" class="form-horizontal">
+                    <div class="col-md-12 sale-add">
+                        <div class="form-group required">
+                            <label class="col-sm-2 control-label" for="input-name">{{ text_outlet_name }}</label>
+                            <div class="col-sm-10">
+                            <input type="text" name="outlet_name" value="{{ outlet_name }}" placeholder="{{ text_outlet_name }}" id="input-name" class="form-control"/>
+                            {% if error_outlet_name %}
+                                <div class="text-danger">{{ error_outlet_name }}</div>
+                            {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="input-type">{{ text_outlet_type }}</label>
+                            <div class="col-sm-5">
+                                <select name="type" id="input-type" class="form-control">
+                                    <option value="DEPOT" selected="selected">Пункт выдачи заказов</option>
+                                    <option value="MIXED">Смешанный тип точки продаж (торговый зал и пункт выдачи заказов)</option>
+                                    <option value="RETAIL">Розничная точка продаж (торговый зал)</option>
+                                </select>
+                            </div> 
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="input-id"><span data-toggle="tooltip" title="{{ help_outlet_id }}">{{ text_outlet_id }}</span></label>
+                            <div class="col-sm-10">
+                            <input type="text" name="outlet_id" value="{{ outlet_id }}" placeholder="{{ text_outlet_id }}" id="input-id" class="form-control"/>
+                            {% if error_outlet_id %}
+                                <div class="text-danger">{{ error_outlet_id }}</div>
+                            {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="input-isMain"><span data-toggle="tooltip" title="{{ help_outlet_isMain }}">{{ text_outlet_is_main }}</span></label>
+                            <div class="col-sm-10">
+                            <input type="checkbox" name="isMain"  id="input-isMain" class="form-control" {% if isMain %} checked {% endif %}/>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">{{ text_outlet_address }}</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="address_city" value="{{ address_city }}" placeholder="Город" id="input-city" class="form-control"/>
+                                {% if error_region_id %}
+                                    <div class="text-danger">{{ error_region_id }}</div>
+                                {% endif %}
+                                <input type="text" name="address_street" value="{{ address_street }}" placeholder="Улица" id="input-street" class="form-control"/>
+                                <input type="text" name="address_number" value="{{ address_number }}" placeholder="Дом" id="input-number" class="form-control"/>
+                                <input type="hidden" name="region_id" value="{{ region_id }}" placeholder="{{ text_outlet_id }}" id="input-region-id" class="form-control"/>
+                                <span class="region-info"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                           <label class="col-sm-2 control-label" for="input-worktime">{{ text_outlet_worktime }}</label>
+                            <div class="row col-sm-10" id="worktime-row">
+                              <div class="sale_worktime_block">  
+                                <div class="col-sm-3">
+                                    <select name="sale_worktime[0][startDay]" id="input-start-workday" class="form-control">
+                                        <option value="MONDAY" selected="selected">Понедельник</option>
+                                        <option value="TUESDAY">Вторник</option>
+                                        <option value="WEDNESDAY">Среда</option>
+                                        <option value="THURSDAY">Четверг</option>
+                                        <option value="FRIDAY">Пятница</option>
+                                        <option value="SATURDAY">Суббота</option>
+                                        <option value="SUNDAY">Воскресенье</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <select name="sale_worktime[0][endDay]" id="input-end-workday" class="form-control">
+                                        <option value="MONDAY">Понедельник</option>
+                                        <option value="TUESDAY">Вторник</option>
+                                        <option value="WEDNESDAY">Среда</option>
+                                        <option value="THURSDAY">Четверг</option>
+                                        <option value="FRIDAY" selected="selected">Пятница</option>
+                                        <option value="SATURDAY">Суббота</option>
+                                        <option value="SUNDAY">Воскресенье</option>
+                                    </select>
+                                </div> 
+                            
+                            
+                                <div class="col-sm-2">
+                                    <input type="time" name="sale_worktime[0][startTime]" placeholder="09:00" id="input-start-worktime" class="form-control"/>
+                                </div> 
+                                <div class="col-sm-2">
+                                    <input type="time" name="sale_worktime[0][endTime]" placeholder="17:00" id="input-end-worktime" class="form-control"/>
+                                </div>
+                                <button type="button" onclick="addWorktime();" data-toggle="tooltip" title="{{ button_attribute_add }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button>
+                            </div>
+                            {% if error_sale_worktime %}
+                                <div class="text-danger">{{ error_sale_worktime }}</div>
+                            {% endif %}
+                           </div> 
+                        </div>
+                        
+                        <div class="form-group deliveryRules">
+                            <label class="col-sm-2 control-label" ><span data-toggle="tooltip" title="{{ help_delivery_rules }}">{{ text_outlet_delivery_rules }}</span></label>
+                            <div class="col-sm-10">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Стоимость</label>
+                                        <div class="col-sm-5">
+                                            <input type="text" name="cost" value="{{ cost }}" placeholder="Стоимость" class="form-control"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Минимальное количество дней доставки</label>
+                                        <div class="col-sm-5">
+                                            <input type="text" name="minDeliveryDays" value="{{ minDeliveryDays }}" placeholder="Минимальное количество дней" class="form-control"/>
+                                            {% if error_min_max_delivery_days %}
+                                            <div class="text-danger">{{ error_min_max_delivery_days }}</div>
+                                            {% endif %}
+                                            {% if error_other_region_delivery_1 %}
+                                                <div class="text-danger">{{ error_other_region_delivery_1 }}</div>
+                                            {% endif %}
+                                            {% if error_other_region_delivery_2 %}
+                                                <div class="text-danger">{{ error_other_region_delivery_2 }}</div>
+                                            {% endif %}
+                                            {% if error_own_region_delivery %}
+                                                <div class="text-danger">{{ error_own_region_delivery }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>    
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Максимальное количество дней доставки</label>
+                                        <div class="col-sm-5">
+                                            <input type="text" name="maxDeliveryDays" value="{{ maxDeliveryDays }}" placeholder="Максимальное количество дней" class="form-control"/>
+                                            {% if error_min_max_delivery_days %}
+                                            <div class="text-danger">{{ error_min_max_delivery_days }}</div>
+                                            {% endif %}
+                                            {% if error_other_region_delivery_1 %}
+                                                <div class="text-danger">{{ error_other_region_delivery_1 }}</div>
+                                            {% endif %}
+                                            {% if error_other_region_delivery_2 %}
+                                                <div class="text-danger">{{ error_other_region_delivery_2 }}</div>
+                                            {% endif %}
+                                            {% if error_own_region_delivery %}
+                                                <div class="text-danger">{{ error_own_region_delivery }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ help_outlet_orderBefore }}">Заказ до</span></label>
+                                        <div class="col-sm-5">
+                                            <input type="text" name="orderBefore" value="{{ orderBefore }}" placeholder="Заказ до (час)" class="form-control orderBefore-field"/>
+                                        </div>
+                                    </div>                                      
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="input-phone"><span data-toggle="tooltip" title="{{ help_outlet_phone }}">{{ text_outlet_phone }}</span></label>
+                            <div class="col-sm-10">
+                                <div class="phone-field-block">
+                                    <input type="text" class="form-control phone-field" name="outlet_phone" value="{{ outlet_phone }}" id="input-phone" placeholder="Номер телефона" data-rule-required="true" data-rule-minlength="10" data-msg="Введите номер телефона"/>
+                                </div>
+                                <div class="phone_additional-block">
+                                    <input type="tel" name="outlet_phone_additional" value="{{ outlet_phone_additional }}" placeholder="123" id="input-phone-additional" class="form-control" pattern="[0-9]{,3}"/>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="input-storagePeriod"><span data-toggle="tooltip" title="{{ help_outlet_storagePeriod }}">{{ text_outlet_storagePeriod }}</span></label>
+                            <div class="col-sm-10">
+                            <input type="text" name="outlet_storagePeriod" value="{{ outlet_storagePeriod }}" placeholder="{{ text_outlet_storagePeriod }}" id="input-storagePeriod" class="form-control"/>
+                            {% if error_storagePeriod %}
+                                <div class="text-danger">{{ error_storagePeriod }}</div>
+                            {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="input-visibility">{{ text_outlet_condition }}</label>
+                            <div class="col-sm-10">
+                            <select name="visibility" id="input-visibility" class="form-control">
+                                <option value="VISIBLE" selected="selected">Включено</option>
+                                <option value="HIDDEN">Отключено</option>
+                            </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+			</div>
+		</div>
+	</div>
+	</div>
+
+</div>
+
+<div id="modal" class="modal" style="display: none;"></div>
+<script src="view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+<link href="view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet" media="screen" />
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.5/jquery.inputmask.min.js"></script>
+
+<script>
+    $( "#input-type" ).change(function() {
+        if($("#input-type").val() == "RETAIL"){
+            $(".deliveryRules").hide();
+        }else{
+            $(".deliveryRules").show();
+        }
+    });
+</script>
+<script>
+$("#input-type").val("{{ type }}"); 
+
+var worktime_row = 1;
+
+function addWorktime(){
+	  html = '<div class="sale_worktime_block" id="worktime-row-' + worktime_row +'">';
+      html+= '    <div class="col-sm-3">';
+      html+= '          <select name="sale_worktime[' + worktime_row + '][startDay]" id="input-start-workday" class="form-control">'
+      html+= '                <option value="MONDAY" selected="selected">Понедельник</option><option value="TUESDAY">Вторник</option><option value="WEDNESDAY">Среда</option><option value="THURSDAY">Четверг</option><option value="FRIDAY">Пятница</option><option value="SATURDAY">Суббота</option><option value="SUNDAY">Воскресенье</option></select></div>';
+      html+= '    <div class="col-sm-3">';
+      html+= '          <select name="sale_worktime[' + worktime_row + '][endDay]" id="input-end-workday" class="form-control">';
+      html+= '                <option value="MONDAY">Понедельник</option><option value="TUESDAY">Вторник</option><option value="WEDNESDAY">Среда</option><option value="THURSDAY">Четверг</option><option value="FRIDAY" selected="selected">Пятница</option><option value="SATURDAY">Суббота</option><option value="SUNDAY">Воскресенье</option></select></div>'; 
+      html+= '<div class="col-sm-2">';
+      html+= '    <input type="time" name="sale_worktime[' + worktime_row + '][startTime]" placeholder="09:00" id="input-start-worktime" class="form-control"/></div>'; 
+      html+= ' <div class="col-sm-2">';
+      html+= ' <input type="time" name="sale_worktime[' + worktime_row + '][endTime]" placeholder="17:00" id="input-end-worktime" class="form-control"/></div><button type="button" onclick="$(\'#worktime-row-' + worktime_row +'\').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></div>';
+
+	  $('#worktime-row').append(html);
+
+	  worktime_row++;
+  }
+  
+  /*$(document).delegate('#input-city', 'keydown', function(event) {
+    $.ajax({
+            url: 'index.php?route=extension/module/yandex_marketplace/outlets/getAjaxRegion&user_token={{ user_token }}',
+            dataType: 'json',
+            data: {
+                "outlet_region": $('input[name=\'address_city\']').val(),
+            },
+            type: 'POST',
+            success: function(json) {
+                if (json) {
+                    $('.region-info').text(json['html']);
+                    $('#input-region-id').val(json['region_id']);
+                    console.log(json['region_id']);
+                }
+
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    });*/ 
+    
+    $('input[name=\'address_city\']').autocomplete({
+	  'source': function(request, response) {
+		  $.ajax({
+			  url: 'index.php?route=extension/module/yandex_marketplace/outlets/getAjaxRegion&user_token={{ user_token }}',
+			  data: {
+                "outlet_region": $('input[name=\'address_city\']').val(),
+                },
+              type: 'POST',
+			  dataType: 'json',
+			  success: function(json) {
+			  console.log();
+			  response($.map(json, function(item) {
+					  return {
+						  label: item['html'],
+						  value: item['region_id']
+					  }
+				  }));
+			  }
+		  });
+	  },
+	  'select': function(item) {
+		  $('#input-city').val(item['label']);
+          $('#input-region-id').val(item['value']);
+          $('.region-info').text(item['label']);
+	  }
+  });
+</script>
+
+<script type="text/javascript">
+    $('.phone-field').inputmask("+7(999)999-99-99");
+    jQuery.validator.addMethod("checkMaskPhone", function(value, element) {
+        return /\+\d{1}\(\d{3}\)\d{3}-\d{4}/g.test(value); 
+    });
+    
+    $('.orderBefore-field').inputmask("99");
+    jQuery.validator.addMethod("checkMaskOrderBefore", function(value, element) {
+        return /\+\d{1}\(\d{3}\)\d{3}-\d{4}/g.test(value); 
+    });
+    
+    $('#input-storagePeriod').inputmask("99");
+    jQuery.validator.addMethod("checkMaskStoragePeriod", function(value, element) {
+        return /\+\d{1}\(\d{3}\)\d{3}-\d{4}/g.test(value); 
+    });
+    
+    var form = $('.form-horizontal');
+    form.validate();
+</script>
+
+{{ footer }}

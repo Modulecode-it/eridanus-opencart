@@ -1,0 +1,261 @@
+{{ header }}{{ column_left }}
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="pull-right">
+                <button type="submit" form="form-affiliate" data-toggle="tooltip" title="{{button_save}}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+                <a href="{{cancel}}" data-toggle="tooltip" title="{{button_cancel}}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+            <h1>{{ heading_title }}</h1>
+            <ul class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %}
+                    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="container-fluid">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+            </div>
+            <div class="panel-body license-text">
+                <!--	<form action="<?php //echo $action}}" method="post" enctype="multipart/form-data" id="form_license"> -->
+                <table class="form">
+                    <tr>
+                        <span class="not-successe hidden" style="color:red";>{{text_not_successe}} </span>
+                    </tr>
+                    <tr>
+                        <td>{{text_license}}</td>
+                        <td style="width: 85%;"><textarea type="text" class="avail_license" placeholder="{{entry_license}}"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="submit" class="button send-license" value="{{button_submit_key}}"></td>
+                    </tr>
+                    <tr>
+
+                        <td colspan="2">{{text_license_abow}}</td>
+                    </tr>
+
+                </table>
+                <!--	</form> -->
+            </div>
+            <div class="success-license hidden">
+                <span>{{text_success_license }}</span>
+            </div>
+
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{text_sometext}}</h3>
+            </div>
+            <div class="panel-body send-letter">
+                <div class="client-form-holder">
+                    <form action="" class="client-form">
+
+
+                        <h4>{{text_purchased}}</h4>
+                        <ol class="wherebuy-list">
+                            <li><label for="wherebuy-radio1">{{text_codecan}}</label><input id="wherebuy-radio1" class="wherebuy-radio"  name="wherebuy_radio" value="{{text_codecan}}" type="radio" required /></li>
+                            <li><label for="wherebuy-radio2">{{text_opencart}}</label><input id="wherebuy-radio2" class="wherebuy-radio"  name="wherebuy_radio" value="{{text_opencart}}" type="radio" required /></li>
+                            <li><label for="wherebuy-radio3">{{text_forumopencart}}</label><input id="wherebuy-radio3" class="wherebuy-radio"  name="wherebuy_radio" value="{{text_forumopencart}}" type="radio" required /></li>
+                            <li><label for="wherebuy-radio4">{{text_myopencart}}</label><input id="wherebuy-radio4" class="wherebuy-radio"  name="wherebuy_radio" value="{{text_myopencart}}" type="radio" required /></li>
+                        </ol>
+                        <div class="holder domain-holder">
+                            <span class="listitem-content-wrapper"><label for="user-data-radio">{{text_purchased}}</label><input id="user-data-radio" name="user_data" type="text" required></span>
+                        </div>
+                        <div class="holder client-mail-holder">
+                            <label for="client-mail">{{text_client_mail}}</label>
+                            <input id="client-mail" name="client_mail" type="text" value="{{client_mail }}" required>
+                        </div>
+                        <div class="holder client-domain-holder">
+                            <label for="client-domain">{{text_domain}}</label>
+                            <input id="client-domain" name="client_domain" type="text" val="" required>
+                        </div>
+                        <div class="holder client-domain-holder">
+                            <label for="client-domain">{{text_comment}}</label>
+                            <textarea name="" id="" cols="30" rows="10"></textarea>
+                        </div>
+                        <button>Send</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <style>
+
+            .panel-default button,.container-fluid input[type="button"],.panel-default input[type="submit"]{
+                background: #1e91cf;
+                border: 1px solid #1978ab;
+                padding: 5px 15px;
+                border-radius: 3px;
+                color: #fff;
+            }
+
+            .panel-default button:hover,.panel-default input[type="button"]:hover,.panel-default input[type="submit"]:hover{
+                background-color: #1872a2;
+                border-color: #115376;
+            }
+
+            input[type="text"], textarea{
+                display: block;
+                height: 35px;
+                padding: 8px 13px;
+                font-size: 12px;
+                line-height: 1.42857;
+                color: #555;
+                background-color: #fff;
+                background-image: none;
+                border: 1px solid #ccc;
+                border-radius: 3px;
+                -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+                box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+                -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+                -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+                transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+            }
+
+            input[type="text"]:focus, textarea:focus{
+                border-color: #66afe9;
+                outline: 0;
+                -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+                box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+            }
+
+            #content textarea{
+                margin-bottom:10px;
+            }
+
+            .client-form ol{
+                padding-left:15px;
+            }
+
+            .client-form .listitem-content-wrapper{
+                display: block;
+            }
+
+            .client-form label{
+                margin-right:10px;
+                margin-bottom:10px;
+                font-family: 'Open Sans', sans-serif !important;
+                font-size: 12px !important;
+                color: #666666 !important;
+            }
+
+            .client-form input[type="radio"]{
+                margin-bottom:-3px;
+            }
+
+            .client-form textarea{
+                width:300px;
+                display: block;
+                margin-bottom:10px;
+            }
+
+            .client-form .holder{
+                max-width:300px;
+                margin-bottom:10px;
+            }
+
+            .client-form .holder:after{
+                content:'';
+                display: block;
+                clear:both;
+            }
+
+            .client-form .holder input[type="text"]{
+                float: right;
+            }
+        </style>
+        <script>
+            $( document ).on( "click", ".send-license", function() {
+                $avail_license = $(".avail_license").val();
+                $.ajax({
+                    url: 'index.php?route=extension/module/avail/addLicense&user_token={{user_token}}', // получаем настройки
+                    type: 'post',
+                    data: 'availl_license='+encodeURIComponent($avail_license),
+                    dataType: 'json',
+                    success:function(json){
+                        if(json == 'true'){
+                            $(".license-text").addClass('hidden');
+                            $(".success-license").removeClass('hidden');
+
+                            setTimeout(function(){ location.reload(); }, 4000);
+                            // console.log(json);
+                        } else {
+                            $(".not-successe").removeClass('hidden');
+                        }
+                    }
+                });
+            });
+        </script>
+        <script>
+            $(function(){
+                $('form.client-form').submit(function(e){
+                    e.preventDefault();
+                    var str = $( this ).serialize();
+                    $.ajax({
+                        url: 'index.php?route=extension/module/avail/requestKey&user_token={{user_token}}', // получаем настройки
+                        type: 'post',
+                        data: str,
+                        dataType: 'json',
+                        success:function(json){
+                            if(json == 'true'){
+                                $('.send-letter').html('{{text_success_send_mail}}');
+                            }
+                        }
+                    });
+                });
+                $('#client-domain').val(window.location.hostname);
+
+                $('form.client-form').change(function(){
+
+                    var radioArtray = Array.prototype.slice.call($('input.wherebuy-radio'));
+
+                    radioArtray.map(function(elem){
+
+                        if($(elem).is(':checked')){
+
+                            switch($(elem).attr('id')){
+                                case 'wherebuy-radio1':
+                                    $('#user-data-radio').prev().text('{{text_purchased}}');
+                                    break;
+                                case 'wherebuy-radio2':
+                                    $('#user-data-radio').prev().text('{{text_opencart_user}}');
+                                    break;
+                                case 'wherebuy-radio3':
+                                    $('#user-data-radio').prev().text('{{text_forumopencart_user}}');
+                                    break;
+                                case 'wherebuy-radio4':
+                                    $('#user-data-radio').prev().text('{{text_payment_numer}}');
+                                    break;
+
+                            };
+
+                            $(elem).prev().css('text-decoration','none');
+
+                        }else{
+
+                            $(elem).prev().css('text-decoration','line-through');
+
+                        }
+                    });
+                });
+            });
+        </script>
+
+
+    </div>
+</div>
+<style>
+    textarea {
+        width: 100%;
+        height: 31px;
+        padding: 5px;
+    }
+</style>
+{{footer}}

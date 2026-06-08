@@ -1,0 +1,37 @@
+<?php
+//Text
+$_['text_title']          	= "Russian Post";
+$_['text_shipping_date']	= " (Shipping date: %s d.)";
+$_['text_0'] 				= 'Simple parcel';
+$_['text_1'] 				= 'Registered post';
+$_['text_2'] 				= 'Custom parcel Grade 1';
+$_['text_3'] 				= 'Valuable parcel';
+$_['text_4'] 				= 'Valuable posting';
+$_['text_5'] 				= 'Valuable air parcel';
+$_['text_6'] 				= 'Valuable air parcel';
+$_['text_7'] 				= 'Valuable parcel Grade 1';
+$_['text_8'] 				= 'EMS';
+$_['text_9'] 				= 'The international bag of M';
+$_['text_10'] 				= 'International air bag of M';
+$_['text_11'] 				= 'international custom bag M';
+$_['text_12'] 				= 'International air bag customized M';
+$_['text_13'] 				= 'International parcel';
+$_['text_14'] 				= 'International aviabanderol';
+$_['text_15'] 				= 'International parcel registered';
+$_['text_16'] 				= 'International aviabanderol registered';
+$_['text_17'] 				= 'The international small package';
+$_['text_18'] 				= 'The international small package of care';
+$_['text_19'] 				= 'The international small package customized';
+$_['text_20'] 				= 'The international small package of customized air';
+$_['text_21'] 				= 'EMS international - documents';
+$_['text_22'] 				= 'EMS International - Products';
+$_['text_23'] 				= 'Courier Online (wholesale customers)';
+$_['text_24'] 			    = 'Sending line (wholesale customers)';
+$_['text_25'] 				= 'Simple letter';
+$_['text_26'] 				= 'Ordered letter';
+$_['text_27'] 				= 'Insured letter';
+$_['text_28'] 				= 'Simple multienvelope';
+$_['text_29'] 				= 'Ordered multienvelope';
+$_['text_30'] 				= 'Simple letter 1 class';
+$_['text_31'] 				= 'Ordered letter 1 class';
+$_['text_32'] 				= 'Insured letter 1 class';

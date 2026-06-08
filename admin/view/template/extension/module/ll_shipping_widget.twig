@@ -1,0 +1,571 @@
+{#
+/**
+ * @author    p0v1n0m <p0v1n0m@gmail.com>
+ * @license   Commercial
+ * @link      https://github.com/p0v1n0m
+ */
+#}
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="float-right">
+        <button type="button" onclick="$('#form').attr('action', '{{ action }}&back'); $('#form').submit()" class="btn btn-success"><i class="fas fa-save"></i> {{ button_apply }}</button>
+        <button type="button" onclick="$('#form').attr('action', '{{ action }}'); $('#form').submit()" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fas fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-light"><i class="fas fa-reply"></i></a>
+      </div>
+      <h1>{{ heading_title }}</h1>
+      <ol class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+          <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fas fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    {% if success %}
+    <div class="alert alert-success alert-dismissible"><i class="fas fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    {% if module_ll_shipping_widget_license %}
+    <div class="card">
+      <div class="card-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form">
+          <ul class="nav nav-tabs">
+            <li class="nav-item active"><a href="#tab-setting" data-toggle="tab" class="nav-link active"><i class="fas fa-cogs"></i> {{ tab_setting }}</a></li>
+            <li class="nav-item"><a href="#tab-variant" data-toggle="tab" class="nav-link"><i class="fas fa-truck"></i> {{ tab_variant }}</a></li>
+            <li class="nav-item"><a href="#tab-product" data-toggle="tab" class="nav-link"><i class="fas fa-picture-o"></i> {{ tab_product }}</a></li>
+            <li class="nav-item"><a href="#tab-position" data-toggle="tab" class="nav-link"><i class="fas fa-sitemap"></i> {{ tab_position }}</a></li>
+            <li class="nav-item"><a href="#tab-support" data-toggle="tab" class="nav-link"><i class="fab fa-opencart"></i> {{ tab_support }}</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="tab-setting">
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{ entry_title }}</label>
+                <div class="col-sm-10">
+                  {% for language in languages %}
+                  <div class="input-group pull-left">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+                    </div>
+                    <input type="text" name="module_ll_shipping_widget_title[{{ language.language_id }}]" value="{{ module_ll_shipping_widget_title[language.language_id] ? module_ll_shipping_widget_title[language.language_id] }}" class="form-control" />
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{ entry_country }}</label>
+                <div class="col-sm-10">
+                  <select name="module_ll_shipping_widget_country_id" class="form-control">
+                    <option value="0" selected="selected">{{ text_select }}</option>
+                    {% for country in countries %}
+                    <option value="{{ country.country_id }}" {% if country.country_id == module_ll_shipping_widget_country_id %}selected="selected"{% endif %}>{{ country.name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{ entry_zone }}</label>
+                <div class="col-sm-10">
+                  <select name="module_ll_shipping_widget_zone_id" class="form-control">
+                    <option value="0" selected="selected">{{ text_none }}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{ entry_city }}</label>
+                <div class="col-sm-10">
+                  <input type="text" name="module_ll_shipping_widget_city" value="{{ module_ll_shipping_widget_city }}" class="form-control" />
+                  <small class="form-text text-muted">{{ help_city }}</small>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{ entry_postcode }}</label>
+                <div class="col-sm-10">
+                  <input type="text" name="module_ll_shipping_widget_postcode" value="{{ module_ll_shipping_widget_postcode }}" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{ entry_product }}</label>
+                <div class="col-sm-10">
+                  <input type="hidden" name="module_ll_shipping_widget_product_id" value="{{ module_ll_shipping_widget_product_id }}" />
+                  <input type="text" name="module_ll_shipping_widget_product" value="{{ module_ll_shipping_widget_product }}" class="form-control" />
+                  <small class="form-text text-muted">{{ help_product }}</small>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{ entry_autodetect }}</label>
+                <div class="col-sm-10">
+                  <select name="module_ll_shipping_widget_autodetect" class="form-control">
+                    <option value="0" selected="selected">{{ text_disabled }}</option>
+                    <option value="geoip" {% if "geoip" == module_ll_shipping_widget_autodetect %}selected="selected"{% endif %}>{{ text_geoip }}</option>
+                    <option value="simple" {% if "simple" == module_ll_shipping_widget_autodetect %}selected="selected"{% endif %}>{{ text_simple }}</option>
+                  </select>
+                  <small class="form-text text-muted">{{ help_autodetect }}</small>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{ entry_autocomplete }}</label>
+                <div class="col-sm-10">
+                  <select name="module_ll_shipping_widget_autocomplete" class="form-control">
+                    <option value="0" selected="selected">{{ text_disabled }}</option>
+                    {% for autocomplete in autocompletes %}
+                    <option value="{{ autocomplete }}" {% if autocomplete == module_ll_shipping_widget_autocomplete %}selected="selected"{% endif %}>{{ attribute(_context, 'text_' ~ autocomplete) }}</option>
+                    {% endfor %}
+                  </select>
+                  <small class="form-text text-muted">{{ help_autocomplete }}</small>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{ entry_method_select }}</label>
+                <div class="col-sm-10">
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    {% if module_ll_shipping_widget_method_select %}
+                    <label class="btn btn-outline-secondary active"><input type="radio" name="module_ll_shipping_widget_method_select" value="1" autocomplete="off" checked="checked">{{ text_enabled }}</label>
+                    <label class="btn btn-outline-secondary"><input type="radio" name="module_ll_shipping_widget_method_select" value="0" autocomplete="off">{{ text_disabled }}</label>
+                    {% else %}
+                    <label class="btn btn-outline-secondary"><input type="radio" name="module_ll_shipping_widget_method_select" value="1" autocomplete="off">{{ text_enabled }}</label>
+                    <label class="btn btn-outline-secondary active"><input type="radio" name="module_ll_shipping_widget_method_select" value="0" autocomplete="off" checked="checked">{{ text_disabled }}</label>
+                    {% endif %}
+                  </div>
+                  <br><small class="form-text text-muted">{{ help_method_select }}</small>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{ entry_method_title }}</label>
+                <div class="col-sm-10">
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    {% if module_ll_shipping_widget_method_title %}
+                    <label class="btn btn-outline-secondary active"><input type="radio" name="module_ll_shipping_widget_method_title" value="1" autocomplete="off" checked="checked">{{ text_enabled }}</label>
+                    <label class="btn btn-outline-secondary"><input type="radio" name="module_ll_shipping_widget_method_title" value="0" autocomplete="off">{{ text_disabled }}</label>
+                    {% else %}
+                    <label class="btn btn-outline-secondary"><input type="radio" name="module_ll_shipping_widget_method_title" value="1" autocomplete="off">{{ text_enabled }}</label>
+                    <label class="btn btn-outline-secondary active"><input type="radio" name="module_ll_shipping_widget_method_title" value="0" autocomplete="off" checked="checked">{{ text_disabled }}</label>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{ entry_country_status }}</label>
+                <div class="col-sm-10">
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    {% if module_ll_shipping_widget_country_status %}
+                    <label class="btn btn-outline-secondary active"><input type="radio" name="module_ll_shipping_widget_country_status" value="1" autocomplete="off" checked="checked">{{ text_enabled }}</label>
+                    <label class="btn btn-outline-secondary"><input type="radio" name="module_ll_shipping_widget_country_status" value="0" autocomplete="off">{{ text_disabled }}</label>
+                    {% else %}
+                    <label class="btn btn-outline-secondary"><input type="radio" name="module_ll_shipping_widget_country_status" value="1" autocomplete="off">{{ text_enabled }}</label>
+                    <label class="btn btn-outline-secondary active"><input type="radio" name="module_ll_shipping_widget_country_status" value="0" autocomplete="off" checked="checked">{{ text_disabled }}</label>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{ entry_zone_status }}</label>
+                <div class="col-sm-10">
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    {% if module_ll_shipping_widget_zone_status %}
+                    <label class="btn btn-outline-secondary active"><input type="radio" name="module_ll_shipping_widget_zone_status" value="1" autocomplete="off" checked="checked">{{ text_enabled }}</label>
+                    <label class="btn btn-outline-secondary"><input type="radio" name="module_ll_shipping_widget_zone_status" value="0" autocomplete="off">{{ text_disabled }}</label>
+                    {% else %}
+                    <label class="btn btn-outline-secondary"><input type="radio" name="module_ll_shipping_widget_zone_status" value="1" autocomplete="off">{{ text_enabled }}</label>
+                    <label class="btn btn-outline-secondary active"><input type="radio" name="module_ll_shipping_widget_zone_status" value="0" autocomplete="off" checked="checked">{{ text_disabled }}</label>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{ entry_postcode_status }}</label>
+                <div class="col-sm-10">
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    {% if module_ll_shipping_widget_postcode_status %}
+                    <label class="btn btn-outline-secondary active"><input type="radio" name="module_ll_shipping_widget_postcode_status" value="1" autocomplete="off" checked="checked">{{ text_enabled }}</label>
+                    <label class="btn btn-outline-secondary"><input type="radio" name="module_ll_shipping_widget_postcode_status" value="0" autocomplete="off">{{ text_disabled }}</label>
+                    {% else %}
+                    <label class="btn btn-outline-secondary"><input type="radio" name="module_ll_shipping_widget_postcode_status" value="1" autocomplete="off">{{ text_enabled }}</label>
+                    <label class="btn btn-outline-secondary active"><input type="radio" name="module_ll_shipping_widget_postcode_status" value="0" autocomplete="off" checked="checked">{{ text_disabled }}</label>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{ entry_description }}</label>
+                <div class="col-sm-10">
+                  <textarea name="module_ll_shipping_widget_description" class="form-control">{{ module_ll_shipping_widget_description ? module_ll_shipping_widget_description }}</textarea>
+                  <small class="form-text text-muted">{{ help_description }}</small>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label text-light bg-success">{{ entry_status }}</label>
+                <div class="col-sm-10">
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    {% if module_ll_shipping_widget_status %}
+                    <label class="btn btn-outline-secondary active"><input type="radio" name="module_ll_shipping_widget_status" value="1" autocomplete="off" checked="checked">{{ text_enabled }}</label>
+                    <label class="btn btn-outline-secondary"><input type="radio" name="module_ll_shipping_widget_status" value="0" autocomplete="off">{{ text_disabled }}</label>
+                    {% else %}
+                    <label class="btn btn-outline-secondary"><input type="radio" name="module_ll_shipping_widget_status" value="1" autocomplete="off">{{ text_enabled }}</label>
+                    <label class="btn btn-outline-secondary active"><input type="radio" name="module_ll_shipping_widget_status" value="0" autocomplete="off" checked="checked">{{ text_disabled }}</label>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="tab-variant">
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{ entry_description }}</label>
+                <div class="col-sm-10">
+                  <table id="descriptions" class="table table-striped table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <td class="text-left">
+                          {{ entry_variant_code }}
+                          <br><small class="form-text text-muted" style="font-weight: normal;">{{ help_variant_code }}</small>
+                        </td>
+                        <td class="text-left">{{ entry_variant_position }}</td>
+                        <td class="text-left">
+                          {{ entry_variant_description }}
+                          <br><small class="form-text text-muted" style="font-weight: normal;">{{ help_variant_description }}</small>
+                        </td>
+                        <td class="text-right"></td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% set row = 0 %}
+                      {% for description in module_ll_shipping_widget_descriptions %}
+                      <tr id="description-row-{{ row }}">
+                        <td class="text-left">
+                          <input type="text" name="module_ll_shipping_widget_descriptions[{{ row }}][code]" value="{{ description.code }}" class="form-control" />
+                        </td>
+                        <td class="text-left">
+                          <select name="module_ll_shipping_widget_descriptions[{{ row }}][position]" class="form-control">
+                            <option value="prepend" {% if "prepend" == description.position %}selected="selected"{% endif %}>{{ text_prepend }}</option>
+                            <option value="append" {% if "append" == description.position %}selected="selected"{% endif %}>{{ text_append }}</option>
+                          </select>
+                        </td>
+                        <td class="text-left">
+                          <textarea name="module_ll_shipping_widget_descriptions[{{ row }}][description]" class="form-control">{{ description.description }}</textarea>
+                        </td>
+                        <td class="text-right">
+                          <button type="button" onclick="$('#description-row-{{ row }}').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>
+                        </td>
+                      </tr>
+                      {% set row = row + 1 %}
+                      {% endfor %}
+                    </tbody>
+                    <tfoot>
+                    <tfoot>
+                      <tr>
+                        <td colspan="4">
+                          <button type="button" onclick="addDescription();" data-toggle="tooltip" title="{{ button_add }}" class="btn btn-success btn-block btn-sm"><i class="fa fa-plus-circle"></i></button>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label text-light bg-success">{{ entry_allowed }}</label>
+                <div class="col-sm-10">
+                  <div class="form-control" style="height: 150px; overflow: auto;">
+                    {% if shippings %}
+                    {% for shipping in shippings %}
+                    <label class="form-check"><input type="checkbox" name="module_ll_shipping_widget_allowed[]" value="{{ shipping.code }}" {% if shipping.code in module_ll_shipping_widget_allowed %}checked="checked"{% endif %} /> {{ shipping.name }}</label>
+                    {% endfor %}
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="tab-product">
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{ entry_selector }}</label>
+                <div class="col-sm-10">
+                  <select name="module_ll_shipping_widget_insert" class="form-control">
+                    <option value="before" {% if "before" == module_ll_shipping_widget_insert %}selected="selected"{% endif %}>{{ text_before }}</option>
+                    <option value="after" {% if "after" == module_ll_shipping_widget_insert %}selected="selected"{% endif %}>{{ text_after }}</option>
+                    <option value="prepend" {% if "prepend" == module_ll_shipping_widget_insert %}selected="selected"{% endif %}>{{ text_prepend }}</option>
+                    <option value="append" {% if "append" == module_ll_shipping_widget_insert %}selected="selected"{% endif %}>{{ text_append }}</option>
+                  </select>
+                  <input type="text" name="module_ll_shipping_widget_selector" value="{{ module_ll_shipping_widget_selector }}" class="form-control" />
+                  <br><small class="form-text text-muted">{{ help_selector }}</small>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{ entry_options }}</label>
+                <div class="col-sm-10">
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    {% if module_ll_shipping_widget_options %}
+                    <label class="btn btn-outline-secondary active"><input type="radio" name="module_ll_shipping_widget_options" value="1" autocomplete="off" checked="checked">{{ text_enabled }}</label>
+                    <label class="btn btn-outline-secondary"><input type="radio" name="module_ll_shipping_widget_options" value="0" autocomplete="off">{{ text_disabled }}</label>
+                    {% else %}
+                    <label class="btn btn-outline-secondary"><input type="radio" name="module_ll_shipping_widget_options" value="1" autocomplete="off">{{ text_enabled }}</label>
+                    <label class="btn btn-outline-secondary active"><input type="radio" name="module_ll_shipping_widget_options" value="0" autocomplete="off" checked="checked">{{ text_disabled }}</label>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{ entry_categories }}</label>
+                <div class="col-sm-10">
+                  <div class="form-control" style="height: 150px; overflow: auto;">
+                    {% if categories %}
+                    {% for category in categories %}
+                      <label class="form-check">
+                        {% if category.category_id in module_ll_shipping_widget_categories %}
+                        <input type="checkbox" name="module_ll_shipping_widget_categories[]" value="{{ category.category_id }}" checked="checked" />
+                        {{ category.name }}
+                        {% else %}
+                        <input type="checkbox" name="module_ll_shipping_widget_categories[]" value="{{ category.category_id }}" />
+                        {{ category.name }}
+                        {% endif %}
+                      </label>
+                    {% endfor %}
+                    {% endif %}
+                  </div>
+                  <div class="btn-group">
+                    <a onclick="$(this).parent().parent().find(':checkbox').prop('checked', true);" class="btn btn-light btn-xs" style="cursor: pointer;">{{ text_select_all }}</a>
+                    <a onclick="$(this).parent().parent().find(':checkbox').prop('checked', false);" class="btn btn-light btn-xs" style="cursor: pointer;">{{ text_unselect_all }}</a>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{ entry_products }}</label>
+                <div class="col-sm-10">
+                  <input type="text" name="products" value="" class="form-control" />
+                  <div id="module_ll_shipping_widget_products" class="form-control" style="height: 150px; overflow: auto;">
+                    {% for product in products %}
+                    <div id="module_ll_shipping_widget_products_{{ product.product_id }}">
+                      <i class="fa fa-minus-circle"></i>
+                      {{ product.name }}
+                      <input type="hidden" name="module_ll_shipping_widget_products[]" value="{{ product.product_id }}" />
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{ entry_customer_group }}</label>
+                <div class="col-sm-10">
+                  <div class="form-control" style="height: 150px; overflow: auto;">
+                    {% if customer_groups %}
+                    {% for customer_group in customer_groups %}
+                      <label class="form-check">
+                        {% if customer_group.customer_group_id in module_ll_shipping_widget_customer_group %}
+                        <input type="checkbox" name="module_ll_shipping_widget_customer_group[]" value="{{ customer_group.customer_group_id }}" checked="checked" />
+                        {{ customer_group.name }}
+                        {% else %}
+                        <input type="checkbox" name="module_ll_shipping_widget_customer_group[]" value="{{ customer_group.customer_group_id }}" />
+                        {{ customer_group.name }}
+                        {% endif %}
+                      </label>
+                    {% endfor %}
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="tab-position">
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{ entry_information }}</label>
+                <div class="col-sm-10">
+                  <select name="module_ll_shipping_widget_information_id" class="form-control">
+                    <option value="0" selected="selected">{{ text_disabled }}</option>
+                    {% if informations %}
+                    {% for information in informations %}
+                    <option value="{{ information.information_id }}" {% if information.information_id == module_ll_shipping_widget_information_id %}selected="selected"{% endif %}>{{ information.title }}</option>
+                    {% endfor %}
+                    {% endif %}
+                  </select>
+                  <small class="form-text text-muted">{{ help_information }}</small>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{ entry_height }}</label>
+                <div class="col-sm-10">
+                  <div class="input-group">
+                    <input type="text" name="module_ll_shipping_widget_height" value="{{ module_ll_shipping_widget_height }}" class="form-control" />
+                    <div class="input-group-append">
+                      <span class="input-group-text">px</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="tab-support">
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{ entry_license }}</label>
+                <div class="col-sm-10">
+                  <input type="hidden" value="{{ host }}" />
+                  <input type="text" name="module_ll_shipping_widget_license" value="{{ module_ll_shipping_widget_license }}" class="form-control" readonly />
+                  <small class="form-text text-muted">{{ text_license }}</small>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{ text_developer }}</label>
+                <div class="col-sm-10"><a href="mailto:{{ email }}" class="btn">{{ email }}</a></div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{ text_site }}</label>
+                <div class="col-sm-10"><a href="{{ site }}" target="_blank" class="btn">{{ site }}</a></div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{ text_module_docs }}</label>
+                <div class="col-sm-10"><a href="{{ module_docs }}" target="_blank" class="btn">{{ module_docs }}</a></div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer">
+        <span class="badge badge-dark">{{ m }}</span>
+        <span class="badge badge-dark">{{ version }}</span>
+      </div>
+    </div>
+    {% else %}
+    <div class="card">
+      <div class="card-header">{{ heading_license }}</div>
+      <div class="card-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form">
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{ entry_license }}</label>
+            <div class="col-sm-10">
+              <input type="hidden" value="{{ host }}" />
+              <input type="text" name="module_ll_shipping_widget_license" value="{{ module_ll_shipping_widget_license }}" class="form-control" />
+              <small class="form-text text-muted">{{ text_license }}</small>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{ text_developer }}</label>
+            <div class="col-sm-10"><a href="mailto:{{ email }}" class="btn">{{ email }}</a></div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{ text_site }}</label>
+            <div class="col-sm-10"><a href="{{ site }}" target="_blank" class="btn">{{ site }}</a></div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{ text_module_docs }}</label>
+            <div class="col-sm-10"><a href="{{ module_docs }}" target="_blank" class="btn">{{ module_docs }}</a></div>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer">
+        <span class="badge badge-dark">{{ m }}</span>
+        <span class="badge badge-dark">{{ version }}</span>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% if module_ll_shipping_widget_license %}
+<script type="text/javascript"><!--
+$('select[name=\'module_ll_shipping_widget_country_id\']').on('change', function() {
+  $.ajax({
+    url: 'index.php?route=localisation/country/country&user_token={{ user_token }}&country_id=' + this.value,
+    dataType: 'json',
+    success: function(json) {
+      html = '';
+
+      if (json['zone'] && json['zone'] != '') {
+        html += '<option value="0" selected="selected">{{ text_select }}</option>';
+
+        for (i = 0; i < json['zone'].length; i++) {
+          html += '<option value="' + json['zone'][i]['zone_id'] + '"';
+
+          if (json['zone'][i]['zone_id'] == '{{ module_ll_shipping_widget_zone_id }}') {
+            html += ' selected="selected"';
+          }
+
+          html += '>' + json['zone'][i]['name'] + '</option>';
+        }
+      } else {
+        html += '<option value="0" selected="selected">{{ text_none }}</option>';
+      }
+
+      $('select[name=\'module_ll_shipping_widget_zone_id\']').html(html);
+    },
+    error: function(xhr, ajaxOptions, thrownError) {
+      alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+    }
+  });
+});
+
+$('select[name=\'module_ll_shipping_widget_country_id\']').trigger('change');
+
+$('input[name=\'module_ll_shipping_widget_product\']').autocomplete({
+  'source': function(request, response) {
+    $.ajax({
+      url: 'index.php?route=catalog/product/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+      dataType: 'json',
+      success: function(json) {
+        response($.map(json, function(item) {
+          return {
+            label: item['name'],
+            value: item['product_id']
+          }
+        }));
+      }
+    });
+  },
+  'select': function(item) {
+    $('input[name=\'module_ll_shipping_widget_product_id\']').val(item['value']);
+    $('input[name=\'module_ll_shipping_widget_product\']').val(item['label']);
+  }
+});
+
+$('input[name=\'products\']').autocomplete({
+  'source': function(request, response) {
+    $.ajax({
+      url: 'index.php?route=catalog/product/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+      dataType: 'json',
+      success: function(json) {
+        response($.map(json, function(item) {
+          return {
+            label: item['name'],
+            value: item['product_id']
+          }
+        }));
+      }
+    });
+  },
+  'select': function(item) {
+    $('input[name=\'products\']').val('');
+    $('#module_ll_shipping_widget_products_' + item['value']).remove();
+    $('#module_ll_shipping_widget_products').append('<div id="module_ll_shipping_widget_products_' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="module_ll_shipping_widget_products[]" value="' + item['value'] + '" /></div>');
+  }
+});
+
+$('#module_ll_shipping_widget_products').delegate('.fa-minus-circle', 'click', function() {
+  $(this).parent().remove();
+});
+
+var row = {{ row }};
+
+function addDescription() {
+  html  = '<tr id="description-row-' + row + '">';
+  html += '  <td class="text-left">';
+  html += '    <input type="text" name="module_ll_shipping_widget_descriptions[' + row + '][code]" value="" class="form-control" />';
+  html += '  </td>';
+  html += '  <td class="text-left">';
+  html += '    <select name="module_ll_shipping_widget_descriptions[' + row + '][position]" class="form-control">';
+  html += '      <option value="prepend">{{ text_prepend }}</option>';
+  html += '      <option value="append">{{ text_append }}</option>';
+  html += '    </select>';
+  html += '  </td>';
+  html += '  <td class="text-left">';
+  html += '    <textarea name="module_ll_shipping_widget_descriptions[' + row + '][description]" class="form-control"></textarea>';
+  html += '  </td>';
+  html += '  <td class="text-right"><button type="button" onclick="$(\'#description-row-' + row  + '\').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+  html += '</tr>';
+
+  $('#descriptions tbody').append(html);
+
+  row++;
+}
+//--></script>
+{% endif %}
+{{ footer }} 

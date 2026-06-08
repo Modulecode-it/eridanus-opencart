@@ -1,0 +1,75 @@
+{{ header }}{{ column_left }}
+<div id="content">
+	<div class="page-header">
+		<div class="container-fluid">
+			<h1>{{ heading_title_market }}</h1>
+		</div>
+	</div>
+	<div class="container-fluid">
+        <div>{{text_success_save}}</div>
+        <div class=" form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-4 control-label" for="input-link"><span data-toggle="tooltip" title="{{ text_field_info_link }}">{{text_field_link}}</span></label>
+                <div class="col-sm-8">
+                    <input name="link" type="text" value="{{link}}" placeholder="" id="input-link" class="form-control" readonly/>
+                </div>
+            </div>
+
+            <div class="form-group" {% if cache_status != '1' %} style="display:none" {% endif %} id="block_cron">
+                <label class="col-sm-4 control-label" for="input-link_cron"><span data-toggle="tooltip" title="{{text_field_info_link_cron}}">{{text_field_link_cron}}</span></label>
+                <div class="col-sm-8">
+                    <input name="link_cron" type="text" value="{{link_cron}}" placeholder="" id="input-link_cron" class="form-control" readonly/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-exclamation-triangle"></i> {{text_error}}</h3>
+      </div>
+      <div class="panel-body">
+        <textarea wrap="off" rows="15" readonly class="form-control">{{ log }}</textarea>
+      </div>
+    </div>
+
+
+    <div class="col-sm-12"><button class="btn btn-success add-ocm-new" id="xml"> {{text_generation}} </batton></div>
+
+    <div class="circ">
+      <div class="load">Loading . . . </div>
+      <div class="hands"></div>
+      <div class="body"></div>
+      <div class="head">
+        <div class="eye"></div>
+      </div>
+    </div>
+</div>
+
+<script>
+    $(document).delegate('#xml', 'click', function(event) {
+      if('{{cache_status}}' == '1'){
+          var url = '{{link_cron}}';
+      } else {
+        var url = '{{link}}';
+      }
+      $.ajax({
+        url: url,
+        dataType: 'html',
+        type: 'POST',
+        beforeSend: function() {
+            $(".circ").css({ 'z-index' : '100'});
+        },
+        complete: function() {
+        $(".circ").css({ 'z-index' : '-1'});
+        },
+        success: function(json) {
+        location.reload();
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+      });
+    });
+  </script>
+{{ footer }}

@@ -1,0 +1,133 @@
+{{ header }}{{ column_left }}
+
+<div id="content">
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="pull-right">
+				<button id="add-shipping" class="btn btn-success add-ocm-new">{{text_add_shipping}}</button>
+				<button type="submit" form="shipping_form" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        		<a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+			</div>
+			<h1>{{ heading_title_market }}</h1>
+			<ul class="breadcrumb">
+				{% for breadcrumb in breadcrumbs %}
+				<li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<div class="container-fluid">
+		<div class="panel panel-default">
+		  <div class="panel-heading">
+			<h3 class="panel-title"><i class="fa fa-list"></i> {{text_edit}}</h3>
+		  </div>
+			<form action="{{ action }}" method="post" enctype="multipart/form-data" id="shipping_form">
+			<input type="hidden" class="active_tab" name="active_tab" value="{{ active_tab }}">
+		  <div class="panel-body">
+			<div class="row">
+			  <div class="col-lg-3 col-md-3 col-sm-12">
+			
+				<div class="list-group">
+				  <div class="list-group-item">
+					<h4 class="list-group-item-heading">{{text_shippings}}</h4>
+				  </div>
+				  <div id="shipping_nav">
+					  
+					  {% for key,shipping in setting.shippings %}
+					  <a href="#shipping-block-{{ key }}" data-key="{{ key }}" class="list-group-item shipping_link {% if tab_errors[key] %} error {% endif %}" id="shipping_number-{{key}}">{{shipping.name}} <i onclick="event.preventDefault(); $(this).tooltip('destroy'); $('#shipping_number-{{ key }}').remove(); $('#shipping-block-{{ key }}').remove(); $(this).remove();" class="fa fa-minus-circle fa-fw pull-right"></i></a>
+					  {% endfor %}
+					  
+				</div>
+				</div>
+			  </div>
+			
+			  <div class="col-lg-9 col-md-9 col-sm-12" id="shipping_tabs_container">
+				 {% if error_warning %}
+					<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					</div>
+				{% endif %}
+				{% if success %}
+				<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+				</div>
+				{% endif %}
+				{% for key,shipping in setting.shippings %}
+				  {% include "/extension/module/yandex_marketplace/shipping_filter_tab.twig" %}
+				{% endfor %}
+			  </div>
+			</div>
+		  </div>
+		</form>
+		</div>
+    </div>
+</div>
+
+<script>
+	$(document).delegate('.shipping_link', 'click', function(e) {
+		e.preventDefault();
+		$('.shipping_nav, .shipping_link').removeClass('active');
+		$('.active_tab').val($(this).data('key'));
+		var shipping_container = $(this).attr('href');
+		$(shipping_container).addClass('active');
+	});
+	
+	$(document).delegate('#add-shipping', 'click', function(event) {
+
+		event.preventDefault();
+
+		var Shippings = [];
+		var new_shipping = 1;
+
+		$('[id^="shipping_number"]').each(function(){ 
+
+			Shippings.push(this.id); 
+
+		});
+		if(Shippings.length){
+			var last_Shippings = Shippings[Shippings.length - 1];
+
+			var last_Shippings_arr = last_Shippings.split('-');
+
+			var new_shipping = Number(last_Shippings_arr[last_Shippings_arr.length - 1]) + Number(1); 
+		}
+		
+		$('.active_tab').val(new_shipping);
+		
+		html = '<a href="#shipping-block-' + new_shipping + '" class="list-group-item shipping_link" data-key="' + new_shipping + '" id="shipping_number-' + new_shipping + '">{{text_shipping}} ' + new_shipping + ' <i onclick="event.preventDefault();  $(this).tooltip(\'destroy\'); $(\'#shipping_number-' + new_shipping + '\').remove(); $(\'#shipping-block-' + new_shipping + '\').remove(); $(this).remove();" class="fa fa-minus-circle fa-fw pull-right"></i></a>';
+		$('[id^="shipping_number"]').removeClass('active');
+		$('[id^="shipping-block"]').removeClass('active');
+
+		$('#shipping_nav').append(html);
+
+		$.ajax({
+			url: 'index.php?route=extension/module/yandex_marketplace/shipping_dbs/addShipping&user_token={{ user_token }}',
+			dataType: 'html',
+			data: {
+				"id": new_shipping
+			},
+			type: 'POST',
+			success: function(html) {
+
+				$('#shipping_tabs_container').append(html);
+				$('#shipping_number-'+new_shipping).click();
+				
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			}
+		});
+
+	});
+	
+	$(document).delegate('.interval-selector a', 'click', function(e) {
+		e.preventDefault();
+		var container = $(this).closest('td');
+		container.find('label').text($(this).text());
+		container.find('input').val($(this).text());
+	});
+</script>
+
+
+
+{{ footer }}

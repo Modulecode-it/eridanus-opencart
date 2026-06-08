@@ -1,0 +1,47 @@
+{
+    "codename": "d_excel_reader_writer",
+    "version": "1.0.5",
+    "name": "Excel Reader Writer",
+    "description": "Excel Reader Writer library, which you can use to export data to an excel spreadsheet and for import.",
+    
+    "author": {
+        "name": "Dreamvention",
+        "email": "info@dreamvention.com",
+        "url": "https://dreamvention.com"
+    },
+    "opencart_version": "2-4",
+    "type": "library",
+	"license": {
+        "type": "free",
+        "url": "https://shopunity.net/licenses/free"
+    },
+    "support": {
+        "email": "support@dreamvention.com",
+        "url": "https://dreamvention.com/support"
+    },
+    "files": [
+		"system/library/d_shopunity/extension/d_excel_reader_writer.json",
+		"system/library/d_excel_reader_writer.php"
+    ],
+    "dirs": [
+        "system/library/d_excel_reader_writer"
+    ],
+    "changelog": [
+        {
+            "version": "1.0.5",
+            "change": "sem var"
+        },
+        {
+            "version": "1.0.4",
+            "change": "Added supported version oc v 3.0.3.1"
+        },
+		{
+            "version": "1.0.3",
+            "change": "Bugs fixed"
+        },
+		{
+            "version": "1.0.0",
+            "change": ""
+        }
+    ]
+}

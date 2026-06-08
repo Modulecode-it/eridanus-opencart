@@ -1,0 +1,730 @@
+{{ header }}{{ column_left }}
+<div id="content">
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="pull-right">
+				<a href="{{ delete }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
+				<button type="submit" form="options" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        		<a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+			</div>
+			<h1>{{ heading_title_market }}</h1>
+			<ul class="breadcrumb">
+				{% for breadcrumb in breadcrumbs %}
+				<li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<div class="container-fluid">
+		  {% if error %}
+			<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error }}
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			</div>
+			{% endif %}
+		{% if success %}
+		<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+		{% endif %}
+		<div class="row">
+		
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title"><i class="fa fa-list"></i>{{ heading_title_market }}</h3>
+				</div>
+				<div class="panel-body">
+					<form class="form-horizontal" action="" method="post" enctype="multipart/form-data" id="options">
+						<ul class="nav nav-tabs">
+							<li class="active"><a href="#tab-settings" data-toggle="tab">{{ tab_settings }}</a></li>
+							<li><a href="#tab-field-mapping" data-toggle="tab">{{ tab_field_mapping }}</a></li>
+							<li><a href="#tab-filter" data-toggle="tab">{{ tab_filter }}</a></li>
+						</ul>
+						<div class="tab-content">
+						{# Таб настроек #}
+							<div class="tab-pane active" id="tab-settings">
+								<div class="form-group required">
+									<label class="col-sm-6 control-label" ><span data-toggle="tooltip" title="{{text_field_info_short_name_shop}}">{{text_field_short_name_shop}}</span></label>
+									<div class="col-sm-6">
+										<input type="text" name="short_name_shop" value="{{ short_name_shop }}" placeholder="" id="input-name" class="form-control" />
+										{% if error_short_name_shop  %}
+											<div class="text-danger">{{ error_short_name_shop  }}</div>
+										{% endif %}
+									</div>
+								</div>
+								<div class="form-group required">
+									<label class="col-sm-6 control-label" for="input-company"><span data-toggle="tooltip" title="{{text_field_info_full_name_company}}">{{text_field_full_name_company}}</span></label>
+									<div class="col-sm-6">
+										<input type="text" name="full_name_company" value="{{ full_name_company }}" placeholder="" id="input-company" class="form-control" />
+										{% if error_full_name_company  %}
+											<div class="text-danger">{{ error_full_name_company }}</div>
+										{% endif %}
+									</div>
+								</div>
+								<div class="form-group required">
+									<label class="col-sm-6 control-label" for="input-currencies">{{text_field_currency}}</label>
+									<div class="col-sm-6">
+										<select name="currency" id="input-currency" class="form-control">
+											{% for curr in currencies %}
+												<option value="{{ curr.code }}" {% if curr.code == currency %} selected="selected" {% endif %}>{{ curr.title }}</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
+								<div class="form-group required">
+									<label class="col-sm-6 control-label" for="input-name-fid">{{text_field_name_fid}}</label>
+									<div class="col-sm-6">
+										<input type="text" name="name" value="{{ name }}" placeholder="" id="input-name-fid" class="form-control" />
+										{% if error_name_fid  %}
+											<div class="text-danger">{{ error_name_fid }}</div>
+										{% endif %}
+									</div>
+								</div>
+								<div class="form-group required">
+									<label class="col-sm-6 control-label" for="input-name-file"><span data-toggle="tooltip" title="{{text_field_info_name_file}}">{{text_field_name_file}}</span></label>
+									<div class="col-sm-6">
+									<input type="text" name="name_file" value="{{ name_file }}" placeholder="" id="input-name-file" class="form-control" />
+									{% if error_name_file  %}
+										<div class="text-danger">{{ error_name_file }}</div>
+									{% endif %}
+									{% if error_name_file_lat  %}
+										<div class="text-danger">{{ error_name_file_lat }}</div>
+									{% endif %}
+									</div>
+								</div>
+								<div class="form-group required">
+									<label class="col-sm-6 control-label" for="input-offer-id">Offer ID</label>
+									<div class="col-sm-6">
+										<select name="offer_id" id="input-offer-id" class="form-control">
+											{% for variabile in offer_variability %}
+												<option value="{{ variabile }}" {% if variabile == offer_id %} selected="selected" {% endif %}>{{ variabile }}</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-6 control-label" for="input-name-oldprice"><span data-toggle="tooltip" title="{{ text_field_info_oldprice }}">{{text_field_oldprice}}</span></label>
+									<div class="col-sm-6">
+										<input type="checkbox" name="oldprice" value="1" id="input-name-field_oldprice" class="form-control" {% if oldprice  %} checked	{% endif %}/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-6 control-label" for="input-name-file"><span data-toggle="tooltip" title="{{ text_field_info_enable_auto_discounts }}">{{text_field_enable_auto_discounts}}</span></label>
+									<div class="col-sm-6">
+										<input type="checkbox" name="enable_auto_discounts" value="1" id="input-name-enable_auto_discounts" class="form-control" {% if enable_auto_discounts  %} checked {% endif %}/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-6 control-label" for="input-image">{{text_field_image}}</label>
+									<div class="col-sm-6">
+											<input type="radio" name="image" value="all" {% if image =='all' %} checked {% endif %}/> {{text_field_all}}
+											<input type="radio" name="image" value="main" {% if image == 'main' %} checked {% endif %}/> {{text_field_main}}
+											<input type="radio" name="image" value="not" {% if image == 'not' %} checked {% endif %}/> {{text_field_not_unload}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-6 control-label" for="input-currencies">{{text_field_type_work}}</label>
+									<div class="col-sm-6">
+										{% if cache_status == '1' %}
+											<select name="cache_status" id="cache_status" class="form-control">
+												<option value="0" >{{text_field_type_work_not_cache}}</option>
+												<option value="1" selected="selected">{{text_field_type_work_cache}}</option>
+											</select>
+										{% else %}
+											<select name="cache_status" id="cache_status" class="form-control">
+												<option value="0" selected="selected">{{text_field_type_work_not_cache}}</option>
+												<option value="1" >{{text_field_type_work_cache}}</option>
+											</select>
+										{% endif %}
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-6 control-label" for="input-log">{{text_field_log}}</label>
+									<div class="col-sm-6">
+										<input type="checkbox" name="log" value="1" id="input-log" class="form-control" {% if log  %} checked {% endif %}/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-6 control-label" for="input-link"><span data-toggle="tooltip" title="{{ text_field_info_link }}">{{text_field_link}}</span></label>
+									<div class="col-sm-6">
+											<input name="link" type="text" value="{{link}}" placeholder="" id="input-link" class="form-control" readonly/>
+									</div>
+								</div>
+								<div class="form-group" {% if cache_status != '1' %} style="display:none" {% endif %} id="block_cron">
+									<label class="col-sm-6 control-label" for="input-link_cron"><span data-toggle="tooltip" title="{{text_field_info_link_cron}}">{{text_field_link_cron}}</span></label>
+									<div class="col-sm-6">
+										<input name="link_cron" type="text" value="{{link_cron}}" placeholder="" id="input-link_cron" class="form-control" readonly/>
+									</div>
+								</div>
+
+								{% if delivery_options_main != '' %}
+
+									<div class="form-group">
+									<label class="col-sm-2 control-label">{{text_delivery}}</label>
+
+									{% for key_options, options in delivery_options_main %}
+
+										{% if key_options != '1' %}
+											<div class="col-sm-2">
+												<button type="button" onclick="$(this).tooltip('destroy'); $('#delivery-options-{{key_options}}').prev().remove(); $('#delivery-options-{{key_options}}').remove();" data-toggle="tooltip" title="" class="btn btn-danger" data-original-title="{{ text_delete }}"><i class="fa fa-minus-circle"></i></button>
+											</div>
+										{% endif %}
+
+										<div class="col-sm-10" id='delivery-options-{{key_options}}'>
+											<div class="col-sm-12"><input name="delivery_options_main[{{key_options}}][delivery_options_cost]" value='{{ options.delivery_options_cost}}'>{{text_delivery_options_cost}}</div>
+											<div class="col-sm-12"><input name="delivery_options_main[{{key_options}}][delivery_options_days]" value='{{ options.delivery_options_days}}'>{{text_delivery_options_days}}</div>
+											<div class="col-sm-12"><input name="delivery_options_main[{{key_options}}][delivery_options_order_before]" value='{{ options.delivery_options_order_before}}'> {{text_delivery_options_order_before}}</div>
+										</div>
+										<div></div>
+
+									{% endfor %}
+
+										<div class="col-sm-12 button-block">
+											<div class="col" style="float: inline-end;">
+												<button id="add-delivery" data-delivery='1' class="btn btn-success add-ocm-new">{{text_add_delivery}}</button>
+											</div>
+										</div>
+									</div>
+
+									
+								{% else %}
+
+									<div class="form-group">
+										<label class="col-sm-2 control-label">{{text_delivery}}</label>
+										<div class="col-sm-10" id='delivery-options-1'>
+											<div class="col-sm-12"><input name="delivery_options_main[1][delivery_options_cost]" >{{text_delivery_options_cost}}</div>
+											<div class="col-sm-12"><input name="delivery_options_main[1][delivery_options_days]">{{text_delivery_options_days}}</div>
+											<div class="col-sm-12"><input name="delivery_options_main[1][delivery_options_order_before]"> {{text_delivery_options_order_before}}</div>
+										</div>
+										<div></div>
+
+
+										<div class="col-sm-12 button-block">
+											<div class="col" style="float: inline-end;">
+												<button id="add-delivery" class="btn btn-success add-ocm-new">{{text_add_delivery}}</button>
+											</div>
+										</div>
+									</div>
+
+								{% endif %}
+
+								{% if error_main_delivery  %}
+									<div class="text-danger">{{ error_main_delivery  }}</div>
+								{% endif %}
+
+
+								<div class="form-group">
+									<label class="col-sm-2 control-label">{{text_pickup}}</label>
+									<div class="col-sm-10">
+										<div class="col-sm-12"><input name="pickup_options[pickup_options_cost]" value='{{ pickup_options.pickup_options_cost}}'> {{text_pickup_options_cost}}</div>
+										<div class="col-sm-12"><input name="pickup_options[pickup_options_days]" value='{{ pickup_options.pickup_options_days}}'> {{text_pickup_options_days}}</div>
+										<div class="col-sm-12"><input name="pickup_options[pickup_options_order_before]" value='{{ pickup_options.pickup_options_order_before}}'>{{text_pickup_options_order_before}}</div>
+									</div>
+								</div>
+	
+							</div>
+							{# Таб настроек #}
+
+							{# Таб сопоставление полей #}
+							<div class="tab-pane" id="tab-field-mapping">
+								<div class="form-group">
+									<label class="col-sm-6 control-label">{{text_field_type_offer}}</label>
+									<div class="col-sm-6">
+										<select name="type" id="select-type" class="form-control">
+											<option value="0" selected="selected">{{text_field_type_offer_zero}}</option>
+											<option value="arbitrary" {% if type == 'arbitrary' %} selected="selected" {% endif %}>{{text_field_type_arbitrary}}</option>
+											<option value="simplified" {% if type == "simplified" %} selected="selected" {% endif %}>{{text_field_type_simplified}}</option>
+											<option value="medicine" {% if type == "medicine" %} selected="selected" {% endif %}>{{text_field_type_medicine}}</option>
+											<option value="books" {% if type == "books" %} selected="selected" {% endif %}>{{text_field_type_books}}</option>
+											<option value="musicVideo" {% if type == "musicVideo" %} selected="selected" {% endif %}>{{text_field_type_musicVideo}}</option>
+											<option value="eventTickets" {% if type == "eventTickets" %} selected="selected" {% endif %}>{{text_field_type_eventTickets}}</option>
+											<option value="tours" {% if type == "tours" %} selected="selected" {% endif %}>{{ text_field_type_tours }}</option>
+											<option value="alcohol" {% if type == "alcohol" %} selected="selected" {% endif %}>{{text_field_type_alcohol}}</option>
+											<option value="audiobooks" {% if type == "audiobooks" %} selected="selected" {% endif %}>{{text_field_type_audiobooks}}</option>
+										</select>
+									</div>
+								</div>
+
+								{% if error_type  %}
+									<div class="text-danger" style="text-align: right;">{{ error_type }}</div>
+								{% endif %}
+
+								<div id="format-form">
+									{{ format_form }}
+								</div>
+							</div>
+							{# Таб сопоставление полей #}
+
+							{# Таб фильтров #}
+							<div class="tab-pane tab-content" id="tab-filter">
+							{% if filtres %}
+								<div class="col-sm-2">
+									<ul class="nav nav-tabs">
+										{% for key,filte in filtres %}
+											<li class="  {% if key == '1' %} active  {% endif %} filter_tab" id="filter_number-{{key}}"><a href="#filter-block-{{key}}" data-toggle="tab">{{filte.filter_name}}</a>
+											<button type="button" onclick="$(this).tooltip('destroy'); $('#filter_number-{{ key }}').remove(); $('#filter-block-{{ key }}').remove(); $(this).remove();" data-toggle="tooltip" title="" class="btn btn-danger pull-right" data-original-title="{{text_delete}}"><i class="fa fa-minus-circle"></i></button>
+											</li>
+										{% endfor %}
+									</ul>
+									<button id="add-filter" class="btn btn-success add-ocm-new">{{text_add_new_filter}}</button>
+								</div>
+								{% for key,filte in filtres %}
+									<div class="col-sm-10 tab-pane {% if key == '1' %} active {% endif %}" id="filter-block-{{key}}">
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label">{{text_filter_name}}</label>
+											<div class="col-sm-10">
+												<input type="text" name='filtres[{{key}}][filter_name]' value="{{filte.filter_name}}">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">{{entry_category}}</label>
+											<div class="col-sm-10">
+											<div>
+												<label class="radio-inline">
+													<input type="radio" {{ (yandex_market_category_all ? ' checked="checked"' : '') }}
+														class="yandex_market_category_tree_switcher"
+														name="filtres[{{key}}][yandex_market_category_all]" value="on"/> {{text_field_upload_all}}
+												</label>
+											</div>
+											<div>
+												<label class="radio-inline">
+													<input type="radio" {{ (not yandex_market_category_all ? ' checked="checked"' : '') }}
+														class="yandex_market_category_tree_switcher"
+														name="filtres[{{key}}][yandex_market_category_all]" value=""/> {{text_field_upload_selected}}
+												</label>
+											</div>
+											<div class="panel panel-default yandex-money-market-category-tree {{ (yandex_market_category_all ? 'yandex-money-market-hidden-element' : '') }}">
+												<div class="tree-panel-heading tree-panel-heading-controls clearfix">
+													<div class="tree-actions pull-right">
+														<a onclick="return false;" class="btn btn-default catTreeHideCatAll">
+															<i class="fa fa-minus-square-o"></i> {{ market_sv_all }}
+														</a>
+														<a onclick="return false;" class="btn btn-default catTreeShowCatAll">
+															<i class="fa fa-plus-square-o "></i> {{ market_rv_all }}
+														</a>
+														<a onclick="return false;" class="btn btn-default catTreeCheckCatAll">
+															<i class="fa fa-check-square-o"></i> {{ market_ch_all }}
+														</a>
+														<a onclick="return false;" class="btn btn-default catTreeUncheckCatAll">
+															<i class="fa fa-square-o "></i> {{ market_unch_all }}
+														</a>
+													</div>
+												</div>
+												<ul id="categoryTree" class="tree">
+													{{ filte.market_cat_tree }}
+												</ul>
+											</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">{{text_field_name_manufacturer}}</label>
+											<div class="col-sm-10">
+												<div class="panel panel-default">	
+													<ul>
+														{% for manufacturer in manufacturers %}
+															<li>
+																<span>
+																	<label>
+																		<input type="checkbox" name="filtres[{{key}}][manufacturers_selected][]" value="{{manufacturer.manufacturer_id}}" {% if manufacturer.manufacturer_id in filte.manufacturers_selected %} checked {% endif %}>
+																		{{manufacturer.name}}
+																	</label>
+																</span>
+															</li>
+														{% endfor %}
+													</ul>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label">{{text_field_name_price}}</label>
+											<div class="col-sm-10">
+												{{text_field_from}} <input type="checbox" name="filtres[{{key}}][price_to]" value="{{filte.price_to}}"> {{text_field_to}} <input type="checbox" name="filtres[{{key}}][price_from]" value="{{filte.price_from}}">
+											</div>
+										</div>
+
+										<div class="form-group" id="availability-status">
+											<label class="col-sm-2 control-label">{{text_field_availability_status}}</label>
+											<div class="col-sm-10">
+												<input name="filtres[{{key}}][availability]" type="radio" value="all"
+												{% if filte.availability == 'all' %} checked {% endif %}> {{text_field_all}}
+												<input name="filtres[{{key}}][availability]" type="radio" value="in_stock" {% if filte.availability == 'in_stock' %} checked {% endif %}> {{text_field_only_presence}}
+												<input name="filtres[{{key}}][availability]" type="radio" value="stock-status-type" {% if filte.availability == 'stock-status-type' %} checked {% endif %} id="stock-status-type"> {{text_field_only_presence_and_status}}
+											</div>
+										</div>
+
+										<div class="form-group" id="stock-status-block" style="display: none;">
+											<label class="col-sm-2 control-label">{{text_field_stock_status}}</label>
+											<div class="col-sm-10">
+												<select name="filtres[{{key}}][availability_status_id]" id="input-stock-status" class="form-control">
+													{% for stock_status in stock_statuses %}
+														{% if stock_status.stock_status_id == stock_status_id %}
+															<option value="{{ stock_status.stock_status_id }}" selected="selected">{{ stock_status.name }}</option>
+														{% else %}
+															<option value="{{ stock_status.stock_status_id }}">{{ stock_status.name }}</option>
+														{% endif %}
+													{% endfor %}
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label">{{text_delivery}}</label>
+											{% for key_d,delivery_option in filte.delivery_options %}
+
+												{% if key_d != '1' %}
+													<div class="col-sm-2">
+														<button type="button" onclick="$(this).tooltip('destroy'); $('#delivery-options-{{key_d}}').prev().remove(); $('#delivery-options-{{key_d}}').remove();" data-toggle="tooltip" title="" class="btn btn-danger" data-original-title="{{ text_delete }}"><i class="fa fa-minus-circle"></i></button>
+													</div>
+												{% endif %}
+												<div class="col-sm-10" id='delivery-options-{{key_d}}'>
+													<div class="col-sm-12"><input name="filtres[{{ key }}][delivery_options][{{key_d}}][delivery_options_cost]" value="{{ delivery_option.delivery_options_cost }}"> {{text_delivery_options_cost}}</div>
+													<div class="col-sm-12"><input name="filtres[{{ key }}][delivery_options][{{key_d}}][delivery_options_days]" value="{{ delivery_option.delivery_options_days }}"> {{text_delivery_options_days}}</div>
+													<div class="col-sm-12"><input name="filtres[{{ key }}][delivery_options][{{key_d}}][delivery_options_order_before]" value="{{ delivery_option.delivery_options_order_before }}">{{ text_delivery_options_order_before}}</div>
+												</div>
+												<div></div>
+											{% endfor %}
+
+											<div class="col-sm-12 button-block">
+												<div class="col" style="float: inline-end;">
+													<button id="add-delivery" class="btn btn-success add-ocm-new">{{text_add_delivery}}</button>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label">{{text_pickup}}</label>
+											<div class="col-sm-10">
+												<div class="col-sm-12"><input name="filtres[{{key}}][pickup_options][pickup_options_cost]}" value='{{filte['pickup_options']['pickup_options_cost']}}'>{{text_pickup_options_cost}}</div>
+												<div class="col-sm-12"><input name="filtres[{{key}}][pickup_options][pickup_options_days]" value='{{filte['pickup_options']['pickup_options_days']}}'>{{text_pickup_options_days}}</div>
+												<div class="col-sm-12"><input name="filtres[{{key}}][pickup_options][pickup_options_order_before]" value='{{filte['pickup_options']['pickup_options_order_before']}}'> {{text_pickup_options_order_before}}</div>
+											</div>
+										</div>
+									</div>
+
+								{% endfor %}
+							
+							{% else %}
+								<div class="col-sm-2">
+										<ul class="nav nav-tabs">
+											<li class="active filter_tab" id="filter_number-1"><a href="#filter-block-1" data-toggle="tab">{{text_filter}} 1</a></li>
+										</ul>
+										<button id="add-filter" class="btn btn-success add-ocm-new">{{text_add_new_filter}}</button>
+									</div>
+
+									<div class="col-sm-10 tab-pane active" id="filter-block-1">
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label">{{text_filter_name}}</label>
+											<div class="col-sm-10">
+												<input type="text" name='filtres[1][filter_name]'>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label">{{entry_category}}</label>
+											<div class="col-sm-10">
+											<div>
+												<label class="radio-inline">
+													<input type="radio" {{ (yandex_market_category_all ? ' checked="checked"' : '') }}
+														class="yandex_market_category_tree_switcher"
+														name="filtres[1]['yandex_market_category_all']" value="on"/> {{text_field_upload_all}}
+												</label>
+											</div>
+											<div>
+												<label class="radio-inline">
+													<input type="radio" {{ (not yandex_market_category_all ? ' checked="checked"' : '') }}
+														class="yandex_market_category_tree_switcher"
+														name="filtres[1][yandex_market_category_all]" value=""/> {{text_field_upload_selected}}
+												</label>
+											</div>
+											<div class="panel panel-default yandex-money-market-category-tree {{ (yandex_market_category_all ? 'yandex-money-market-hidden-element' : '') }}">
+												<div class="tree-panel-heading tree-panel-heading-controls clearfix">
+													<div class="tree-actions pull-right">
+														<a onclick="return false;" class="btn btn-default catTreeHideCatAll">
+															<i class="fa fa-minus-square-o"></i> {{ market_sv_all }}
+														</a>
+														<a onclick="return false;" class="btn btn-default catTreeShowCatAll">
+															<i class="fa fa-plus-square-o "></i> {{ market_rv_all }}
+														</a>
+														<a onclick="return false;" class="btn btn-default catTreeCheckCatAll">
+															<i class="fa fa-check-square-o"></i> {{ market_ch_all }}
+														</a>
+														<a onclick="return false;" class="btn btn-default catTreeUncheckCatAll">
+															<i class="fa fa-square-o "></i> {{ market_unch_all }}
+														</a>
+													</div>
+												</div>
+												<ul id="categoryTree" class="tree">
+													{{ market_cat_tree }}
+												</ul>
+											</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">{{text_field_name_manufacturer}}</label>
+											<div class="col-sm-10">
+												<div class="panel panel-default">	
+													<ul>
+														{% for manufacturer in manufacturers %}
+															<li>
+																<span>
+																	<label>
+																		<input type="checkbox" name="filtres[1][manufacturers_selected][]" value="{{manufacturer.manufacturer_id}}">
+																		{{manufacturer.name}}
+																	</label>
+																</span>
+															</li>
+														{% endfor %}
+													</ul>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label">{{text_field_name_price}}</label>
+											<div class="col-sm-10">
+												{{text_field_from}} <input type="checbox" name="filtres[1][price_to]" value=""> {{text_field_to}} <input type="checbox" name="filtres[1][price_from]" value="">
+											</div>
+										</div>
+
+										<div class="form-group" id="availability-status">
+											<label class="col-sm-2 control-label">{{text_field_availability_status}}</label>
+											<div class="col-sm-10">
+												<input name="filtres[1][availability]" type="radio" value="all"> {{text_field_all}}
+												<input name="filtres[1][availability]" type="radio" value="in_stock" selected> {{text_field_only_presence}}
+												<input name="filtres[1][availability]" type="radio" value="stock-status-type" id="stock-status-type"> {{text_field_only_presence_and_status}}
+											</div>
+										</div>
+
+										<div class="form-group" id="stock-status-block" style="display: none;">
+											<label class="col-sm-2 control-label">{{text_field_stock_status}}</label>
+											<div class="col-sm-10">
+												<select name="filtres[1][availability_status_id]" id="input-stock-status" class="form-control">
+													{% for stock_status in stock_statuses %}
+														{% if stock_status.stock_status_id == stock_status_id %}
+															<option value="{{ stock_status.stock_status_id }}" selected="selected">{{ stock_status.name }}</option>
+														{% else %}
+															<option value="{{ stock_status.stock_status_id }}">{{ stock_status.name }}</option>
+														{% endif %}
+													{% endfor %}
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label">{{text_delivery}}</label>
+											<div class="col-sm-10" id='delivery-options-1'>
+												<div class="col-sm-12"><input name="filtres[1][delivery_options][1][delivery_options_cost]">{{text_delivery_options_cost}}</div>
+												<div class="col-sm-12"><input name="filtres[1][delivery_options][1][delivery_options_days]">{{text_delivery_options_days}}</div>
+												<div class="col-sm-12"><input name="filtres[1][delivery_options][1][delivery_options_order_before]"> {{text_delivery_options_order_before}}</div>
+											</div>
+											<div></div>
+
+
+											<div class="col-sm-12 button-block">
+												<div class="col" style="float: inline-end;">
+													<button id="add-delivery" class="btn btn-success add-ocm-new">{{text_add_delivery}}</button>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label">{{text_pickup}}</label>
+											<div class="col-sm-10">
+												<div class="col-sm-12"><input name="filtres[1][pickup_options][pickup_options_cost]"> {{text_pickup_options_cost}}</div>
+												<div class="col-sm-12"><input name="filtres[1][pickup_options][pickup_options_days]"> {{text_pickup_options_days}}</div>
+												<div class="col-sm-12"><input name="filtres[1][pickup_options][pickup_options_order_before]">{{text_pickup_options_order_before}}</div>
+											</div>
+										</div>
+									</div>
+
+							{% endif %}
+
+
+								</div>
+							{# Таб фильтров #}
+						</div>
+					</form>  
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script>
+	$(document).delegate('#select-type', 'change', function() {
+		var element = $(this);
+		$.ajax({
+			url: 'index.php?route=extension/module/yandex_marketplace/yandex_market/selectType&user_token={{ user_token }}',
+			dataType: 'html',
+			data: {
+				source: element.val()
+			},
+			type: 'POST',
+			success: function(json) {
+				$("#format-form").empty();
+				$("#format-form").append(json);
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			}
+		});
+	});
+	$(document).delegate('.source_select', 'change', function() {
+		var element = $(this);
+		$.ajax({
+			url: 'index.php?route=extension/module/yandex_marketplace/getSourceFields&user_token={{ user_token }}',
+			dataType: 'json',
+			data: {
+				source: element.val()
+			},
+			type: 'POST',
+			success: function(json) {
+				
+				if (json['success'] && json['success']['fields']) {
+					var html = "";
+					json['success']['fields'].forEach(function(field, index, array) {
+						html += '<option value="' + field['key'] + '">' + field['name'] + '</option>';
+					});
+					var field_key = element.data('field_key');
+					$('#' + field_key + ' .val').html(html);
+				}
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			}
+		});
+	});
+	
+	function marketCategoryClickHandler() {
+        $(this).closest('li').find('input[type="checkbox"]').prop('checked', $(this).prop('checked'));
+    }
+	function marketAllCategoriesChangeHandler() {
+		var full_filter_id = $('[id^="filter-block"].active').attr('id');
+		if ($(this).val() === 'on') {
+            $(this).closest('#' + full_filter_id).find('.yandex-money-market-category-tree').slideUp();
+        } else {
+            $(this).closest('#' + full_filter_id).find('.yandex-money-market-category-tree').slideDown();
+        }
+    }
+    function catTreeHideCatAll() {
+        $(this).closest('.yandex-money-market-category-tree').find('ul.yandex_market_category_tree_branch').each(function () {
+            $(this).slideUp();
+        });
+    }
+    function catTreeShowCatAll() {
+        $(this).closest('.yandex-money-market-category-tree').find('ul.yandex_market_category_tree_branch').each(function () {
+            $(this).slideDown();
+        });
+    }
+    function catTreeCheckCatAll() {
+        $(this).closest('.yandex-money-market-category-tree').find('input[type=checkbox]').each(function () {
+            $(this).prop("checked", true);
+        });
+    }
+    function catTreeUncheckCatAll() {
+        $(this).closest('.yandex-money-market-category-tree').find('input[type=checkbox]').each(function () {
+            $(this).prop("checked", false);
+        });
+    }
+	 document.addEventListener('DOMContentLoaded', function () {
+        $('#tab-filter').on('change', '.yandex_market_category_tree_switcher', marketAllCategoriesChangeHandler)
+            .on('click', '.yandex-money-market-category-tree input[type="checkbox"]', marketCategoryClickHandler)
+            .on('click', '.catTreeHideCatAll', catTreeHideCatAll)
+            .on('click', '.catTreeShowCatAll', catTreeShowCatAll)
+            .on('click', '.catTreeCheckCatAll', catTreeCheckCatAll)
+            .on('click', '.catTreeUncheckCatAll', catTreeUncheckCatAll);
+    });
+	$(document).delegate('#availability-status input', 'change', function() {
+		$('#stock-status-block').css('display', 'none');
+		if ($('#stock-status-type').prop('checked')){
+			$('#stock-status-block').css('display', 'block');
+		}
+	});
+
+$(document).delegate('#add-delivery', 'click', function(event) {
+		
+	event.preventDefault();
+	var IDs = [];
+	$(this).closest('.form-group').find('[id^="delivery-options"]').each(function(){ 
+		IDs.push(this.id); 
+	});
+	var last = IDs[IDs.length - 1];
+	var last_arr = last.split('-');
+	if(Number(IDs.length) < Number(5)){
+		var full_filter_id = $('[id^="filter_number"].active').attr('id');
+		var filter_id_arr = full_filter_id.split('-');
+		var new_id = Number(last_arr[last_arr.length - 1]) + Number(1); 
+		html = '<div class="col-sm-2">'
+			html += '<button type="button" onclick="$(this).tooltip(\'destroy\'); $(\'#delivery-options-' + new_id + '\').prev().remove(); $(\'#delivery-options-' + new_id + '\').remove();" data-toggle="tooltip" title="" class="btn btn-danger" data-original-title="{{ text_delete }}"><i class="fa fa-minus-circle"></i></button>';
+		html += '</div>';
+		if($(this).attr('data-delivery')){
+			html +=  '<div class="col-sm-10" id="delivery-options-' + new_id + '">';
+				html += '<div class="col-sm-12"><input name="delivery_options_main[' + new_id + '][delivery_options_cost]"> {{text_delivery_options_cost}}</div>';
+				html += '<div class="col-sm-12"><input name="delivery_options_main[' + new_id + '][delivery_options_days]"> {{text_delivery_options_days}}</div>';
+				html += '<div class="col-sm-12"><input name="delivery_options_main[' + new_id + '][delivery_options_order_before]"> {{text_delivery_options_order_before}}</div>';
+			html += '</div>';
+		} else {
+			html +=  '<div class="col-sm-10" id="delivery-options-' + new_id + '">';
+				html += '<div class="col-sm-12"><input name="filtres['+ filter_id_arr[filter_id_arr.length -1] +'][delivery_options][' + new_id + '][delivery_options_cost]"> {{text_delivery_options_cost}}</div>';
+				html += '<div class="col-sm-12"><input name="filtres['+ filter_id_arr[filter_id_arr.length -1] +'][delivery_options][' + new_id + '][delivery_options_days]"> {{text_delivery_options_days}}</div>';
+				html += '<div class="col-sm-12"><input name="filtres['+ filter_id_arr[filter_id_arr.length -1] +'][delivery_options][' + new_id + '][delivery_options_order_before]"> {{text_delivery_options_order_before}}</div>';
+			html += '</div>';
+		}
+	
+		
+		$(this).closest('.button-block').before(html);
+	}
+$('[id^="filter_number"].active')
+});
+$(document).delegate('#add-filter', 'click', function(event) {
+	event.preventDefault();
+	var Filtrs = [];
+	$('[id^="filter_number"]').each(function(){ 
+		Filtrs.push(this.id); 
+	});
+	var last_Filtrs = Filtrs[Filtrs.length - 1];
+	var last_Filtrs_arr = last_Filtrs.split('-');
+	var new_filter = Number(last_Filtrs_arr[last_Filtrs_arr.length - 1]) + Number(1); 
+	html = '<li class="active filter_tab" id="filter_number-' + new_filter + '"><a href="#filter-block-' + new_filter + '" data-toggle="tab">{{text_filter}} ' + new_filter + '</a><button type="button" onclick="$(this).tooltip(\'destroy\'); $(\'#filter_number-' + new_filter + '\').remove(); $(\'#filter-block-' + new_filter + '\').remove(); $(this).remove();" data-toggle="tooltip" title="" class="btn btn-danger pull-right" data-original-title="{{ text_delete }}"><i class="fa fa-minus-circle"></i></button></li>';
+	$('[id^="filter_number"]').removeClass('active');
+	$('[id^="filter-block"]').removeClass('active');
+	$('#filter_number-' + last_Filtrs_arr[last_Filtrs_arr.length - 1]).after(html);
+	$.ajax({
+		url: 'index.php?route=extension/module/yandex_marketplace/yandex_market/addFilter&user_token={{ user_token }}',
+		dataType: 'html',
+		data: {
+			"id": last_Filtrs_arr[last_Filtrs_arr.length - 1]
+		},
+		type: 'POST',
+		success: function(json) {
+			$('#filter-block-' + last_Filtrs_arr[last_Filtrs_arr.length - 1]).after(json);
+		},
+		error: function(xhr, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
+	});
+});	
+$( "#input-name-file" ).change(function() {
+	if($("#cache_status").val() == 1){
+		$('#input-link').val(location.protocol + '//' + location.hostname + '/' + $('#input-name-file').val());
+		$('#input-link_cron').val(location.protocol + '//' + location.hostname + '/index.php?route=extension/module/yandex_market/xml&fid=' + $('#input-name-file').val());
+	} else {
+		$('#input-link').val(location.protocol + '//' + location.hostname + '/index.php?route=extension/module/yandex_market/xml&fid=' + $('#input-name-file').val());
+	}
+});
+$("#cache_status").change(function() {
+	if($("#cache_status").val() == 1){
+		$("#block_cron").css({ 'display' : ''});
+		$('#input-link').val(location.protocol + '//' + location.hostname + '/' + $('#input-name-file').val());
+		$('#input-link_cron').val(location.protocol + '//' + location.hostname + '/index.php?route=extension/module/yandex_market/xml&fid=' + $('#input-name-file').val());
+	} else {
+		$("#block_cron").css({ 'display' : 'none'});
+		$('#input-link').val(location.protocol + '//' + location.hostname + '/index.php?route=extension/module/yandex_market/xml&fid=' + $('#input-name-file').val());
+	}
+});
+</script>
+
+{{ footer }}

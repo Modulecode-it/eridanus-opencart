@@ -1,0 +1,220 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+      </div>
+      <h1>{{ heading_offer_binding }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row form-row">
+      <div class="col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <form action="" method="post" enctype="multipart/form-data" id="offers_form">
+              <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <td class="text-left">{{ column_name }}</td>
+                      <td class="text-left">{{ column_options }}</td>
+                      <td class="text-right">{{ column_shopSku }}</td>
+                      <td class="text-left">{{ column_marketSku }}</td>
+                      <td class="text-left"></td>
+                    </tr>
+                  </thead>
+                  <tbody id="offers">
+                    <tr id="offer0">
+                        <td class="text-left"><input type="text" name="product[0][name]" value="" id="input-product0" class="form-control" autocomplete="off">
+                        <input type="hidden" name="product[0][product_id]" />
+                        </td>
+                        <td class="text-left"><div class = 'options'></div></td>
+                        <td class="text-left"><input type="text" name="product[0][shopSku]" value="" id="input-shopSku0" class="form-control" autocomplete="off"></td>
+                        <td class="text-left"><input type="text" name="product[0][yandex_sku]" value="" id="input-yandex_sku0" class="form-control" autocomplete="off"></td>
+                        <td class="text-left">
+                          <button type="button" onclick="$(this).tooltip('destroy');$('#offer0').next('.error').remove();$('#offer0').remove();" data-toggle="tooltip" title="" class="btn btn-danger" data-original-title="{{ text_delete }}"><i class="fa fa-minus-circle"></i></button>
+                        </td>
+                    </tr>
+                  </tbody>
+
+                  <tfoot>
+                    <td colspan="4"></td>
+                    <td class="text-left">
+                      <button type="button" onclick="addOffers();" data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="{{ text_add }}"><i class="fa fa-plus-circle"></i></button>
+                      </td>
+                  </tfoot>
+                </table>
+              </div>
+            </form>    
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="pull-right">
+          <button  onclick="pushOffers();" class="btn btn-primary">{{ button_push_offers }}</button>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+offersautocomplete({{ product_row }});
+
+var product_row = parseInt({{ product_row }}) + parseInt(1);
+
+function addOffers() {
+
+    html  = '<tr id="offer' + product_row + '">';
+    html += '  <td class="text-left"><input type="text" class="form-control" name="product[' + product_row + '][name]" value="" id="input-product' + product_row +'"/><input type="hidden" name="product[' + product_row + '][product_id]" value=""/></td>';
+    html += '<td class="text-left"><div class = "options"></div></td>';
+    html += '  <td class="text-left"><input type="text" class="form-control" name="product[' + product_row + '][shopSku]" id="input-shopSku' + product_row +'" value=""/></td>';
+    html += '  <td class="text-left"><input type="text" class="form-control" name="product[' + product_row + '][yandex_sku]" id="input-yandex_sku' + product_row +'" value=""/></td>';
+    html += ' <td class="text-left"><button type="button" onclick="$(this).tooltip(\'destroy\'); $(\'#offer' + product_row + '\').next(\'.error\').remove(); $(\'#offer' + product_row + '\').remove();" data-toggle="tooltip" title="" class="btn btn-danger" data-original-title="{{ text_delete }}"><i class="fa fa-minus-circle"></i></button></td>';
+    html += '</tr>';
+
+	$('#offers').append(html);
+
+  offersautocomplete(product_row);
+
+	product_row++;
+ 
+}
+
+function offersautocomplete(product_row) {
+  $('input[name=\'product[' + product_row + '][name]\']').autocomplete({
+    'source': function(request, response) {
+      $.ajax({
+        url: 'index.php?route=catalog/product/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+        dataType: 'json',
+        success: function(json) {
+          response($.map(json, function(item) {
+            return {
+              label: item['name'],
+              value: item['product_id']
+            }
+          }));
+        }
+      });
+    },
+    'select': function(item) {
+      $('input[name=\'product[' + product_row + '][name]\']').val(item['label']);
+      $('input[name=\'product[' + product_row + '][product_id]\']').val(item['value']);
+
+      $.ajax({
+        url: 'index.php?route=extension/module/yandex_marketplace/offer_binding/options&user_token={{ user_token }}',
+        dataType: 'json',
+        type: 'post',
+        data: {product_id:$('input[name=\'product[' + product_row + '][product_id]\']').val()},
+        success: function(json) {
+          $('#offer' + product_row + ' .options').html('');
+          html = '';
+          $.each(json['options'], function (index, option) {
+            html += '<div id="' + option["option_id"] + '-' + product_row + '">'
+                html += option['name'];
+                html += '<input type="hidden" name="product[' + product_row + '][options][' + index + '][option_id]" value="' + option["option_id"] + '">';
+              html += '</div>';
+              html += '<select name="product[' + product_row + '][options][' + index + '][option_value]" id="select' +  option["option_id"] + '-' + product_row +'" >';
+                html += '<option value="0">{{ select_option_value }}</option>';
+                $.each(option['option_values'], function (index, option_values) {
+                  html += '<option value="' + option_values["option_value_id"] + '">' + option_values['name'] + '</option>';
+                });
+              html += '</select>'
+          });
+          $('#offer' +  product_row + ' .options').append(html);
+        }
+      });
+    }
+  });
+}
+
+function pushOffers() {
+
+  $("input").removeClass('error');
+  $("div").removeClass('error');
+  $("span.error").remove();
+  $("tr.error").remove();
+  $("tr").removeClass('danger');
+  
+
+  $.ajax({
+		url: 'index.php?route=extension/module/yandex_marketplace/offer_binding/checkOffers&user_token={{ user_token }}',
+		type: 'post',
+		data: $('input[type=\'text\'], select, input[type=\'hidden\']'),
+		dataType: 'json',
+		success: function(json) {
+
+      console.log(json);
+
+      $.each(json, function (index, error) {
+
+        if(index == 'global'){
+
+          $(".form-row").before('<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i>' + error + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+          
+        }
+
+        if(error['product_id'] !== undefined) {
+          $('#offer' + index + ' #input-product' + index).addClass('error');
+          $('<span class ="error" >' + error['product_id'] + '</span>').insertAfter('#offer' + index + '  #input-product' + index);
+        }
+
+        if(error['shopSku'] !== undefined) {
+          $('#offer' + index + ' #input-shopSku' + index).addClass('error');
+          $('<span class ="error" >' + error['shopSku'] + '</span>').insertAfter('#offer' + index + '  #input-shopSku' + index);
+        }
+
+        if(error['dublicate_shop'] !== undefined) {
+          $('#offer' + index + ' #input-shopSku' + index).addClass('error');
+          $('<span class ="error" >' + error['dublicate_shop'] + '</span>').insertAfter('#offer' + index + '  #input-shopSku' + index);
+        }
+
+        if(error['yandex_sku'] !== undefined) {
+          $('#offer' + index + ' #input-yandex_sku' + index).addClass('error');
+          $('<span class ="error" >' + error['yandex_sku'] + '</span>').insertAfter('#offer' + index + '  #input-yandex_sku' + index);
+        }
+
+        if(error['dublicate_key'] !== undefined) {
+          $('#offer' + index).addClass('danger');
+          $('<tr class="error"><td colspan="4">' + error['dublicate_key'] + '<td></tr>').insertAfter('#offer' + index);
+        }
+
+         if(error['checkMarket'] !== undefined) {
+          $('#offer' + index).addClass('danger');
+          $('<tr class="error"><td colspan="4">' + error['checkMarket'] + '<td></tr>').insertAfter('#offer' + index);
+        }
+
+        if(error['option'] !== undefined) {
+           $.each(error['option'], function (index_options, options_error) {
+             
+            $('div#' + index_options + '-' + index).addClass('error');
+            $('<br><span class ="error" >' + options_error + '</span>').insertAfter('#select' + index_options + '-' + index);
+          });
+        }
+
+        if(error['success'] !== undefined){
+
+          $('#offer' + index).remove();
+
+        }
+
+      });
+		},
+     error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+	});
+}
+
+</script>
+
+{{ footer }}

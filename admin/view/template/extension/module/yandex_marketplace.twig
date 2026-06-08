@@ -1,0 +1,687 @@
+{{ header }}{{ column_left }}
+<div id="content">
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="pull-right">
+				<button type="submit" form="form_main" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+				<a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+			<h1>{{ heading_title }}</h1>
+			<ul class="breadcrumb">
+				{% for breadcrumb in breadcrumbs %}
+				<li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<div class="container-fluid">
+		{% if error_warning %}
+		<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+		{% endif %}
+		{% if error_holidays %}
+		<div class="alert alert-danger alert-dismissible refresh_holidays"><i class="fa fa-exclamation-circle"></i> {{ error_holidays }} <button type="button" form="form_main" data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Обновить"><i class="fa fa-refresh"></i></button>
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+		{% endif %}
+		{% if (success) %}
+		<div class="alert alert-success"><i class="fa fa-exclamation-circle"></i>{{ success }}
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+		{% endif %}
+		{% if (text_update_notification) %}
+		<div class="alert alert-success"><i class="fa fa-exclamation-circle"></i> {{ text_update_notification }}
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+		{% endif %}
+		
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<form action="{{ action }}" method="post" enctype="multipart/form-data" id="form_main" class="form-horizontal">
+					<ul class="nav nav-tabs" id="work_mode">
+						<li class="{% if active_tab_main == 'main' %} active {% endif %}" data-tab="main"><a href="#tab-main" data-toggle="tab">{{tab_FBS}}</a></li>
+						<li class="{% if active_tab_main == 'DBS' %} active {% endif %}" data-tab="DBS"><a href="#tab-DBS" data-toggle="tab">{{ tab_DBS }}</a></li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane {% if active_tab_main == 'main' %} active {% endif %}" data-tab="main" id="tab-main">
+							<ul class="nav nav-tabs" id="form_tabs">
+								<li class="{% if active_tab == 'general' %} active {% endif %}" data-tab="general"><a href="#tab-general" data-toggle="tab">{{ tab_general }}</a></li>
+								<li class="{% if active_tab == 'fieldsets' %} active {% endif %}" data-tab="fieldsets"><a href="#tab-fieldsets" data-toggle="tab">{{ tab_fieldsets }}</a></li>
+								<li class="{% if active_tab == 'status' %} active {% endif %}" data-tab="status"><a href="#tab-status" data-toggle="tab">{{ tab_status }}</a></li>
+								<li class="{% if active_tab == 'other-FBS' %} active {% endif %}" data-tab="other-FBS"><a href="#tab-other-FBS" data-toggle="tab">{{tab_other_settings}}</a></li>
+							</ul>
+							<div class="tab-content">
+								<div class="tab-pane {% if active_tab == 'general' %} active {% endif %}" id="tab-general">
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="yandex_beru_auth_token"><span data-toggle="tooltip" title="" data-original-title="{{ text_auth_token_info }}">{{ text_auth_token }}</span></label>
+										<div class="col-sm-10">
+											<input type="text" name="yandex_beru_auth_token" value="{{ yandex_beru_auth_token }}" placeholder="{{ text_auth_token }}" id="yandex_beru_auth_token" class="form-control">
+										</div>
+									</div>
+									<div class="form-group required">
+										<label class="col-sm-2 control-label" for="yandex_beru_company_id"> {{ text_companyId }} </label>
+										<div class="col-sm-10">
+											<input type="text" name="yandex_beru_company_id" value="{{ yandex_beru_company_id }}" placeholder="{{ text_companyId }}" id="yandex_beru_company_id" class="form-control">
+										</div>
+									</div>
+									<div class="form-group required">
+										<label class="col-sm-2 control-label" for="yandex_beru_oauth"> {{ text_yandex_oauth }} </label>
+										<div class="col-sm-10">
+											<input type="text" name="yandex_beru_oauth" value="{{ yandex_beru_oauth }}" placeholder="{{ text_yandex_oauth }}" id="yandex_beru_oauth" class="form-control">
+											<span class="help">{{ text_get_oauth_token }}</span>
+										</div>
+									</div>
+									
+									<div class="form-group required">
+										<label class="col-sm-2 control-label" for="yandex_beru_weight_kg"><span data-toggle="tooltip" title="" data-original-title="{{ text_wigth_kg_info }}">{{ text_wigth_kg }}</span></label>
+										<div class="col-sm-10">
+											<select name="yandex_beru_weight_kg" id="yandex_beru_weight_kg" class="form-control">
+											<option value="0">{{ text_select }}</option>
+											{% for weight_class in weight_classes %}
+												{% if weight_class.weight_class_id == yandex_beru_weight_kg %}
+												<option value="{{ weight_class.weight_class_id }}" selected="selected">{{ weight_class.title }}</option>
+												{% else %}
+												<option value="{{ weight_class.weight_class_id }}">{{ weight_class.title }}</option>
+												{% endif %}
+												{% endfor %}
+											</select>
+										</div>
+									</div>
+									
+									<div class="form-group required">
+										<label class="col-sm-2 control-label" for="yandex_beru_length_cm"><span data-toggle="tooltip" title="" data-original-title="{{ text_length_cm_info }}">{{ text_length_cm }}</span></label>
+										<div class="col-sm-10">
+											<select name="yandex_beru_length_cm" id="yandex_beru_length_cm" class="form-control">
+												<option value="0">{{ text_select }}</option>
+												{% for length_class in length_classes %}
+												{% if length_class.length_class_id == yandex_beru_length_cm %}
+												<option value="{{ length_class.length_class_id }}" selected="selected">{{ length_class.title }}</option>
+												{% else %}
+												<option value="{{ length_class.length_class_id }}">{{ length_class.title }}</option>
+												{% endif %}
+												{% endfor %}
+											</select>
+										</div>
+									</div>
+									<div class="form-group required">
+										<label class="col-sm-2 control-label" for="yandex_beru_link_FBS"> <span data-toggle="tooltip" title="" data-original-title="{{ text_yandex_link_info }}">{{ text_yandex_link }}</span> </label>
+										<div class="col-sm-10">
+											{{ api_yandex_fbs_link }}
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="status">{{entry_status}}</label>
+										<div class="col-sm-10">
+											<select name="yandex_beru_status" id="status" class="form-control">
+												{% if yandex_beru_status == '1' %}
+													<option value="1" selected="selected">{{select_on}}</option>
+													<option value="0">{{select_off}}</option>
+												{% else %}
+													<option value="1">{{select_on}}</option>
+													<option value="0" selected="selected">{{select_off}}</option>
+												{% endif %}
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane {% if active_tab == 'status' %} active {% endif %}" id="tab-status">
+									<div class="panel-body" id="status-fieldsests">
+										<div class="alert alert-warning" role="alert">{{ text_info_status }}</div>
+										<div class="panel-heading">
+											<div class="form-row">
+												<div class="col">
+													{{ column_status_beru }}
+												</div>
+												<div class="col">
+													{{ column_status_opencart }}
+												</div>
+											</div>
+										</div>
+
+										{% for key, status in statuses %}
+										<div class="form-row" id="status_row_{{ key }}">
+											<div class="col">
+												<label class="control-label">{{ status.name }}</label>
+											</div>
+											<div class="col">
+												<select name="yandex_beru_statuses[{{ key }}]" class="form-control">
+													<option value="0">{{ text_select }}</option>
+													{% for opencart_status in opencart_statuses %}
+													{% if opencart_status.order_status_id == status.val %}
+													<option value="{{ opencart_status.order_status_id }}" selected>{{ opencart_status.name }}</option>
+													{% else %}
+													<option value="{{ opencart_status.order_status_id }}">{{opencart_status.name }}</option>
+													{% endif %}
+													{% endfor %}
+												</select>
+											</div>
+										</div>
+										{% endfor %}
+									</div>
+								</div>
+								<div class="tab-pane {% if active_tab == 'fieldsets' %} active {% endif %}" id="tab-fieldsets">
+									<div class="panel-heading">
+										<div class="form-row">
+											<div class="col">
+												{{ text_element }}
+											</div>
+											<div class="col">
+												{{ text_source }}
+											</div>
+											<div class="col">
+												{{ text_opencart_field }}
+											</div>
+										</div>
+									</div>
+									<div class="panel-body">
+										{% for required_field in required_fields %}
+										<div class="form-row" id="field_row_{{ required_field.key }}">
+											<div class="col">
+												<label class="control-label"><span data-toggle="tooltip" title="{{ required_field.info }}">{{ required_field.name }}</span></label>
+											</div>
+											<div class="col">
+												<select name="yandex_beru_fieldsets[{{ required_field.key }}][source]" data-field_key="field_row_{{ required_field.key }}" class="form-control source_select">
+													<option value="0">{{ text_select }}</option>
+													{% for source in sources%}
+													{% if source.key == required_field.source %}
+													<option value="{{ source.key }}" selected>{{ source.name }}</option>
+													{% else %}
+													<option value="{{ source.key }}">{{ source.name }}</option>
+													{% endif %}
+													{% endfor %}
+												</select>
+											</div>
+											<div class="col">
+												<select name="yandex_beru_fieldsets[{{ required_field.key }}][field]" class="val form-control">
+													<option value="0">{{ text_select }}</option>
+													{% for field in required_field.field %}
+													{% if field.selected %}
+													<option value="{{ field.key }}" selected>{{ field.name }}</option>
+													{% else %}
+													<option value="{{ field.key }}">{{ field.name }}</option>
+													{% endif %}
+													{% endfor %}
+												</select>
+											</div>
+										</div>
+										{% endfor %}
+										{% for additional_field_row in additional_field_rows %}
+										{% if additional_field_row.childs %}
+										<div class="field-group" id="field_row_{{ additional_field_row.key }}">
+											<div class="container-fluid" style="
+											padding: 10px 0px;">
+												<b>{{ additional_field_row.name }}</b>
+												<div class="pull-right">
+													<button type="button" class="btn btn-danger" onclick="confirm('{{ text_confirm_delete_field }}') ? $('#field_row_{{ additional_field_row.key }}').remove() : false;" data-original-title="{{ text_delete }}"><i class="fa fa-trash-o"></i></button>
+												</div>
+											</div>
+											{% for row in additional_field_row.childs %}
+											<div class="form-row" id="field_row_{{ additional_field_row.key }}_{{ row.key }}">
+												<div class="col">
+													<label class="control-label"><span data-toggle="tooltip" title="{{ row.info }}">{{ row.name }}</span></label>
+												</div>
+												<div class="col">
+													<select name="yandex_beru_fieldsets[{{ additional_field_row.key }}][{{ row.key }}][source]" data-field_key="field_row_{{ additional_field_row.key }}_{{ row.key }}" class="form-control source_select">
+														<option value="0">{{ text_select }}</option>
+														{% for source in sources %}
+														{% if source.key == row.source %}
+														<option value="{{ source.key }}" selected>{{ source.name }}</option>
+														{% else %}
+														<option value="{{ source.key }}">{{ source.name }}</option>
+														{% endif %}
+														{% endfor %}
+													</select>
+												</div>
+												<div class="col">
+													<select name="yandex_beru_fieldsets[{{ additional_field_row.key }}][{{ row.key }}][field]" class="form-control val">
+														<option value="0">{{ text_select }}</option>
+														{% for field in row.field %}
+														{% if field.selected %}
+														<option value="{{ field.key }}" selected>{{ field.name }}</option>
+														{% else %}
+														<option value="{{ field.key }}">{{ field.name }}</option>
+														{% endif %}
+														{% endfor %}
+													</select>
+												</div>
+											</div>
+											{% endfor %}
+										</div>
+										{% else %}
+										<div class="form-row" id="field_row_{{ additional_field_row.key }}">
+											<div class="col">
+												<label class="control-label"><span data-toggle="tooltip" title="{{ additional_field_row.info }}">{{ additional_field_row.name }}</span></label>
+											</div>
+											<div class="col">
+												<select name="yandex_beru_fieldsets[{{ additional_field_row.key }}][source]" data-field_key="field_row_{{ additional_field_row.key }}" class="form-control source_select">
+													<option value="0">{{ text_select }}</option>
+													{% for source in sources%}
+													{% if source.key == additional_field_row.source %}
+													<option value="{{ source.key }}" selected>{{ source.name }}</option>
+													{% else %}
+													<option value="{{ source.key }}">{{ source.name }}</option>
+													{% endif %}
+													{% endfor %}
+												</select>
+											</div>
+											<div class="col">
+												<select name="yandex_beru_fieldsets[{{ additional_field_row.key }}][field]" class="val form-control">
+													<option value="0">{{ text_select }}</option>
+													{% for field in additional_field_row.field %}
+													{% if field.selected %}
+													<option value="{{ field.key }}" selected>{{ field.name }}</option>
+													{% else %}
+													<option value="{{ field.key }}">{{ field.name }}</option>
+													{% endif %}
+													{% endfor %}
+												</select>
+											</div>
+											<div class="pull-right">
+												<button type="button" class="btn btn-danger" onclick="confirm('{{ text_confirm_delete_field }}') ? $('#field_row_{{  additional_field_row.key }}').remove() : false;" data-original-title="{{ text_delete }}"><i class="fa fa-trash-o"></i></button>
+											</div>
+										</div>
+										{% endif %}
+										{% endfor %}
+										<div class="form-row text-right add-param-attr-container">
+											<div class="col">
+												<a data-toggle="modal" data-target="#addFieldModal">{{ text_add_attribute }}</a>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane {% if active_tab == 'other-FBS' %} active {% endif %}" id="tab-other-FBS">
+									<div class="panel-body" >
+										<div class="tab-content">
+											<div class="form-group">
+												<label class="col-sm-2 control-label" for="yandex_beru_subsidy_fbs">{{text_subsidy_status}}</label>
+												<div class="col-sm-10">
+													<input type="checkbox" value="1" name="yandex_beru_subsidy_fbs" value="{{ yandex_beru_subsidy_fbs }}" class="form-control" {% if yandex_beru_subsidy_fbs  %} checked {% endif %}>
+												</div>
+											</div>
+										</div>	
+										<div class="tab-content">
+											<div class="form-group">
+												<label class="col-sm-2 control-label" for="yandex_beru_check_5_fbs">{{text_check_5}}</label>
+												<div class="col-sm-10">
+													<input type="checkbox" value="1" name="yandex_beru_check_5_fbs" value="{{ yandex_beru_check_5_fbs }}" class="form-control" {% if yandex_beru_check_5_fbs  %} checked {% endif %}>
+												</div>
+											</div>
+										</div>	
+										<div class="tab-content">
+											<div class="form-group">
+												<label class="col-sm-2 control-label" for="offer_prices_type">{{text_offer_prices_type}}</label>
+												<div class="col-sm-10">
+													<select name="yandex_beru_offer_prices_type" id="offer_prices_type" class="form-control">
+														{% if offer_prices_type == 'shop_sku' %}
+															<option value="shop_sku" selected="selected">{{text_shop_sku}}</option>
+															<option value="msku">{{text_MSKU}}</option>
+														{% else %}
+															<option value="shop_sku">{{text_shop_sku}}</option>
+															<option value="msku" selected="selected">{{text_MSKU}}</option>
+														{% endif %}
+													</select>
+												</div>
+											</div>
+										</div>	
+									</div>
+								</div>
+							</div>
+							<input type="hidden" id="active_tab" name="yandex_beru_active_tab" value="{{ active_tab }}">
+						</div>
+						<div class="tab-pane {% if active_tab_main == 'DBS' %} active {% endif %}" data-tab="DBS" id="tab-DBS">
+							
+								<ul class="nav nav-tabs" id="form_tabs_DBS">
+									<li class="{% if active_tab_DBS == 'general-DBS' %} active {% endif %}" data-tab="general-DBS"><a href="#tab-general-DBS" data-toggle="tab">{{ tab_general }}</a></li>
+									<li class="{% if active_tab_DBS == 'status-DBS' %} active {% endif %}" data-tab="status-DBS"><a href="#tab-status-DBS" data-toggle="tab">{{ tab_status }}</a></li>
+									{#<li class="{% if active_tab_DBS == 'weekend-DBS' %} active {% endif %}" data-tab="weekend-DBS"><a href="#tab-weekend-DBS" data-toggle="tab">Выходные</a></li>#}
+									<li class="{% if active_tab_DBS == 'other-DBS' %} active {% endif %}" data-tab="other-DBS"><a href="#tab-other-DBS" data-toggle="tab">{{tab_other_settings}}</a></li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane {% if active_tab_DBS == 'general-DBS' %} active {% endif %}" id="tab-general-DBS">
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="yandex_beru_auth_token_DBS"><span data-toggle="tooltip" title="" data-original-title="{{ text_auth_token_info }}">{{ text_auth_token }}</span></label>
+											<div class="col-sm-10">
+												<input type="text" name="yandex_beru_auth_token_DBS" value="{{ yandex_beru_auth_token_DBS }}" placeholder="{{ text_auth_token }}" id="yandex_beru_auth_token_DBS" class="form-control">
+											</div>
+										</div>
+										<div class="form-group required">
+											<label class="col-sm-2 control-label" for="yandex_beru_company_id-DBS"> {{ text_companyId }} </label>
+											<div class="col-sm-10">
+												<input type="text" name="yandex_beru_company_id_DBS" value="{{ yandex_beru_company_id_DBS }}" placeholder="{{ text_companyId }}" id="yandex_beru_company_id_DBS" class="form-control">
+											</div>
+										</div>
+										<div class="form-group required">
+											<label class="col-sm-2 control-label" for="yandex_beru_oauth_DBS"> {{ text_yandex_oauth }} </label>
+											<div class="col-sm-10">
+												<input type="text" name="yandex_beru_oauth_DBS" value="{{ yandex_beru_oauth_DBS }}" placeholder="{{ text_yandex_oauth }}" id="yandex_beru_oauth_DBS" class="form-control">
+												<span class="help">{{ text_get_oauth_token }}</span>
+											</div>
+										</div>
+										
+										<div class="form-group required">
+											<label class="col-sm-2 control-label" for="yandex_beru_link_DBS"> <span data-toggle="tooltip" title="" data-original-title="{{ text_yandex_link_info }}">{{ text_yandex_link }}</span> </label>
+											<div class="col-sm-10">
+												{{ api_yandex_dbs_link }}
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="status_DBS">{{entry_status}}</label>
+											<div class="col-sm-10">
+												<select name="yandex_beru_status_DBS" id="status_DBS" class="form-control">
+													{% if yandex_beru_status_DBS == '1' %}
+														<option value="1" selected="selected">{{select_on}}</option>
+														<option value="0">{{select_off}}</option>
+													{% else %}
+														<option value="1">{{select_on}}</option>
+														<option value="0" selected="selected">{{select_off}}</option>
+													{% endif %}
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane {% if active_tab_DBS == 'status-DBS' %} active {% endif %}" id="tab-status-DBS">
+										<div class="panel-body" id="status-fieldsests-DBS">
+											<div class="panel-heading">
+												<div class="form-row">
+													<div class="col">
+														{{ column_status_beru }}
+													</div>
+													<div class="col">
+														{{ column_status_opencart }}
+													</div>
+												</div>
+											</div>
+											{% for key, status_dbs in statuses_dbs %}
+											<div class="form-row" id="status_row_{{ key }}_dbs">
+												<div class="col">
+													<label class="control-label">{{ status_dbs.name }}</label>
+												</div>
+												<div class="col">
+													<select name="yandex_beru_statuses_dbs[{{ key }}]" class="form-control">
+														<option value="0">{{ text_select }}</option>
+														{% for opencart_status in opencart_statuses %}
+														{% if opencart_status.order_status_id == status_dbs.val %}
+														<option value="{{ opencart_status.order_status_id }}" selected>{{ opencart_status.name }}</option>
+														{% else %}
+														<option value="{{ opencart_status.order_status_id }}">{{opencart_status.name }}</option>
+														{% endif %}
+														{% endfor %}
+													</select>
+												</div>
+											</div>
+											{% endfor %}
+										</div>
+									</div>
+									{#<div class="tab-pane {% if active_tab_DBS == 'weekend-DBS' %} active {% endif %}" id="tab-weekend-DBS">
+										<div class="panel-body" id="weekend-DBS">
+											<p>1. Укажите, когда у службы доставки выходные</p>
+											<div class="well well-sm" style="height: auto; overflow: auto; display:inline-block"> 
+											  	{% for day_id, day_of_week in days_of_week %}
+												<div class="checkbox" style="display: inline-block">
+												<label>
+													{% if day_id in weekend_days_of_week %}
+														<input type="checkbox" name="yandex_beru_weekend_days_of_week[]" value="{{ day_id }}" checked="checked"/>
+														{{ day_of_week }}
+													{% else %}
+														<input type="checkbox" name="yandex_beru_weekend_days_of_week[]" value="{{ day_id }}" />
+														{{ day_of_week }}
+													{% endif %}
+												</label>
+												</div>
+												{% endfor %}
+											</div>
+											<p><span data-toggle="tooltip" title="" data-original-title="Производственный календарь включает выходные в сб и вс" class="tooltip-container">2. Настройте доставку в государственные праздники</span></p>
+											{% if holidays_update_notification %}
+											<p id="refresh_holidays" class="has-error refresh_holidays"><span class="help-block">{{ error_warning_holidays }}</span> <button type="button" form="form_main" data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Обновить"><i class="fa fa-refresh"></i></button></p>
+											{% endif %}
+											<input type="hidden" value="{{ holiday_year }}" name="yandex_beru_holidays_year">
+											<div class="form-check">
+												{% if official_holidays %}
+													<input type="checkbox" value="1" name="yandex_beru_official_holidays" class="form-check-input" checked="checked">
+												{% else %}
+													<input type="checkbox" value="1" name="yandex_beru_official_holidays" class="form-check-input">
+												{% endif %}
+												<label class="form-check-label" for="yandex_beru_official_holidays">Нет доставки в праздники</label>
+												</div>
+											<p>3. Отметьте дополнительные дни, когда вы не доставляете заказы. Если вы доставляете заказы в день, отмеченный нерабочим - снимите выделение</p>
+											<input type="hidden" id="holidays_DBS" name="holidays_DBS" value="{{ holidays_DBS }}">
+											<div id="holidays_DBS_Datepicker"></div>
+										</div>
+									</div>#}
+									<div class="tab-pane {% if active_tab_DBS == 'other-DBS' %} active {% endif %}" id="tab-other-DBS">
+										<div class="panel-body" id="other-DBS">
+											<div class="form-group">
+												<label class="col-sm-2 control-label" for="yandex_beru_service_name">{{text_main_service_name}}</label>
+												<div class="col-sm-10">
+													<input type="text" name="yandex_beru_service_name" value="{{ yandex_beru_service_name }}" placeholder="{{text_main_service_name_placeholder}}" id="yandex_beru_service_name" class="form-control">
+													<input type='hidden' name="yandex_beru_service_id" value="{{ yandex_beru_service_id }}">
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label" for="input-service"><span data-toggle="tooltip" title="Транспортные компании для передачи трек-кодов">Транспортные компании</span></label>
+												<div class="col-sm-10">
+													<input type="text" name="yandex_beru_service_input" value="" placeholder="Введите название" id="input-service" class="form-control" />
+													<div id="yandex_beru_services" class="well well-sm" style="height: 150px; overflow: auto;"> {% for yandex_beru_service in yandex_beru_services %}
+														<div id="yandex_beru_services-{{ yandex_beru_service.service_id }}"><i class="fa fa-minus-circle"></i> {{ yandex_beru_service.name }}
+															<input type="hidden" name="yandex_beru_services[]" value="{{ yandex_beru_service.service_id }}" />
+														</div>
+														{% endfor %}</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label" for="yandex_beru_subsidy_dbs">{{ text_subsidy_status }}</label>
+												<div class="col-sm-10">
+													<input type="checkbox" value="1" name="yandex_beru_subsidy_dbs" value="{{ yandex_beru_subsidy_dbs }}" class="form-control" {% if yandex_beru_subsidy_dbs %} checked {% endif %}>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label" for="yandex_beru_check_5_dbs">{{ text_check_5 }}</label>
+												<div class="col-sm-10">
+													<input type="checkbox" value="1" name="yandex_beru_check_5_dbs" value="{{ yandex_beru_check_5_dbs }}" class="form-control" {% if yandex_beru_check_5_dbs %} checked {% endif %}>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<input type="hidden" id="active_tab_DBS" name="yandex_beru_active_tab_DBS" value="{{ active_tab_DBS }}">
+							</div>
+						
+					</div>
+					<input type="hidden" id="active_tab_main" name="yandex_beru_active_tab_main" value="{{ active_tab_main }}">
+				</form>
+			</div>
+		</div>
+
+		<p class="text-center">Яндекс.Маркет {{ version }}</p>
+
+	</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="addFieldModal" tabindex="-1" role="dialog" aria-labelledby="addFieldModalTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title">{{ text_select_attribute }}</h4>
+			</div>
+			<div class="modal-body form-horizontal">
+				<div class="form-group">
+					<div class="col-xs-6">
+						<select name="additional_field"  class="form-control col-xs-6" id="additional_field">
+						{% for key, additional_field in additional_fields %}
+								<option value="{{ key }}" data-info = "{{ additional_field.info }}">{{ additional_field.name }}</option>
+						{% endfor %}
+						</select>
+					</div>
+				<div class="col-xs-6 field_info">
+				
+				</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">{{ text_close }}</button>
+				<button type="button" class="btn btn-primary" id="param-attr-add">{{ text_add }}</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+$(function() {
+	$('#holidays_DBS_Datepicker').datepick({
+		multiSelect: 999, monthsToShow: 3, monthsToStep: 3, dateFormat: 'dd-mm',
+		altField: '#holidays_DBS',
+		minDate: new Date(2021, 0, 1),
+		maxDate: new Date(2021, 12,1),
+		yearRange: '2021:-1',
+		
+	});
+	
+	$('#holidays_DBS_Datepicker').datepick('setDate',[{{ holidays_DBS }}]);
+});
+
+$('input[name=\'yandex_beru_service_input\']').autocomplete({
+    'source': function(request, response) {
+        $.ajax({
+            url: 'index.php?route=sale/order/autocompleteDeliveryServices&user_token={{ user_token }}',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                'name': $('input[name=\'yandex_beru_service_input\']').val()
+            },
+            success: function(json) {
+                response($.map(json, function(item) {
+                    return {
+                        label: item['name'],
+                        value: item['service_id']
+                    }
+                }));
+            },
+        });
+    },
+    'select': function(item) {
+        $('input[name=\'yandex_beru_service_input\']').val('');
+
+        $('#yandex_beru_services-' + item['value']).remove();
+
+        $('#yandex_beru_services').append('<div id="yandex_beru_services-' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="yandex_beru_services[]" value="' + item['value'] + '" /></div>');
+    }
+});
+	
+$('.refresh_holidays button').click(function(){
+	$.ajax({
+		url: 'index.php?route=extension/module/yandex_marketplace/refresh_holidays&user_token={{ user_token }}',
+		type: 'post',
+		dataType: 'json',
+		beforeSend: function() {
+			$('.refresh_holidays button i').addClass('fa-spin');
+		},
+		complete: function() {
+			$('.refresh_holidays button i').removeClass('fa-spin');
+		},
+		success: function(json) {
+			if(json['success']){
+				$('.refresh_holidays button').hide();
+				$('.alert.refresh_holidays').hide();
+				$('.refresh_holidays').removeClass('has-error');
+				$('.refresh_holidays').addClass('text-success');
+				$('.refresh_holidays .help-block').html(json['text']);
+			}else{
+				$('.refresh_holidays .help-block').html(json['text']);
+			}
+		},
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+	});
+	
+});
+	
+$('#yandex_beru_services').delegate('.fa-minus-circle', 'click', function() {
+    $(this).parent().remove();
+});
+
+$('#form_tabs>li').on('click', function(e) {
+    $('#active_tab').val($(this).data('tab'));
+});
+	
+$('#form_tabs_DBS>li').on('click', function(e) {
+    $('#active_tab_DBS').val($(this).data('tab'));
+});
+	
+$('#work_mode>li').on('click', function(e) {
+    $('#active_tab_main').val($(this).data('tab'));
+});	
+$('#additional_field').on('change', function(e) {
+    $('.field_info').text($(this).find('option:selected').data('info'));
+});
+$('#param-attr-add').on('click', function(e) {
+    e.preventDefault();
+    var field_val = $('#additional_field option:selected').val();
+    var field_name = $('#additional_field option:selected').text();
+    if ($("div").is('#field_row_' + field_val)) {
+        $('.alert').remove();
+        $('#content>.container-fluid').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_element_already_exists }} <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+        $('#addFieldModal').modal('toggle');
+    } else {
+        $.get('index.php?route=extension/module/yandex_marketplace/getSourceFieldRow&row=' + field_val + '&user_token={{ user_token }}', function(data) {
+            $('.add-param-attr-container').before(data);
+            $('#addFieldModal').modal('toggle');
+        });
+    }
+
+});
+
+$(document).delegate('.source_select', 'change', function() {
+    var element = $(this);
+    $.ajax({
+        url: 'index.php?route=extension/module/yandex_marketplace/getSourceFields&user_token={{ user_token }}',
+        dataType: 'json',
+        data: {
+            source: element.val()
+        },
+        type: 'POST',
+        success: function(json) {
+
+            if (json['success'] && json['success']['fields']) {
+                var html = "";
+                json['success']['fields'].forEach(function(field, index, array) {
+                    html += '<option value="' + field['key'] + '">' + field['name'] + '</option>';
+                });
+                var field_key = element.data('field_key');
+                $('#' + field_key + ' .val').html(html);
+            }
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});
+
+$('input[name=\'yandex_beru_service_name\']').autocomplete({
+    'source': function(request, response) {
+        $.ajax({
+            url: 'index.php?route=sale/order/autocompleteDeliveryServices&user_token={{ user_token }}',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                'name': $('input[name=\'yandex_beru_service_name\']').val()
+            },
+            success: function(json) {
+                response($.map(json, function(item) {
+                    return {
+                        label: item['name'],
+                        value: item['service_id']
+                    }
+                }));
+            }
+        });
+    },
+    'select': function(item) {
+        $('input[name=\'yandex_beru_service_name\']').val(item['label']);
+        $('input[name=\'yandex_beru_service_id\']').val(item['value']);
+    }
+});
+</script>
+{{ footer }}

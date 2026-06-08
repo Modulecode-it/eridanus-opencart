@@ -1,0 +1,407 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{cancel}}" data-toggle="tooltip" title="{{button_cancel}}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <h1>{{heading_title}}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{text_edit}}</h3>
+      </div>
+      <div class="panel-body">
+  
+    <form action="{{action}}" method="post" enctype="multipart/form-data" id="form" class="form-horizontal">
+	  <div class="form-group">
+		<label class="col-sm-3 control-label" for="input-status">{{entry_status}}</label>
+		<div class="col-sm-9">
+		  <select name="module_yabuy2_status" id="input-status" class="form-control">
+			{%if module_yabuy2_status %}
+			<option value="1" selected="selected">{{text_enabled}}</option>
+			<option value="0">{{text_disabled}}</option>
+			{% else %}
+			<option value="1">{{text_enabled}}</option>
+			<option value="0" selected="selected">{{text_disabled}}</option>
+			{% endif %}
+		  </select>
+		</div>
+	  </div>
+	  
+	  <input type="hidden" name="yabuy2_dbs" value="1" />
+
+	  <div class="form-group">
+		<label class="col-sm-3 control-label" for="input-yacompany">№ кампании в Маркете:</label>
+		<div class="col-sm-9">
+		  <input type="text" name="yabuy2_yacompany" value="{{yabuy2_yacompany}}" id="input-yacompany" class="form-control" />
+		</div>
+	  </div>
+	  <div class="form-group">
+		<label class="col-sm-3 control-label" for="input-token">{{entry_token}}</label>
+		<div class="col-sm-9">
+		  <input type="text" name="yabuy2_token" value="{{yabuy2_token}}" id="input-token" class="form-control" />
+		</div>
+	  </div>
+	  <div class="form-group">
+		<label class="col-sm-3 control-label" for="input-yalogin">{{entry_yalogin}}</label>
+		<div class="col-sm-9">
+		  <input type="text" name="yabuy2_login" value="{{yabuy2_login}}" id="input-yalogin" class="form-control" style="width: 260px;" />@yandex.ru
+		</div>
+	  </div>
+	  <div class="form-group">
+		<label class="col-sm-3 control-label" for="input-oauth_token">{{entry_oauth_token}}</label>
+		<div class="col-sm-9">
+		  <label class="control-label">
+            {%if is_token_exists %}
+			Получен. 
+			<a href="javascript:void(0);" id="get_token">Обновить</a>
+			{% else %}
+			<span style="color: red;" data-toggle="tooltip" title="Требуется зарегистрировать приложение Яндекс">НЕ получен. </span>
+		    <a href="javascript:void(0);" id="get_token">{{text_get}}</a>
+			{% endif %}
+		  </label>
+		</div>
+	  </div>
+	  
+	  <div class="form-group">
+		<div class="col-sm-3"></div>
+		<div class="col-sm-9">
+			<input type="checkbox" name="yabuy2_long_id" value="1" id="cb_long_id"{%if yabuy2_long_id %} checked{% endif %} />
+			<label class="control-label" for="cb_long_id">В OpenCart ID товара длиннее 6 цифр, и нет опций</span></label>
+		</div>
+	  </div>
+	  
+	  <div class="form-group _change_status">
+		<label class="col-sm-3 control-label" for="yabuy2_unpaid_status">Статус неоплаченного заказа:</label>
+		<div class="col-sm-7">
+		  <select name="yabuy2_unpaid_status" class="form-control">			
+		    <option value="0"{%if yabuy2_unpaid_status == 0 %} selected="selected"{% endif %}>Ошибочные заказы</option>
+			{%for order_status in order_statuses %}
+			<option value="{{order_status.order_status_id}}"{%if order_status.order_status_id == yabuy2_unpaid_status %} selected="selected"{% endif %}>{{order_status.name}}</option>
+			{% endfor %}
+		  </select>
+		</div>
+	  </div>
+	  <div class="form-group _change_status">
+		<label class="col-sm-3 control-label" for="yabuy2_processing_status">Статус заказа в обработке:</label>
+		<div class="col-sm-7">
+		  <select name="yabuy2_processing_status" class="form-control">			
+			{%for order_status in order_statuses %}
+			<option value="{{order_status.order_status_id}}"{%if order_status.order_status_id == yabuy2_processing_status %} selected="selected"{% endif %}>{{order_status.name}}</option>
+			{% endfor %}
+		  </select>
+		</div>
+	  </div>
+	  <div class="form-group _change_status">
+		<label class="col-sm-3 control-label" for="yabuy2_delivery_status">Статус заказа, переданного на доставку:</label>
+		<div class="col-sm-7">
+		  <select name="yabuy2_delivery_status" class="form-control">			
+			{%for order_status in order_statuses %}
+			<option value="{{order_status.order_status_id}}"{%if order_status.order_status_id == yabuy2_delivery_status %} selected="selected"{% endif %}>{{order_status.name}}</option>
+			{% endfor %}
+		  </select>
+		</div>
+	  </div>
+	  <div class="form-group _change_status">
+		<label class="col-sm-3 control-label" for="yabuy2_pickup_status">Статус заказа, доставленного в ПВЗ:</label>
+		<div class="col-sm-7">
+		  <select name="yabuy2_pickup_status" class="form-control">			
+			{%for order_status in order_statuses %}
+			<option value="{{order_status.order_status_id}}"{%if order_status.order_status_id == yabuy2_pickup_status %} selected="selected"{% endif %}>{{order_status.name}}</option>
+			{% endfor %}
+		  </select>
+		</div>
+	  </div>
+	  <div class="form-group _change_status">
+		<label class="col-sm-3 control-label" for="yabuy2_delivered_status">Статус заказа, врученного покупателю:</label>
+		<div class="col-sm-7">
+		  <select name="yabuy2_delivered_status" class="form-control">			
+			{%for order_status in order_statuses %}
+			<option value="{{order_status.order_status_id}}"{%if order_status.order_status_id == yabuy2_delivered_status %} selected="selected"{% endif %}>{{order_status.name}}</option>
+			{% endfor %}
+		  </select>
+		</div>
+	  </div>
+	  <div class="form-group _change_status">
+		<label class="col-sm-3 control-label" for="yabuy2_cancelled_status">Статус отмененного заказа:</label>
+		<div class="col-sm-7">
+		  <select name="yabuy2_cancelled_status" class="form-control">			
+			{%for order_status in order_statuses %}
+			<option value="{{order_status.order_status_id}}"{%if order_status.order_status_id == yabuy2_cancelled_status %} selected="selected"{% endif %}>{{order_status.name}}</option>
+			{% endfor %}
+		  </select>
+		</div>
+	  </div>
+
+	  <div class="form-group">
+		<label class="col-sm-3 control-label" for="input-weekends"><span data-toggle="tooltip" title="Сроки доставки сдвигаются с учетом выходных" >Выходные дни:</span></label>
+		<div class="col-sm-9">
+			<input type="checkbox" name="yabuy2_weekend_sat" value="1" id="cb_weekend_sat"{%if yabuy2_weekend_sat %} checked{% endif %} /><label for="cb_weekend_sat">Сб.</label>
+			<input type="checkbox" name="yabuy2_weekend_sun" value="1" id="cb_weekend_sun"{%if yabuy2_weekend_sun %} checked{% endif %} /><label for="cb_weekend_sun">Вс.</label>
+		</div>
+	  </div>
+
+	  <div class="form-group">
+		<div class="col-sm-12">
+	  <h3>{{entry_deliveries}}</h3>
+	  <div class="table-responsive">
+      <table id="deliveries" class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <td class="left">{{text_delivery_id}}</td>
+            <td class="left">{{text_delivery_name}}</td>
+            <td class="left">{{text_delivery_price}}<sup><a href="{{action}}#*">*</a></sup></td>
+            <td class="left">{{text_delivery_days}}<sup><a href="{{action}}#*">**</a></sup></td>
+            <td class="left">{{text_delivery_before}}</td>
+            <td class="left">{{text_delivery_region}}<sup><a href="{{action}}#*">***</a></sup></td>
+            <td>{{entry_payments}}</td>
+            <td></td>
+          </tr>
+        </thead>
+        {%set delivery_row = 0 %}
+        {% for delivery in yabuy2_deliveries %}
+        <tbody id="delivery-row{{delivery_row}}">
+          <tr>
+            <td class="left">
+				<input type="text" name="yabuy2_deliveries[{{delivery_row}}][id]" value="{{delivery.id}}" size="10"  class="form-control" />
+            </td>
+            <td class="left">
+				<input type="text" name="yabuy2_deliveries[{{delivery_row}}][name]" value="{{delivery.name}}" size="35" class="form-control" maxlength="50" />
+            </td>
+            <td class="left">
+				<input type="text" name="yabuy2_deliveries[{{delivery_row}}][price]" value="{{delivery.price}}" size="15" class="form-control" />
+            </td>
+            <td class="left">
+				<input type="text" name="yabuy2_deliveries[{{delivery_row}}][days]" value="{{delivery.days}}" size="6" class="form-control" />
+            </td>
+            <td class="left">
+				<input type="text" name="yabuy2_deliveries[{{delivery_row}}][before]" value="{{delivery.before}}" size="6" class="form-control" />
+            </td>
+            <td class="left">
+				<input type="text" name="yabuy2_deliveries[{{delivery_row}}][region]" value="{{delivery.region}}" size="10" class="form-control" />
+            </td>
+            <td><select name="yabuy2_deliveries[{{delivery_row}}][payments][]" size="4" class="form-control" multiple>
+              <option value="YANDEX"{%if 'YANDEX' in delivery.payments %} selected="selected"{% endif %}>предоплата банковской картой</option>
+              <option value="APPLE_PAY"{%if 'APPLE_PAY' in delivery.payments %} selected="selected"{% endif %}>предоплата Apple Pay</option>
+              <option value="GOOGLE_PAY"{%if 'GOOGLE_PAY' in delivery.payments %} selected="selected"{% endif %}>предоплата Google Pay</option>
+              <option value="CASH_ON_DELIVERY"{%if 'CASH_ON_DELIVERY' in delivery.payments %} selected="selected"{% endif %}>наличностью при получении заказа</option>
+              <option value="CARD_ON_DELIVERY"{%if 'CARD_ON_DELIVERY' in delivery.payments %} selected="selected"{% endif %}>картой при получении заказа</option>
+              <option value="TINKOFF_CREDIT"{%if 'TINKOFF_CREDIT' in delivery.payments %} selected="selected"{% endif %}>в кредит от Тинькофф</option>
+              <option value="TINKOFF_INSTALLMENTS"{%if 'TINKOFF_INSTALLMENTS' in delivery.payments %} selected="selected"{% endif %}>в рассрочку от Тинькофф</option>
+            </select></td>
+            <td class="right"><a onclick="$('#delivery-row{{delivery_row}}').remove();" data-toggle="tooltip" data-original-title="{{button_remove}}" class="btn btn-danger pull-right"><span><i class="fa fa-trash-o"></i></span></a></td>
+          </tr>
+        </tbody>
+        {%set delivery_row = delivery_row+1 %}
+        {% endfor %}
+		<tfoot>
+          <tr>
+            <td colspan="7"></td>
+            <td class="right"><a onclick="addDelivery();" data-toggle="tooltip" data-original-title="{{button_add_outlet}}" class="btn btn-primary pull-right"><span><i class="fa fa-plus"></i></span></a></td>
+		  </tr>
+		</tfoot>
+	  </table>
+	  </div>
+		</div>
+ 	  </div>
+	  
+	  <div class="form-group">
+		<div class="col-sm-12">
+	  <h3>{{entry_outlets}}</h3>
+	  <div class="table-responsive">
+      <table id="outlets" class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <td class="left">{{text_outlet_id}}</td>
+            <td class="left">{{text_outlet_zone}}</td>
+            <td class="left">{{text_outlet_city}}</td>
+            <td class="left">{{text_outlet_postcode}}</td>
+            <td class="left">{{text_outlet_address_1}}</td>
+            <td class="left">{{text_outlet_address_2}}</td>
+            <td class="left">{{text_outlet_price}}<sup><a href="{{action}}#*">*</a></sup></td>
+            <td class="left">{{text_delivery_days}}<sup><a href="{{action}}#*">**</a></sup></td>
+            <td>{{entry_payments}}</td>
+            <td></td>
+          </tr>
+        </thead>
+        {%set module_row = 0 %}
+        {%for outlet in yabuy2_outlets %}
+        <tbody id="module-row{{module_row}}">
+          <tr>
+            <td class="left">
+				<input type="text" name="yabuy2_outlets[{{module_row}}][id]" value="{{outlet.id}}" size="5" class="form-control" />
+            </td>
+            <td class="left">
+				<input type="text" name="yabuy2_outlets[{{module_row}}][zone]" value="{{outlet.zone}}" size="25" class="form-control" />
+            </td>
+            <td class="left">
+				<input type="text" name="yabuy2_outlets[{{module_row}}][city]" value="{{outlet.city}}" size="15" class="form-control" />
+            </td>
+            <td class="left">
+				<input type="text" name="yabuy2_outlets[{{module_row}}][postcode]" value="{{outlet.postcode}}" size="6" class="form-control" />
+            </td>
+            <td class="left">
+				<input type="text" name="yabuy2_outlets[{{module_row}}][address_1]" value="{{outlet.address_1}}" size="35" class="form-control" />
+            </td>
+            <td class="left">
+				<input type="text" name="yabuy2_outlets[{{module_row}}][address_2]" value="{{outlet.address_2}}" size="15" class="form-control" />
+            </td>
+            <td class="left">
+				<input type="text" name="yabuy2_outlets[{{module_row}}][price]" value="{{outlet.price}}" size="10" class="form-control" />
+            </td>
+            <td class="left">
+				<input type="text" name="yabuy2_outlets[{{module_row}}][days]" value="{{outlet['days']}}" size="4" class="form-control" />
+            </td>
+            <td><select name="yabuy2_outlets[{{module_row}}][payments][]" size="4" class="form-control" multiple>
+              <option value="YANDEX"{%if 'YANDEX' in outlet.payments %} selected="selected"{% endif %}>предоплата банковской картой</option>
+              <option value="APPLE_PAY"{%if 'APPLE_PAY' in outlet.payments %} selected="selected"{% endif %}>предоплата Apple Pay</option>
+              <option value="GOOGLE_PAY"{%if 'GOOGLE_PAY' in outlet.payments %} selected="selected"{% endif %}>предоплата Google Pay</option>
+              <option value="CASH_ON_DELIVERY"{%if 'CASH_ON_DELIVERY' in outlet.payments %} selected="selected"{% endif %}>наличностью при получении заказа</option>
+              <option value="CARD_ON_DELIVERY"{%if 'CARD_ON_DELIVERY' in outlet.payments %} selected="selected"{% endif %}>картой при получении заказа</option>
+              <option value="TINKOFF_CREDIT"{%if 'TINKOFF_CREDIT' in outlet.payments %} selected="selected"{% endif %}>в кредит от Тинькофф</option>
+              <option value="TINKOFF_INSTALLMENTS"{%if 'TINKOFF_INSTALLMENTS' in outlet.payments %} selected="selected"{% endif %}>в рассрочку от Тинькофф</option>
+            </select></td>
+            <td class="right"><a onclick="$('#module-row{{module_row}}').remove();" data-toggle="tooltip" data-original-title="{{button_remove}}" class="btn btn-danger pull-right"><span><i class="fa fa-trash-o"></i></span></a></td>
+          </tr>
+        </tbody>
+        {%set module_row = module_row+1 %}
+        {% endfor %}
+        <tfoot id="csvoutlets">
+          <tr>
+            <td colspan="8"></td>
+            <td class="right"><a onclick="addOutlet();" data-toggle="tooltip" data-original-title="{{button_add_outlet}}" class="btn btn-primary pull-right"><span><i class="fa fa-plus"></i></span></a></td>
+          </tr>
+		{%if csvoutlets %}
+          <tr>
+		  <td colspan="9">
+		  <a name="outlets"></a><b>{{text_csvoutlets}}</b> <a id="load_outlets" href="<?php $action}}#outlets" onClick="return loadOutlets();">{{text_show}}</a>
+		  </td>
+		  </tr>
+		{% endif %}
+        </tfoot>
+      </table>
+	  <a name="*"></a>
+	  * Цену можно задавать в виде: <b>0:500|3000:200</b> (доставка 500 при сумме заказа от 0, и 200 при сумме заказа от 3000)<br/>
+	  ** Срок доставки можно указать как диапазон, например: <b>2-3</b><br/>
+	  *** Код региона/города доставки можно узнать на странице управления Яндекс-маркетом (регионы доставки)
+	  </div>
+		</div>
+ 	  </div>
+	  
+    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript"><!--
+$('#get_token').click(function() {
+	var url = 'https://oauth.yandex.ru/authorize?response_type=code&client_id={{yandex_oauth_id}}&display=popup';
+	window.open(url, 'ya_oauth','width=600,height=350,resizable=yes,scrollbars=yes,status=yes,location=false');
+	return false;
+});
+
+var module_row = {{module_row}};
+var delivery_row = {{delivery_row}};
+var postal_row = 0; //{{postal_row}};
+
+function loadOutlets() {
+	$('#load_outlets').fadeOut();
+	$.ajax({
+		url: '{{url_csvoutlets}}&token={{token}}',
+		dataType: 'json',
+		success: function(json) {
+			for (i = 0; i < json.length; i++) {
+				var outlet = json[i];
+				html  = '  <tr>';
+				html += '    <td class="left">' +outlet.id+ '</td>';
+				html += '    <td class="left">' +outlet.zone+ '</td>';
+				html += '    <td class="left">' +outlet.city+ '</td>';
+				html += '    <td class="left">' +outlet.postcode+ '</td>';
+				html += '    <td class="left">' +outlet.address_1+ '</td>';
+				html += '    <td class="left">' +outlet.address_2+ '</td>';
+				html += '    <td class="left">' + (outlet.price ? outlet.price : 0) + '</td>';
+				html += '    <td class="left">' + (outlet.payment ? outlet.payment : 'CASH_ON_DELIVERY') + '</td>';
+				html += '    <td class="right">&nbsp;</td>';
+				html += '  </tr>';
+				$('#csvoutlets').append(html);
+			}
+		}
+	})
+	return false;
+}
+
+function addDelivery() {
+	html  = '<tbody id="delivery-row' + delivery_row + '">';
+	html += '  <tr>';
+	html += '    <td class="left"><input type="text" name="yabuy2_deliveries[' + delivery_row + '][id]" value="" size="5" class="form-control" /></td>';
+	html += '    <td class="left"><input type="text" name="yabuy2_deliveries[' + delivery_row + '][name]" value="" size="35" class="form-control" maxlength="50" /></td>';
+	html += '    <td class="left"><input type="text" name="yabuy2_deliveries[' + delivery_row + '][price]" value="0" size="15" class="form-control" /></td>';
+	html += '    <td class="left"><input type="text" name="yabuy2_deliveries[' + delivery_row + '][days]" value="" size="6" class="form-control" /></td>';
+	html += '    <td class="left"><input type="text" name="yabuy2_deliveries[' + delivery_row + '][before]" value="0" size="6" class="form-control" /></td>';
+	html += '    <td class="left"><input type="text" name="yabuy2_deliveries[' + delivery_row + '][region]" value="" size="10" class="form-control" /></td>';
+	
+	html += '    <td><select name="yabuy2_deliveries[' + delivery_row + '][payments][]" size="4" class="form-control" multiple>';
+	html += '    <option value="YANDEX" selected>предоплата банковской картой</option>';
+	html += '    <option value="APPLE_PAY">предоплата Apple Pay</option>';
+	html += '    <option value="GOOGLE_PAY">предоплата Google Pay</option>';
+	html += '    <option value="CASH_ON_DELIVERY">наличностью при получении заказа</option>';
+	html += '    <option value="CARD_ON_DELIVERY">картой при получении заказа</option>';
+	html += '    <option value="TINKOFF_CREDIT">в кредит от Тинькофф</option>';
+	html += '    <option value="TINKOFF_INSTALLMENTS">в рассрочку от Тинькофф</option>';
+	html += '    </select></td>';
+	
+	html += '    <td class="right"><a onclick="$(\'#delivery-row' + delivery_row + '\').remove();" data-toggle="tooltip" data-original-title="{{button_remove}}" class="btn btn-danger pull-right"><span><i class="fa fa-trash-o"></i></span></a></td>';
+	html += '  </tr>';
+	html += '</tbody>';
+	$('#deliveries tfoot').before(html);
+	
+	delivery_row++;
+}
+
+
+function addOutlet() {
+	html  = '<tbody id="module-row' + module_row + '">';
+	html += '  <tr>';
+	html += '    <td class="left"><input type="text" name="yabuy2_outlets[' + module_row + '][id]" value="" size="7" class="form-control" /></td>';
+	html += '    <td class="left"><input type="text" name="yabuy2_outlets[' + module_row + '][zone]" value="" size="25" class="form-control" /></td>';
+	html += '    <td class="left"><input type="text" name="yabuy2_outlets[' + module_row + '][city]" value="" size="15" class="form-control" /></td>';
+	html += '    <td class="left"><input type="text" name="yabuy2_outlets[' + module_row + '][postcode]" value="" size="6" class="form-control" /></td>';
+	html += '    <td class="left"><input type="text" name="yabuy2_outlets[' + module_row + '][address_1]" value="" size="35" class="form-control" /></td>';
+	html += '    <td class="left"><input type="text" name="yabuy2_outlets[' + module_row + '][address_2]" value="" size="15" class="form-control" /></td>';
+	html += '    <td class="left"><input type="text" name="yabuy2_outlets[' + module_row + '][price]" value="0" size="10" class="form-control" /></td>';
+	html += '    <td class="left"><input type="text" name="yabuy2_outlets[' + module_row + '][days]" value="0" size="4" class="form-control" /></td>';
+	
+	html += '    <td><select name="yabuy2_outlets[' + module_row + '][payments][]" size="4" class="form-control" multiple>';
+	html += '    <option value="YANDEX" selected>предоплата банковской картой</option>';
+	html += '    <option value="APPLE_PAY">предоплата Apple Pay</option>';
+	html += '    <option value="GOOGLE_PAY">предоплата Google Pay</option>';
+	html += '    <option value="CASH_ON_DELIVERY">наличностью при получении заказа</option>';
+	html += '    <option value="CARD_ON_DELIVERY">картой при получении заказа</option>';
+	html += '    <option value="TINKOFF_CREDIT">в кредит от Тинькофф</option>';
+	html += '    <option value="TINKOFF_INSTALLMENTS">в рассрочку от Тинькофф</option>';
+	html += '    </select></td>';
+	
+	html += '    <td class="right"><a onclick="$(\'#module-row' + module_row + '\').remove();" data-toggle="tooltip" data-original-title="{{button_remove}}" class="btn btn-danger pull-right"><span><i class="fa fa-trash-o"></i></span></a></td>';
+	
+	html += '  </tr>';
+	html += '</tbody>';
+	
+	$('#outlets tfoot').before(html);
+	
+	module_row++;
+}
+//--></script>
+{{ footer }}

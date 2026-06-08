@@ -1,0 +1,54 @@
+{#
+/**
+ * @author    p0v1n0m <p0v1n0m@gmail.com>
+ * @license   Commercial
+ * @link      https://github.com/p0v1n0m
+ */
+#}
+{% if shipping_methods %}
+{% for shipping_method in shipping_methods %}
+  <tr {% if not method_title %}style="display: none !important;"{% endif %}><td {% if method_select %}colspan="2"{% endif %}><strong>{{ shipping_method.title }}</strong></td></tr>
+  {% for quote in shipping_method.quote %}
+  <tr data-code="{{ quote.code }}" data-title="{{ quote.title|e }}" data-cost="{{ quote.cost }}" data-tax_class_id="{{ quote.tax_class_id }}" data-text="{{ quote.text|e }}" {% if quote.code == code %}class="success"{% endif %}>
+    <td>
+      {% if descriptions %}
+      {% for description in descriptions %}
+      {% if description and description.code == quote.code and description.position == 'prepend' %}
+        <p>{{ description.description }}</p>
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+      <p>
+        {% if quote.image is not empty %}
+          <img src="{{ quote.image }}" {{ quote.image_style is not empty ? 'style="' ~ quote.image_style ~ '"' : '' }}>
+        {% endif %}
+        {{ quote.title }}
+        <span class="label label-success">{{ quote.text }}</span>
+      </p>
+      {% if quote.description %}
+        <small>{{ quote.description }}</small>
+      {% endif %}
+      {% if descriptions %}
+      {% for description in descriptions %}
+      {% if description and description.code == quote.code and description.position == 'append' %}
+        <p>{{ description.description }}</p>
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+    </td>
+    {% if method_select %}
+    <td style="width: 1px; padding: 0; vertical-align: middle;">
+      <button type="button" class="{% if quote.code == code %}btn btn-success active disabled{% else %}btn btn-default{% endif %}" data-toggle="tooltip" title="{{ text_select }}" onclick="ll_shipping_widget_set_method('{{ quote.code }}');"><i class="fa fa-check-circle"></i></button>
+    </td>
+    {% endif %}
+  </tr>
+  {% endfor %}
+{% endfor %}
+{% else %}
+  <tr class="warning">
+    <td>
+      <i class="fa fa-exclamation-circle"></i>
+      {{ text_calculate_error }}
+    </td>
+  </tr>
+{% endif %}

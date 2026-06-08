@@ -1,0 +1,60 @@
+{{ header }}
+<div id="account-account" class="container">
+    <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+            <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+    </ul>
+    {% if success %}
+        <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}</div>
+    {% endif %}
+    <div class="row">{{ column_left }}
+        {% if column_left and column_right %}
+            {% set class = 'col-sm-6' %}
+        {% elseif column_left or column_right %}
+            {% set class = 'col-sm-9' %}
+        {% else %}
+            {% set class = 'col-sm-12' %}
+        {% endif %}
+        <div id="content" class="{{ class }}">{{ content_top }}
+            <h1>{{ heading_title }}</h1>
+
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <td class="text-left">{{ text_data_add }}</td>
+                    <td class="text-left">{{ text_product }}</td>
+                    <td class="text-right">{{ text_quantity }}</td>
+                </tr>
+                </thead>
+                <tbody>
+                {% if avails %}
+                {% for avail in avails %}
+                <tr>
+                    <td class="text-left">{{ avail.time }}</td>
+                    <td class="text-left"><a href="{{ avail.link_page }}">{{ avail.product_name }}</a>
+                        {% if avail.option %}
+                            {% for option in avail.option %}
+                            <p>{{ option.option_type }} : {{  option.option_name }} ( {{  option.option_quantity }} )</p>
+                            {% endfor %}
+                        {% endif %}</td>
+                    <td class="text-right">{{ avail.avail_status }}</td>
+                    <td class="text-right"> <a href="/index.php?route=extension/module/avail/delete&avail_id={{ avail.id }}" class="btn btn-danger">{{ text_delete }}</a>
+
+
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                <td class="text-center" colspan="3">{{ text_notify_no }}</td>
+                </tr>
+                {% endif %}
+                </tbody>
+            </table>
+
+            
+            {{ content_bottom }}</div>
+        {{ column_right }}</div>
+</div>
+{{ footer }}

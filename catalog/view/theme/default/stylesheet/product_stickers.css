@@ -1,0 +1,320 @@
+/* General */
+.product_stickers-catalog > div, .product_stickers-product > div {
+	background-repeat: no-repeat !important;
+}
+.product_stickers-catalog, .product_stickers-product {
+	position: absolute;
+	top: 5px;
+	z-index: 99;
+	font-family: 'Open Sans', sans-serif;
+	text-align: center;
+	color: #fff;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+/* Star */
+.product_stickers-star > div {
+    overflow: hidden;
+	width: 70px;
+	height: 70px;
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.09);
+	font-size: 10px;
+	line-height: 12px;
+	transform: rotate(-27deg);
+}
+.product_stickers-star > div + div {
+	margin-top: 2px;
+}
+.product_stickers-star.product_stickers-left {
+	left: 20px;	
+}
+.product_stickers-star.product_stickers-right {
+	right: 20px;
+}
+.product_stickers-star > div > div {
+	position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+	width: 50px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+.product_stickers-star .product_stickers-percent > div {
+	font-size: 20px;
+	line-height: 20px;
+}
+.product_stickers-star  .product_stickers-text-percent {
+	font-size: 18px;
+	line-height: 20px;
+}
+.product_stickers-star .product_stickers-special {
+	background: url('/image/catalog/product_stickers/star/special.png');
+}
+.product_stickers-star .product_stickers-new {
+	background: url('/image/catalog/product_stickers/star/new.png');
+}
+.product_stickers-star .product_stickers-featured {
+	background: url('/image/catalog/product_stickers/star/featured.png');
+}
+.product_stickers-star .product_stickers-bestseller {
+	background: url('/image/catalog/product_stickers/star/bestseller.png');
+}
+
+.product_stickers-stock.product_stickers-stock {
+	background: url('/image/catalog/product_stickers/star/stock.png');
+}
+/* Triangle */
+.product_stickers-triangle {
+	top: -7px;
+}
+.product_stickers-triangle > div {
+	white-space: nowrap;
+    overflow: hidden;
+	width: 112px;
+	height: 112px;
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.09);
+	font-size: 12px;
+	line-height: 19px;
+ /* padding: 4px 0 0 0; */
+}
+.product_stickers-triangle.product_stickers-left {
+	left: 8px;
+}
+.product_stickers-triangle.product_stickers-left div div {
+    width: 90px;
+    margin-top: 30px;
+    margin-left: -5px;
+    transform: rotate(-45deg);
+}
+.product_stickers-triangle.product_stickers-right {
+	right: 8px;
+	transform: scale(-1, 1);
+}
+.product_stickers-triangle.product_stickers-right div div {
+    width: 90px;
+    margin-top: 30px;
+    margin-left: -5px;
+    transform: scale(-1, 1) rotate(45deg);
+}
+.product_stickers-triangle .product_stickers-new {
+	background: url('/image/catalog/product_stickers/triangle/new.png');
+}
+.product_stickers-triangle .product_stickers-special {
+	background: url('/image/catalog/product_stickers/triangle/special.png');
+}
+.product_stickers-triangle .product_stickers-bestseller {
+	background-image: url('/image/catalog/product_stickers/triangle/bestseller.png');
+}
+.product_stickers-triangle .product_stickers-stock {
+	background: url('/image/catalog/product_stickers/triangle/stock.png');
+}
+/* Circle */
+.product_stickers-circle > div {
+    overflow: hidden;
+	width: 70px;
+	height: 70px;
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.09);
+	font-size: 10px;
+	line-height: 12px;
+	transform: rotate(27deg);
+}
+.product_stickers-circle > div + div {
+	margin-top: 2px;
+}
+.product_stickers-circle.product_stickers-left {
+	left: 20px;	
+}
+.product_stickers-circle.product_stickers-right {
+	right: 20px;
+}
+.product_stickers-circle > div > div {
+	position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+	width: 50px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+.product_stickers-circle .product_stickers-percent > div {
+	font-size: 20px;
+	line-height: 20px;
+}
+.product_stickers-circle  .product_stickers-text-percent {
+	font-size: 18px;
+	line-height: 20px;
+}
+.product_stickers-circle .product_stickers-special {
+	background: url('/image/catalog/product_stickers/circle/special.png');
+}
+.product_stickers-circle .product_stickers-new {
+	background: url('/image/catalog/product_stickers/circle/new.png');
+}
+.product_stickers-circle .product_stickers-featured {
+	background: url('/image/catalog/product_stickers/circle/featured.png');
+}
+.product_stickers-circle .product_stickers-bestseller {
+	background: url('/image/catalog/product_stickers/circle/bestseller.png');
+}
+
+.product_stickers-stock.product_stickers-stock {
+	background: url('/image/catalog/product_stickers/circle/stock.png');
+}
+/* Rectangle */
+.product_stickers-double-ribbon > div {
+/*	border-radius: 4px; */
+	white-space: nowrap;
+    overflow: hidden;
+	min-width: 92px;
+	height: 18px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.09);
+	font-size: 10px;
+	line-height: 15px;
+	background-repeat: repeat-x !important;
+}
+.product_stickers-double-ribbon > div + div {
+	margin-top: 2px;
+}
+.product_stickers-double-ribbon.product_stickers-left {
+	left: 20px;
+}
+.product_stickers-double-ribbon.product_stickers-right {
+	right: 20px;
+}
+.product_stickers-double-ribbon .product_stickers-new {
+	background: url('/image/catalog/product_stickers/double-ribbon/new.png');
+}
+.product_stickers-double-ribbon .product_stickers-special {
+	background: url('/image/catalog/product_stickers/double-ribbon/special.png');
+}
+.product_stickers-double-ribbon .product_stickers-bestseller {
+	background: url('/image/catalog/product_stickers/double-ribbon/bestseller.png');
+}
+.product_stickers-double-ribbon .product_stickers-stock {
+	background: url('/image/catalog/product_stickers/double-ribbon/stock.png');
+}
+/* Ribbon */
+.product_stickers-ribbon > div {
+	white-space: nowrap;
+    overflow: hidden;
+	width: 120px;
+	height: 40px;
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.09);
+	font-size: 11px;
+	line-height: 18px;
+	padding: 3px 0 0 0;
+}
+.product_stickers-ribbon > div + div {
+	margin-top: 1px;
+}
+.product_stickers-ribbon.product_stickers-left {
+	left: 4px;
+}
+.product_stickers-ribbon.product_stickers-right {
+	right: 4px;
+	transform: scale(-1, 1);
+}
+.product_stickers-ribbon.product_stickers-right > div > div {
+	transform: scale(-1, 1);
+}
+.product_stickers-ribbon .product_stickers-new {
+	background: url('/image/catalog/product_stickers/ribbon/new.png');
+}
+.product_stickers-ribbon .product_stickers-special {
+	background: url('/image/catalog/product_stickers/ribbon/special.png');
+}
+.product_stickers-ribbon .product_stickers-bestseller {
+	background: url('/image/catalog/product_stickers/ribbon/bestseller.png');
+}
+.product_stickers-ribbon .product_stickers-stock {
+	background: url('/image/catalog/product_stickers/ribbon/stock.png');
+}
+/* Diagonal ribbon */
+.product_stickers-diagonal-ribbon {
+	top: -7px;
+}
+.product_stickers-diagonal-ribbon > div {
+	white-space: nowrap;
+    overflow: hidden;
+	width: 112px;
+	height: 112px;
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.09);
+	font-size: 12px;
+	line-height: 19px;
+ /* padding: 4px 0 0 0; */
+}
+.product_stickers-diagonal-ribbon.product_stickers-left {
+	left: 8px;
+}
+.product_stickers-diagonal-ribbon.product_stickers-left div div {
+	width: 85px;
+	margin-top: 24px;
+	margin-left: -8px;
+    transform: rotate(-45deg);
+}
+.product_stickers-diagonal-ribbon.product_stickers-right {
+	right: 8px;
+	transform: scale(-1, 1);
+}
+.product_stickers-diagonal-ribbon.product_stickers-right div div {
+    width: 85px;
+    margin-top: 24px;
+    margin-left: -8px;
+    transform: scale(-1, 1) rotate(45deg);
+}
+.product_stickers-diagonal-ribbon .product_stickers-new {
+	background: url('/image/catalog/product_stickers/diagonal-ribbon/new.png');
+}
+.product_stickers-diagonal-ribbon .product_stickers-special {
+	background: url('/image/catalog/product_stickers/diagonal-ribbon/special.png');
+}
+.product_stickers-diagonal-ribbon .product_stickers-bestseller {
+	background-image: url('/image/catalog/product_stickers/diagonal-ribbon/bestseller.png');
+}
+.product_stickers-diagonal-ribbon .product_stickers-stock {
+	background: url('/image/catalog/product_stickers/diagonal-ribbon/stock.png');
+}
+/* Diagonal stripe */
+.product_stickers-diagonal-stripe {
+	top: -7px;
+}
+.product_stickers-diagonal-stripe > div {
+	white-space: nowrap;
+    overflow: hidden;
+	width: 112px;
+	height: 112px;
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.09);
+	font-size: 12px;
+	line-height: 19px;
+ /* padding: 4px 0 0 0; */
+}
+.product_stickers-diagonal-stripe.product_stickers-left {
+	left: 8px;
+}
+.product_stickers-diagonal-stripe.product_stickers-left div div {
+    width: 90px;
+    margin-top: 30px;
+    margin-left: -5px;
+    transform: rotate(-45deg);
+}
+.product_stickers-diagonal-stripe.product_stickers-right {
+	right: 8px;
+	transform: scale(-1, 1);
+}
+.product_stickers-diagonal-stripe.product_stickers-right div div {
+    width: 90px;
+    margin-top: 30px;
+    margin-left: -5px;
+    transform: scale(-1, 1) rotate(45deg);
+}
+.product_stickers-diagonal-stripe .product_stickers-new {
+	background: url('/image/catalog/product_stickers/diagonal-stripe/new.png');
+}
+.product_stickers-diagonal-stripe .product_stickers-special {
+	background: url('/image/catalog/product_stickers/diagonal-stripe/special.png');
+}
+.product_stickers-diagonal-stripe .product_stickers-bestseller {
+	background-image: url('/image/catalog/product_stickers/diagonal-stripe/bestseller.png');
+}
+.product_stickers-diagonal-stripe .product_stickers-stock {
+	background: url('/image/catalog/product_stickers/diagonal-stripe/stock.png');
+}

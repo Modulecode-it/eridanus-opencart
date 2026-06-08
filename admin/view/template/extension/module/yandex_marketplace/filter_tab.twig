@@ -1,0 +1,125 @@
+<div class="col-sm-2"></div>
+<div class="col-sm-10 tab-pane active" id="filter-block-{{filter_number}}">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{{text_filter_name}}</label>
+        <div class="col-sm-10">
+            <input type="text" name='filtres[{{filter_number}}][filter_name]' value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{{entry_category}}</label>
+        <div class="col-sm-10">
+        <div>
+            <label class="radio-inline">
+                <input type="radio" {{ (yandex_market_category_all ? ' checked="checked"' : '') }}
+                    class="yandex_market_category_tree_switcher"
+                    name="filtres[{{filter_number}}]['yandex_market_category_all']" value="on"/> {{text_field_upload_all}}
+            </label>
+        </div>
+        <div>
+            <label class="radio-inline">
+                <input type="radio" {{ (not yandex_market_category_all ? ' checked="checked"' : '') }}
+                    class="yandex_market_category_tree_switcher"
+                    name="filtres[{{filter_number}}]['yandex_market_category_all']" value=""/> {{text_field_upload_selected}}
+            </label>
+        </div>
+        <div class="panel panel-default yandex-money-market-category-tree {{ (yandex_market_category_all ? 'yandex-money-market-hidden-element' : '') }}">
+            <div class="tree-panel-heading tree-panel-heading-controls clearfix">
+                <div class="tree-actions pull-right">
+                    <a onclick="return false;" class="btn btn-default catTreeHideCatAll">
+                        <i class="fa fa-minus-square-o"></i> {{ market_sv_all }}
+                    </a>
+                    <a onclick="return false;" class="btn btn-default catTreeShowCatAll">
+                        <i class="fa fa-plus-square-o "></i> {{ market_rv_all }}
+                    </a>
+                    <a onclick="return false;" class="btn btn-default catTreeCheckCatAll">
+                        <i class="fa fa-check-square-o"></i> {{ market_ch_all }}
+                    </a>
+                    <a onclick="return false;" class="btn btn-default catTreeUncheckCatAll">
+                        <i class="fa fa-square-o "></i> {{ market_unch_all }}
+                    </a>
+                </div>
+            </div>
+            <ul id="categoryTree" class="tree">
+                {{ market_cat_tree }}
+            </ul>
+        </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{{text_field_name_manufacturer}}</label>
+        <div class="col-sm-10">
+            <div class="panel panel-default">	
+                <ul>
+                    {% for manufacturer in manufacturers %}
+                        <li>
+                            <span>
+                                <label>
+                                    <input type="checkbox" name="filtres[{{filter_number}}]['manufacturers'][]" value="{{manufacturer.manufacturer_id}}">
+                                    {{manufacturer.name}}
+                                </label>
+                            </span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{{text_field_name_price}}</label>
+        <div class="col-sm-10">
+           	{{text_field_from}} <input type="checbox" name="filtres[{{filter_number}}][price_to]" value=""> {{text_field_to}} <input type="checbox" name="filtres[{{filter_number}}][price_from]" value="">
+        </div>
+    </div>
+
+    <div class="form-group" id="availability-status">
+        <label class="col-sm-2 control-label">{{text_field_availability_status}}</label>
+        <div class="col-sm-10">
+            <input name="filtres[{{filter_number}}][availability]" type="radio" value="all"> {{text_field_all}}
+            <input name="filtres[{{filter_number}}][availability]" type="radio" value="in_stock" selected> {{text_field_only_presence}}
+            <input name="filtres[{{filter_number}}][availability]" type="radio" value="stock-status-type"> {{text_field_only_presence_and_status}}
+        </div>
+    </div>
+
+    <div class="form-group" style="display:none" id="stock-status-block">
+        <label class="col-sm-2 control-label">{{text_field_stock_status}}</label>
+        <div class="col-sm-10">
+            <select name="stock_status_id" id="input-stock-status" class="form-control">
+                {% for stock_status in stock_statuses %}
+                    {% if stock_status.stock_status_id == stock_status_id %}
+                        <option value="{{ stock_status.stock_status_id }}" selected="selected">{{ stock_status.name }}</option>
+                    {% else %}
+                        <option value="{{ stock_status.stock_status_id }}">{{ stock_status.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{{text_delivery}}</label>
+        <div class="col-sm-10" id='delivery-options-1'>
+            <div class="col-sm-12"><input name="filtres[{{filter_number}}][delivery_options][1][delivery_options_cost]"> {{text_delivery_options_cost}}</div>
+            <div class="col-sm-12"><input name="filtres[{{filter_number}}][delivery_options][1][delivery_options_days]"> {{text_delivery_options_days}}</div>
+            <div class="col-sm-12"><input name="filtres[{{filter_number}}][delivery_options][1][delivery_options_order_before]"> {{text_delivery_options_order_before}}</div>
+        </div>
+        <div></div>
+        <div class="col-sm-12 button-block">
+            <div class="col" style="float: inline-end;">
+                <button id="add-delivery" class="btn btn-success add-ocm-new">{{text_add_delivery}}</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{{text_pickup}}</label>
+        <div class="col-sm-10">
+            <div class="col-sm-12"><input name="filtres[{{filter_number}}][pickup_options][pickup_options_cost]"> {{text_pickup_options_cost}}</div>
+            <div class="col-sm-12"><input name="filtres[{{filter_number}}][pickup_options][pickup_options_days]"> {{text_pickup_options_days}}</div>
+            <div class="col-sm-12"><input name="filtres[{{filter_number}}][pickup_options][pickup_options_order_before]"> {{text_pickup_options_order_before}}</div>
+        </div>
+    </div>
+</div>
+
+<script>

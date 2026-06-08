@@ -1,0 +1,141 @@
+{{ header }}{{ column_left }}
+<div id="content">
+	<div class="page-header">
+		<div class="container-fluid">
+			<h1>{{ heading_title_versions }}</h1>
+			<ul class="breadcrumb">
+				{% for breadcrumb in breadcrumbs %}
+				<li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<div class="container-fluid">
+
+		<div class="tab-content">
+			<div class="tab-pane {% if not check_products %} active {% endif %}" id="tab-product_groups">
+				<div class="panel panel-default">
+					
+					<div class="panel-body">
+							<div class="table-responsive">
+								<table class="table table-bordered table-hover">
+									<thead>
+										<tr>
+											<td class="text-left">
+												{{ column_name }}
+											</td>
+										</tr>
+									</thead>
+									<tbody>
+										{% for key, value in versions_info %}
+										<tr>
+											<td class="text-left button-version" id="version-{{ key }}"> Версия {{ value.version }} <span></span></td> 
+											<td class="text-left version-line hidden" id="version-{{ key }}"> {{ value.line }}</td>
+										</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						<div class="row">
+							<div class="col-sm-6 text-left">{{ pagination }}</div>
+							<div class="col-sm-6 text-right">{{ results }}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+<div class="modal-hidden hidden">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title"><i class="fa fa-cog"></i> {{ heading_title }}</h4>
+            </div>
+            <div class="modal-body">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <td>Описание</td>
+                </tr>
+                </thead>
+                <tr>
+                    <td class="description">test</td>
+                </tr>
+            </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.lds-dual-ring {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  border-color: #939393 transparent #939393 transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+</style>
+
+<!--<script>
+$('.button-version').on('click', function() {
+    let modal_content = $('.modal-hidden').html();
+    let version = $(this).attr('id');
+    
+	$('#modal-developer').remove();
+	$('body').prepend('<div id="modal-developer" class="modal">' + modal_content + '</div>');
+	$('#modal-developer').modal('show');
+	
+	let line = $('.version-line#'+version).html();
+	$('.description').html(line);
+});
+</script>-->
+
+<script type="text/javascript"><!--
+$('.button-version').on('click', function() {
+    let version = $(this).attr('id');
+	$.ajax({
+		url: 'index.php?route=extension/module/yandex_marketplace/versions_info/modalVersionInfo&user_token={{ user_token }}&id='+ version,
+		dataType: 'html',
+		beforeSend: function() {
+			$('#'+version+' span').addClass('lds-dual-ring');
+		},
+		complete: function() {
+			$('#'+version+' span').removeClass('lds-dual-ring');
+		},
+		success: function(html) {
+			$('#modal-developer').remove();
+			
+			$('body').prepend('<div id="modal-developer" class="modal">' + html + '</div>');
+			
+			$('#modal-developer').modal('show');
+		},
+		error: function(xhr, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
+	});	
+});	
+//--></script> 
+
+{{ footer }}

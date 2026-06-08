@@ -1,0 +1,142 @@
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h4 class="modal-title"><i class="fa fa-cog"></i> Отгрузка № {{ shipment_id }}</h4>
+		</div>
+		<div class="modal-body">
+			{% if error_warning %}
+			<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+			</div>
+			{% endif %}
+			{% if success %}
+			<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+			  <button type="button" class="close" data-dismiss="alert">&times;</button>
+			</div>
+			<script>
+			$("#modal").on("hidden.bs.modal", function () {
+			 	location.reload();
+			});
+			</script>
+			{% endif %}
+			
+			<dl class="row">
+				<dt class="col-sm-4">Идентификатор отгрузки</dt>
+				<dd class="col-sm-8">{{ shipment_id }}</dd>
+			</dl>
+			<dl class="row">
+				<dt class="col-sm-4">Начало планового интервала отгрузки</dt>
+				<dd class="col-sm-8">{{ planIntervalFrom }}</dd>
+			</dl>
+			<dl class="row">
+				<dt class="col-sm-4">Конец планового интервала отгрузки</dt>
+				<dd class="col-sm-8">{{ planIntervalTo }}</dd>
+			</dl>
+			<dl class="row">
+				<dt class="col-sm-4">Способ отгрузки заказов</dt>
+				<dd class="col-sm-8">{{ shipmentType }}</dd>
+			</dl>
+			<dl class="row">
+				<dt class="col-sm-4">Сортировочный центр или пункт отгрузки</dt>
+				<dd class="col-sm-8">{{ warehouse.name }} <br> {{ warehouse.address }} </dd>
+			</dl>
+			<dl class="row">
+				<dt class="col-sm-4">Служба доставки</dt>
+				<dd class="col-sm-8">{{ deliveryService.name }}</dd>
+			</dl>
+			<dl class="row">
+				<dt class="col-sm-4">Статус отгрузки</dt>
+				<dd class="col-sm-8">{{ currentStatus }}</dd>
+
+			</dl>
+			
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected_orders\']').prop('checked', this.checked);" /></td>
+						<td class="text-left">№ Заказа</td>
+						<td class="text-right">Дата добавления</td>
+						<td class="text-right">Статус</td>
+						<td class="text-right">Итого</td>
+						<td class="text-right"></td>
+					</tr>
+				</thead>
+				<tbody>
+					{% if orders %}
+					{% for order in orders %}
+					<tr>
+						<td class="text-center"> 
+							{% if order.market_order_id in selected_orders %}
+							<input type="checkbox" name="selected_orders[]" value="{{ order.market_order_id }}" checked="checked" />
+							{% else %}
+							<input type="checkbox" name="selected_orders[]" value="{{ order.market_order_id }}" />
+							{% endif %}
+						</td>
+						<td class="text-left">{{ order.order_id }}</td>
+						<td class="text-right">{{ order.date_added }}</td>
+						<td class="text-right">{{ order.order_status }}</td>
+						<td class="text-right">{{ order.total }}</td>
+						<td>
+							<div class="btn-group">
+								<a href="{{ order.view }}" target="_blank" data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Посмотреть"><i class="fa fa-eye"></i></a>
+								{% if order.labels %}
+								<a href="{{ order.label_link }}" target="_blank" data-toggle="tooltip" title="{{ button_field_print_order }}" class="btn btn-info"><i class="fa fa-print"></i></a>
+								{% endif %}
+							</div>
+						</td>
+					</tr>
+					{% endfor %}
+					{% else %}
+					<tr class="text-center">
+						<td colspan="5">
+							Список заказов пуст
+						</td>
+					</tr>
+					{% endif %}
+				</tbody>
+			</table>
+			
+			{% if availableActions or orders %}
+			<div class="form-group text-right">
+				<button type="button" id="button-items-list" class="btn btn-primary">Лист комплектации</button>
+				{% if 'CONFIRM' in availableActions %}
+				<button type="button" id="button-items-submit" class="btn btn-success">Подтвердить отгрузку</button>
+				{% endif %}
+				
+				{% if 'DOWNLOAD_ACT' in availableActions %}
+				<a href="{{ act_link }}" target="_blank" class="btn btn-success">Получить акт приема-передачи</a>
+				{% endif %}
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+<script>
+$('#button-items-submit').on('click',function(){
+	$.ajax({
+		url: 'index.php?route=extension/module/yandex_marketplace/shipments_fbs/shipmentModal&shipment_id={{ shipment_id }}&user_token={{ user_token }}',
+		type: 'post',
+		dataType: 'json',
+		data:$('#modal input[name=\'selected_orders[]\']:checked'),
+		success: function(json) {
+			if(json['success']){
+				$('#modal').html(json['success']);
+			}
+		},
+		error: function(xhr, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
+	});	
+
+});	
+
+$('#button-items-list').click(function(){
+	url ='index.php?route=extension/module/yandex_marketplace/shipments_fbs/itemList&shipment_id={{ shipment_id }}&user_token={{ user_token }}';
+	
+	$('input[name=\'selected_orders[]\']:checked').each(function(){
+		url += '&selected_orders[]=' + encodeURIComponent($(this).val());
+	});
+	 window.open(url, '_blank').focus();
+});
+</script>

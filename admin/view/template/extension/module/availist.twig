@@ -1,0 +1,854 @@
+{{header}}{{column_left}}
+<div id ="content">
+<div class="page-header">
+    <div class="container-fluid">
+	<div class="pull-right">
+                <a href="{{cancel}}" data-toggle="tooltip" title="{{button_cancel}}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+            </div>
+        <h1>{{heading_title}}</h1>
+        <ul class="breadcrumb">
+            {% for breadcrumb in breadcrumbs %}
+            <li><a href="{{breadcrumb.href}}">{{breadcrumb.text}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="container-fluid">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h3 class="panel-title">{{text_list}}</h3></div>
+            <div class="panel-body">
+                <div class="content">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab-active" data-toggle="tab">{{tab_active}}</a></li>
+                        <li><a href="#tab-closed" data-toggle="tab">{{tab_closed}}</a></li>
+                       {% if avail_options_status >1 %}
+                           {% else %}
+                           <li><a href="#tab-products" data-toggle="tab">{{tab_products}}</a></li>
+                       {% endif %}
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab-active">
+                            <div class="well">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label" for="input-name">{{entry_name }}</label>
+                                                <input type="text" name="filter_name" value="{{filter_name }}" placeholder="{{entry_name }}" id="input-name" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label" for="input-email">{{entry_email }}</label>
+                                                <input type="text" name="filter_email" value="{{filter_email }}" placeholder="{{entry_email }}" id="input-email" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label" for="input-status">{{text_entry_status }}</label>
+                                                <select name="filter_status" id="input-status" class="form-control">
+
+                                                    {% if not filter_status %}
+                                                        <option value="*" selected="selected"> --- </option>
+                                                        <option value="1" >{{text_filter_disabled }}</option>
+                                                        <option value="0">{{text_filter_enabled }}</option>
+                                                    {% else %}
+                                                        {%  if filter_status %}
+                                                            <option value="*" selected="selected"> --- </option>
+                                                            {%  if filter_status == '1'%}
+                                                                <option value="1" selected="selected">{{text_filter_disabled }}</option>
+                                                                <option value="0" >{{text_filter_enabled }}</option>
+                                                            {% elseif  filter_status == '0' %}
+                                                                <option value="1" >{{text_filter_disabled }}</option>
+                                                                <option value="0" selected="selected" >{{text_filter_enabled }}</option>
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% endif %}
+
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-3 {{ avail_show_model == '1'  ?'':'hidden' }}">
+                                            <div class="form-group">
+                                                <label class="control-label" for="input-model">{{ entry_model }}</label>
+                                                <input type="text" name="filter_model" value="{{ filter_model }}" placeholder="{{  entry_model }}" id="input-model" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 {{ avail_show_sku == '1'  ?'':'hidden' }}">
+                                            <div class="form-group">
+                                                <label class="control-label" for="input-model">{{ entry_sku }}</label>
+                                                <input type="text" name="filter_sku" value="{{ filter_sku }}" placeholder="{{  entry_sku  }}" id="input-model" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="{{ avail_show_model =='1' or avail_show_sku =='1' ?'col-sm-3':'col-sm-4'}}">
+                                            <div class="form-group">
+                                                <label class="control-label" for="input-date-start">{{entry_date_start }}</label>
+                                                <div class="input-group date">
+                                                    <input type="text" name="filter_date_start" value="{{filter_date_start }}" placeholder="{{entry_date_start }}" data-date-format="YYYY-MM-DD" id="input-date-start" class="form-control" />
+                                                    <span class="input-group-btn">
+									                 <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+									                </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="{{  avail_show_model =='1'?'col-sm-3':'col-sm-4' }}">
+                                            <div class="form-group">
+                                                <label class="control-label" for="input-date-end">{{entry_date_end }}</label>
+                                                <div class="input-group date">
+                                                    <input type="text" name="filter_date_end" value="{{filter_date_end }}" placeholder="{{entry_date_end }}" data-date-format="YYYY-MM-DD" id="input-date-end" class="form-control" />
+                                                    <span class="input-group-btn">
+									                <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+									                 </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="{{ avail_show_model =='1'?'col-sm-3':'col-sm-4' }}">
+                                            <div class="form-group">
+                                                <label class="control-label" for="input-count">{{ text_entry_count }}</label>
+                                                <select name="avlist_filter_count" id="input-count" class="form-control">
+
+                                                    {%  if avlist_filter_count == 'all' %}
+                                                        <option value="10">{{ text_filter_count_10 }}</option>
+                                                        <option value="25">{{ text_filter_count_25 }}</option>
+                                                        <option value="50">{{ text_filter_count_50 }}</option>
+                                                        <option value="100">{{ text_filter_count_100 }}</option>
+                                                        <option value="all" selected="selected">{{ text_filter_count_all }}</option>
+                                                    {% elseif avlist_filter_count == 10 %}
+                                                        <option value="10" selected="selected">{{ text_filter_count_10 }}</option>
+                                                        <option value="25">{{ text_filter_count_25 }}</option>
+                                                        <option value="50">{{ text_filter_count_50 }}</option>
+                                                        <option value="100">{{ text_filter_count_100 }}</option>
+                                                        <option value="all">{{ text_filter_count_all }}</option>
+                                                    {% elseif  avlist_filter_count == 25 %}
+                                                        <option value="10">{{ text_filter_count_10 }}</option>
+                                                        <option value="25" selected="selected">{{ text_filter_count_25 }}</option>
+                                                        <option value="50">{{ text_filter_count_50 }}</option>
+                                                        <option value="100">{{ text_filter_count_100 }}</option>
+                                                        <option value="all">{{ text_filter_count_all }}</option>
+                                                    {% elseif avlist_filter_count == 50 %}
+                                                        <option value="10">{{ text_filter_count_10 }}</option>
+                                                        <option value="25">{{ text_filter_count_25 }}</option>
+                                                        <option value="50" selected="selected">{{ text_filter_count_50 }}</option>
+                                                        <option value="100">{{ text_filter_count_100 }}</option>
+                                                        <option value="all">{{ text_filter_count_all }}</option>
+                                                    {% elseif avlist_filter_count == 100 %}
+                                                        <option value="10">{{ text_filter_count_10 }}</option>
+                                                        <option value="25">{{ text_filter_count_25 }}</option>
+                                                        <option value="50">{{ text_filter_count_50 }}</option>
+                                                        <option value="100" selected="selected">{{ text_filter_count_100 }}</option>
+                                                        <option value="all">{{ text_filter_count_all }}</option>
+                                                    {% endif  %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <form action="" method="post" enctype="multipart/form-data" id="form">
+                                <div class="box">
+                                    <div class="heading">
+                                        <div class="buttons clearfix">
+										<div class="col-sm-4">
+
+											<a class="btn btn-primary makeLink1">{{button_send}}</a>
+											<button id="update" class="btn btn-primary">{{reload}}</button>
+											<button type="button" id="button-filter" class="btn btn-primary"><i class="fa fa-filter"></i> {{button_filter}}</button>
+
+										</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tr>
+
+                                            <td class="col-md-1">
+                                              {% if sort == 'a.time' %}
+                                                <a href="{{sort_time}}" class="{{  order|lower }}">{{text_time}}</a>
+                                              {% else %}
+                                                <a href="{{sort_time}}">{{text_time}}</a>
+                                              {% endif %}
+                                            </td>
+                                            <td class="col-md-3">
+                                              {% if sort == 'a.product' %}
+                                                <a href="{{sort_product}}" class="{{  order|lower}}">{{text_product}}</a>
+                                              {% else %}
+                                                <a href="{{sort_product}}">{{text_product}}</a>
+                                              {% endif %}
+                                            </td>
+                                            <td class="col-md-1 {{ (avail_show_model ==1)?'':'hidden'}}">
+                                              {% if sort == 'p.model' %}
+                                                <a href="{{sort_model}}" class="{{ order|lower}}">{{text_model}}</a>
+                                              {% else %}
+                                                <a href="{{sort_model}}">{{text_model}}</a>
+                                              {% endif %}
+                                            </td>
+                                            <td class="col-md-1 {{ (avail_show_sku ==1)?'':'hidden'}}">
+                                                {% if sort == 'p.model' %}
+                                                    <a href="{{sort_sku}}" class="{{ order|lower}}">{{text_sku}}</a>
+                                                {% else %}
+                                                    <a href="{{sort_sku}}">{{text_sku}}</a>
+                                                {% endif %}
+                                            </td>
+                                            <td class="col-md-1">
+                                              {% if sort == 'p.price' %}
+                                                <a href="{{sort_price}}" class="{{ order|lower }}">{{text_price}}</a>
+                                              {% else %}
+                                                <a href="{{sort_price}}">{{text_price}}</a>
+                                              {% endif %}
+                                            </td>
+                                            <td class="col-md-2">
+                                              {% if sort == 'a.mail' %}
+                                                <a href="{{sort_mail}}" class="{{ order|lower }}">{{text_mail}}</a>
+                                              {% else %}
+                                                <a href="{{sort_mail}}">{{text_mail}}</a>
+                                              {% endif %}
+                                            </td>
+                                            <td class="col-md-2">
+                                            {% if sort == 'a.name' %}
+                                              <a href="{{sort_name}}" class="{{ order|lower }}">{{text_name}}</a>
+                                            {% else %}
+                                              <a href="{{sort_name}}">{{text_name}}</a>
+                                            {% endif %}
+                                            </td>
+                                            <td class="col-md-1 {{ (avail_show_comment_column == 1)?:hidden}}">{{text_comment}}</td>
+                                            <td class="col-md-1">
+                                            {% if sort == 'a.statuse' %}
+                                              <a href="{{sort_statuse}}" class="{{ order|lower }}">{{text_statuse}}</a>
+                                            {% else %}
+                                              <a href="{{sort_statuse}}">{{text_statuse}}</a>
+                                            {% endif %}
+                                            </td>
+                                            <td class="col-md-1">
+                                              {% if sort == 'p.quantity' %}
+                                                <a href="{{sort_quantity}}" class="{{ order|lower }}">{{text_quantity}}</a>
+                                              {% else %}
+                                                <a href="{{sort_quantity}}">{{text_quantity}}</a>
+                                              {% endif %}
+                                            </td>
+                                            <td class="col-md-1">
+                                                {% if sort == 'a.desired_quantity' %}
+                                                <a href="{{  sort_desired_quantity }}" class="{{ order }}">{{ text_avail_desired_quantity }}</a>
+                                                {%   else %}
+                                                <a href="{{  sort_desired_quantity }}">{{  text_avail_desired_quantity }}</a>
+                                                {% endif %}
+                                            </td>
+                                            <td class="col-md-1">
+                                                {{text_arbitrary_show_hide}}
+                                            </td>
+                                        </tr>
+                                        {% if availabilities %}
+                                            {% for availability in availabilities %}
+                                        <tbody class="tr_hid">
+                                            <tr>
+
+                                                <!--<td class="col-md-1">{{availability.id}}</td>-->
+                                                <td class="col-md-1">{{availability.time}}</td>
+                                                <td class="col-md-3">
+                                                <p><a href="{{availability.edit}}"><b>{{availability.product}}</b></a></p>
+                                                    {% for value in availability.options %}
+                                                        <p> {{  value.option_type }} : {{ value.option_name }} ( {{ value.option_quantity }} )</p>
+                                                    {% endfor %}
+                                                </td>
+                                                <td class="col-md-1 {{ (avail_show_model ==1)?'':'hidden'}}">{{availability.model}}</td>
+                                                <td class="col-md-1 {{ (avail_show_sku ==1)?'':'hidden'}}">{{availability.sku}}</td>
+                                                <td class="col-md-1">{{availability.price}}</td>
+                                                <td class="col-md-2">{{availability.email}}</td>
+                                                <td class="col-md-2">{{availability.name}}</td>
+                                                <td class="col-md-1 {{ (avail_show_comment_column == 1)?:hidden}}">{{availability.comment}}
+                                                    {%  if availability.full_comment %}
+                                                        <span  class="all-hover" data-container="body" data-toggle="popover" data-placement="bottom" data-content="{{ availability.full_comment }}">&nbsp;&nbsp; <span style="cursor:pointer;"> ...</span></span>
+                                                    {% endif %}
+                                                </td>
+                                                <td class="col-md-1">
+                                                    <select id="{{ availability.id }}" class="call_status {{  availability.status == '1'?'closed':'opened'}}">
+                                                        {% for status in statuses %}
+
+                                                            {% if loop.index0 == availability.status  %}
+                                                                <option value='{{ loop.index0}}' data-id="{{ availability.id }}" data-product-id="{{ availability.product_id }}" selected >{{ status}} </option>
+                                                            {% else %}
+                                                                <option value='{{ loop.index0}}' data-id="{{ availability.id }}" data-product-id="{{ availability.product_id }}" >{{ status}} </option>
+                                                            {% endif %}
+
+                                                        {% endfor %}
+                                                    </select>
+                                                </td>
+
+                                                <td class="col-md-1">{{availability.quantity}}</td>
+                                                <td class="col-md-1">{{  availability.desired_quantity }}</td>
+													{% if availability.arbitrary_fields != avail_arbitrary_ifarray %}
+
+                                                <td>
+														<span class="btn btn-primary eye_hid">
+															<i class="fa fa-eye"></i>
+														</span>
+                                                </td>
+                                                {% endif %}
+                                            </tr>
+                                            <tr class="form_hid" style="display: none; background-color: whitesmoke;">
+                                                {% for key, value in availability.arbitrary_fields %}
+                                                    <td>
+                                                        <b>{{avail_arbitrary_fields[key][availability.arbitrary_lang].field_name}}:</b>
+                                                    </td>
+                                                {% endfor %}
+                                            </tr>
+                                            <tr class="form_hid" style="display: none; background-color: whitesmoke;">
+                                                {% for arbitrary_fields_data in availability.arbitrary_fields %}
+                                                <td>
+                                                    {{arbitrary_fields_data}}
+                                                </td>
+                                                {% endfor %}
+
+                                            </tr>
+                                        </tbody>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </table>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="tab-pane" id="tab-closed">
+						<div class="well">
+							<div class="row">
+							  <div class="col-sm-12">
+								<div class="col-sm-4">
+								  <div class="form-group">
+									<label class="control-label" for="input-name-close">{{entry_name}}</label>
+									<input type="text" name="filter_name_close" value="{{filter_name_close}}" placeholder="{{entry_name}}" id="input-name" class="form-control" />
+								  </div>
+								</div>
+								<div class="col-sm-4">
+								  <div class="form-group">
+									<label class="control-label" for="input-email-close">{{entry_email}}</label>
+									<input type="text" name="filter_email_close" value="{{filter_email_close}}" placeholder="{{entry_email}}" id="input-email-close" class="form-control" />
+								  </div>
+								</div>
+
+								</div>
+								<div class="col-sm-12">
+								<div class="col-sm-4">
+								  <div class="form-group">
+									<label class="control-label" for="input-date-start-close">{{entry_date_start}}</label>
+									<div class="input-group date">
+									  <input type="text" name="filter_date_start_close" value="{{filter_date_start_close}}" placeholder="{{entry_date_start}}" data-date-format="YYYY-MM-DD" id="input-date-start-close" class="form-control" />
+									  <span class="input-group-btn">
+									  <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+									  </span></div>
+								  </div>
+								</div>
+								<div class="col-sm-4">
+								  <div class="form-group">
+									<label class="control-label" for="input-date-end-close">{{entry_date_end}}</label>
+									<div class="input-group date">
+									  <input type="text" name="filter_date_end_close" value="{{filter_date_end_close}}" placeholder="{{entry_date_end}}" data-date-format="YYYY-MM-DD" id="input-date-end-close" class="form-control" />
+									  <span class="input-group-btn">
+									  <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+									  </span></div>
+								  </div>
+								  <div class="col-sm-4">
+								  </div>
+								  <div class="col-sm-4">
+								  </div>
+								  </div>
+								</div>
+
+							  </div>
+							</div>
+                            <form action="" method="post" enctype="multipart/form-data" id="form">
+                                <div class="box">
+                                    <div class="heading">
+                                        <div class="buttons clearfix">
+											<a id="delete" class="btn btn-primary">{{button_delete}}</a>
+											<button id="update" class="btn btn-primary">{{reload}}</button>
+											<button type="button" id="button-filter-close" class="btn btn-primary"><i class="fa fa-filter"></i> {{button_filter}}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tr>
+                                            <td class="col-md-1"><input type="checkbox" id="checkall"></td>
+                                            <td class="col-md-1">{{id}}</td>
+                                            <td class="col-md-1">{{text_time}}</td>
+                                            <td class="col-md-1"> {% if sort == a.product %}
+                                                    <a href="{{sort_product}}" class="{{  order|lower }}">{{text_product}}</a>
+                                              {% else %}
+                                                    <a href="{{sort_product}}">{{text_product}}</a>
+                                                {% endif %}
+                                            </td>
+                                            <td class="col-md-1"> {% if sort == p.price %}
+                                                    <a href="{{sort_price}}" class="{{ order|lower }}">{{text_price}}</a>
+                                              {% else %}
+                                                    <a href="{{sort_price}}">{{text_price}}</a>
+                                                {% endif %}
+                                            </td>
+                                            <td class="col-md-2">{{text_mail}}</td>
+                                            <td class="col-md-1">{{text_name}}</td>
+                                            <td class="col-md-2">{{text_comment}}</td>
+                                            <td class="col-md-1">{{text_statuse}}</td>
+                                            <td class="col-md-1">{{text_quantity}}</td>
+                                        </tr>
+                                        {% if processed %}
+                                        {% for mail in processed %}
+                                        <tr>
+                                            <td class="col-md-1"><input type="checkbox" name="selected[]" data-id="{{ mail.id }}"></td>
+                                            <td class="col-md-1">{{ mail.id}}</td>
+                                            <td class="col-md-1">{{ mail.time}}</td>
+                                            <td class="col-md-1">
+                                                <a href="{{ mail.edit}}">{{ mail.product}}
+                                                    {%  for value  in mail.optionsas %}
+                                                        <p>{{ value.option_type }} - {{ value.option_name }} - {{ value.option_quantity }}</p>
+                                                    {% endfor %}
+                                                </a>
+                                            </td>
+                                                <td class="col-md-1">{{mail.price}}</td>
+                                                <td class="col-md-2">{{mail.email}}</td>
+                                                <td class="col-md-1">{{mail.name}}</td>
+                                                <td class="col-md-2">{{mail.comment}}
+                                                    {% if mail.full_comment %}
+                                                        <span class="all-hover" data-container="body" data-toggle="popover" data-placement="bottom" data-content="{{ mail.full_comment}}">&nbsp;&nbsp; <span class="all_hover"> ...</span></span>
+                                                    {% endif %}
+                                                </td>
+                                                <td class="col-md-1">
+                                                    <select id="{{ mail.id }}" class="call_status">
+                                                        {%  for status in statuses %}
+                                                            {% if loop.index0 ==  mail.status %}
+                                                                {%  set  selected = 'selected' %}
+                                                            {% else %}
+                                                                {%  set  selected = '' %}
+                                                            {% endif %}
+                                                            <option value='{{ loop.index0 }}' data-id="{{ mail.id }}" data-product-id="{{  mail.product_id }}" {{  selected }} > {{  status }} </option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </td>
+                                                <td class="col-md-1">{{mail.quantity}}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        {% endif %}
+                                    </table>
+                                </div>
+
+                            </form>
+                        </div>
+
+                        <div class="tab-pane" id="tab-products">
+                            <div class="well">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label" for="input-name-products">{{entry_name}}</label>
+                                                <input type="text" name="filter_name_products" value="{{filter_name_products}}" placeholder="{{entry_name}}" id="input-name-products" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label" for="input-name-products">{{entry_model}}</label>
+                                                <input type="text" name="filter_model_products" value="{{filter_model_products}}" placeholder="{{entry_model}}" id="input-model-products" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <form action="" method="post" enctype="multipart/form-data" id="form-products">
+                               <div class="box">
+                                    <div class="heading">
+                                        <div class="buttons clearfix col-sm-4" style="margin-bottom: 5px;">
+
+                                            <button type="button" id="button-filter-products" class="btn btn-primary"><i class="fa fa-filter"></i> {{button_filter}}</button>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <div class="col-sm-4">
+                                                <div class="col-sm-4 col-red"></div>  <div class="col-sm-10 col-text"> {{text_product_not_enough}}</div>                                         </div>
+                                            <div class="col-sm-4">
+                                                <div class="col-sm-4 col-green"></div> <div class="col-sm-10 col-text"> {{text_product_enough}}</div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="col-sm-4 col-gray"></div> <div class="col-sm-10 col-text"> {{text_all_avail_close}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tr>
+                                            <td class="col-md-1">{{ text_model }}</td>
+
+                                            <td class="col-md-1">
+                                                {% if sort == 'a.product' %}
+                                                    <a href="{{ sort_product }}" class="{{ order }}">{{ text_product }}</a>
+                                                {% else %}
+                                                    <a href="{{ sort_product }}">{{ text_product }}</a>
+                                                {% endif %}
+                                            </td>
+                                            <td class="col-md-1">{{ text_quantity }}</td>
+                                            <td class="col-md-1">
+                                                {% if sort == 'p.price' %}
+                                                    <a href="{{ sort_price }}" class="{{ order }}">{{ text_price }}</a>
+                                                {% else %}
+                                                    <a href="{{ sort_price }}">{{ text_price }}</a>
+                                                {% endif %}
+                                            </td>
+                                            <td class="col-md-1">{{ text_avail_quantity }}</td>
+                                            <td class="col-md-1">{{ text_avail_quantity_open }}</td>
+                                        </tr>
+                                        {% if products %}
+
+                                            {%  for product in products %}
+                                                {% if product.options %}
+                                                    {% if product.check %}
+                                                        <tr {% if product.avail_quant_open < 1 %} class="graybox" {% elseif product.quantity>0 %}  class="greenbox" {%  else %} class="redbox" {% endif %}>
+                                                            <td class="col-md-1">{{ product.model }}</td>
+                                                            <td colspan="2" class="col-md-1"><div class="row"><div class = "col-md-6"><a href="{{ product.edit }}"><b>{{ product.name }}</b></a></div><div class="col-md-6">{{ product.quantity  }}</div></div></td>
+                                                            <td class="col-md-1">{{ product.price }}</td>
+                                                            <td class="col-md-1">{{ product.avail_quant }}</td>
+                                                            <td class="col-md-1">{{ product.avail_quant_open }}</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                    {% for opt1 in product.options %}
+                                                        <tr {% set optquant = 0 %}
+                                                                {%  for value in opt1 %}
+                                                                    {% if value.option_quantity < 1 %}
+                                                                        {%  set optquant = 1 %}
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                                {% if optquant > 0 %} class="redbox" {%  elseif value.Qty_open < 1 %} class="graybox" {%  else %} class="greenbox"{% endif %}>
+                                                            <td class="col-md-1">{{ product.model }}</td>
+                                                            <td colspan="2" class="col-md-1 rowoptions">
+                                                                <div class="row">
+                                                                    <div class = "col-md-6">
+                                                                        <a href="{{ product.edit }}">{{ product.name }}</b></a>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        {{ product.quantity  }}
+                                                                    </div>
+                                                                </div>
+                                                                {% for value in opt1 %}
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            {{ value.option_type }} : {{ value.option_name }}
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            {{  value.option_quantity }}
+                                                                        </div>
+                                                                    </div>
+                                                                {%  endfor %}
+                                                            </td>
+                                                            <td class="col-md-1">{{ product.price }}</td>
+                                                            <td class="col-md-1">{{ value.Qty_all }}</td>
+                                                            <td class="col-md-1">{{ value.Qty_open }}</td>
+                                                        </tr>
+                                                    {%  endfor %}
+                                                {% else %}
+                                                    <tr {% if product.avail_quant_open < 1 %} class="graybox"{% elseif product.quantity>0 %}  class="greenbox" {% else %} class="redbox"  {% endif %}>
+                                                        <td class="col-md-1">{{ product.model }}</td>
+                                                        <!--   <td class="col-md-1">{{ product.sku }}</td> -->
+                                                        <td colspan="2" class="col-md-1"><div class="row"><div class = "col-md-6"><a href="{{ product.edit}}"><b>{{ product.name }}</b></a></div><div class="col-md-6">{{ product.quantity  }}</div></div></td>
+                                                        <td class="col-md-1">{{ product.price }}</td>
+                                                        <td class="col-md-1">{{ product.avail_quant }}</td>
+                                                        <td class="col-md-1">{{ product.avail_quant_open }}</td>
+
+                                                    </tr>
+
+                                                {% endif %}
+                                            {%  endfor %}
+                                        {% endif %}
+                                    </table>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6 text-left">{{ pagination }}</div>
+                  <div class="col-sm-6 text-right">{{ results }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        function saveActiveTab(){
+            if(!localStorage.getItem('active_tab')){
+                localStorage.setItem('active_tab', '1');
+            };
+            $('.nav-tabs li a').click(function(e){
+                switch ($(e.target).attr("href")){
+                    case '#tab-active': localStorage.setItem('active_tab', '1');
+                        break;
+                    case '#tab-closed': localStorage.setItem('active_tab', '2');
+                        break;
+                    case '#tab-products': localStorage.setItem('active_tab', '3');
+                        break;
+                };
+            })
+            var item = localStorage.getItem('active_tab');
+
+            switch (item){
+                case '1': $("a[href='#tab-active']").trigger("click");
+                    break;
+                case '2': $("a[href='#tab-closed']").trigger("click");
+                    break;
+                case '3': $("a[href='#tab-products']").trigger("click");
+                    break;
+            }
+        };
+
+        function sendCountData(){
+            $("#input-count").change(function(){
+                var countData = $(this).val();
+
+                $.ajax({
+                    type:"POST",
+                    url:"index.php?route=extension/module/avail/addSetiongCount&user_token={{user_token}}",
+                    data:"avlist_filter_count="+countData,
+
+                })
+                    .success(function() {
+                        location = "index.php?route=extension/module/avail/getAvailabilityList&user_token={{user_token}}";
+                    });
+            });
+        };
+
+        $(function(){
+            saveActiveTab();
+            sendCountData();
+        });
+    </script>
+
+
+    <script type="text/javascript"><!--
+        $('#button-filter').on('click', function() {
+            var url = 'index.php?route=extension/module/avail/getAvailabilityList&user_token={{ user_token }}';
+
+            var filter_name = $('input[name=\'filter_name\']').val();
+            if (filter_name) {
+                url += '&filter_name=' + encodeURIComponent(filter_name);
+            }
+
+            var filter_email = $('input[name=\'filter_email\']').val();
+            if (filter_email) {
+                url += '&filter_email=' + encodeURIComponent(filter_email);
+            }
+
+            var filter_date_start = $('input[name=\'filter_date_start\']').val();
+            if (filter_date_start) {
+                url += '&filter_date_start=' + encodeURIComponent(filter_date_start);
+            }
+
+            var filter_date_end = $('input[name=\'filter_date_end\']').val();
+            if (filter_date_end) {
+                url += '&filter_date_end=' + encodeURIComponent(filter_date_end);
+            }
+
+            var filter_status = $('select[name=\'filter_status\']').val();
+            if (filter_status != '*') {
+                url += '&filter_status=' + encodeURIComponent(filter_status);
+            }
+            var filter_model = $('input[name=\'filter_model\']').val();
+            if (filter_model) {
+                url += '&filter_model=' + encodeURIComponent(filter_model);
+            }
+            var filter_sku = $('input[name=\'filter_sku\']').val();
+            if (filter_sku) {
+                url += '&filter_sku=' + encodeURIComponent(filter_sku);
+            }
+
+            location = url;
+        });
+        $('#button-filter-close').on('click', function() {
+            var url = 'index.php?route=extension/module/avail/getAvailabilityList&user_token={{ user_token }}';
+
+            var filter_name_close = $('input[name=\'filter_name_close\']').val();
+            if (filter_name_close) {
+                url += '&filter_name_close=' + encodeURIComponent(filter_name_close);
+            }
+
+            var filter_email_close = $('input[name=\'filter_email_close\']').val();
+            if (filter_email_close) {
+                url += '&filter_email_close=' + encodeURIComponent(filter_email_close);
+            }
+
+            var filter_date_start_close = $('input[name=\'filter_date_start_close\']').val();
+            if (filter_date_start_close) {
+                url += '&filter_date_start_close=' + encodeURIComponent(filter_date_start_close);
+            }
+
+            var filter_date_end_close = $('input[name=\'filter_date_end_close\']').val();
+            if (filter_date_end_close) {
+                url += '&filter_date_end_close=' + encodeURIComponent(filter_date_end_close);
+            }
+
+            var filter_model = $('input[name=\'filter_model\']').val();
+            if (filter_model) {
+                url += '&filter_model=' + encodeURIComponent(filter_model);
+            }
+            var filter_slu = $('input[name=\'filter_sku\']').val();
+            if (filter_model) {
+                url += '&filter_sku=' + encodeURIComponent(filter_sku);
+            }
+
+            location = url;
+        });
+
+        $('#button-filter-products').on('click', function() {
+            var url = 'index.php?route=extension/module/avail/getAvailabilityList&user_token={{ user_token }}';
+
+            var filter_name_products = $('input[name=\'filter_name_products\']').val();
+            if (filter_name_products) {
+                url += '&filter_name_products=' + encodeURIComponent(filter_name_products);
+            }
+
+            var filter_model_products = $('input[name=\'filter_model_products\']').val();
+            if (filter_model_products) {
+                url += '&filter_model_products=' + encodeURIComponent(filter_model_products);
+            }
+
+            location = url;
+        });
+        //--></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.makeLink1').on('click', function() {
+
+                $(".buttons").addClass("hid");
+
+                $.ajax({
+                    url:'index.php?route=extension/module/avail/notify&user_token={{ user_token }}',
+                    type:'post',
+                    dataType:'json'
+                })
+                    .success (function(message) {
+                        if (message['success']) {
+                            $(".alert").remove();
+                            $(".breadcrumb").after("<div class='alert alert-success'>" + message['success'] + "</div>");
+                            $('html, body').animate({ scrollTop: 0 }, 'slow');
+                            $(".buttons").removeClass('hid');
+                            $(".buttons").addClass("good");
+                            setTimeout(function(){$this.removeClass('good');}, 2000);
+
+                            //setTimeout(function(){location.reload();}, 3000);
+                        } else {
+                            $(".alert").remove();
+                            $(".breadcrumb").after("<div class='alert alert-danger'>" + message['error'] + "</div>");
+                            $('html, body').animate({ scrollTop: 0 }, 'slow');
+                            $(".buttons").removeClass('hid');
+                            $(".buttons").addClass("nogood");
+                            setTimeout(function(){$(".buttons").removeClass('nogood');}, 2000);
+                            $('.alert-danger').delay(3000).fadeOut('slow');
+                        }
+                    })
+                    .error (function(message) {
+                        $(".alert").remove();
+                        $(".breadcrumb").after("<div class='alert alert-danger'>" + message + "</div>");
+                        $('html, body').animate({ scrollTop: 0 }, 'slow');
+                        $(".buttons").removeClass('hid');
+                        $('.alert-danger').delay(3000).fadeOut('slow');
+                        $(".buttons").removeClass('hid');
+                        $(".buttons").addClass("nogood");
+                        setTimeout(function(){$(".buttons").removeClass('nogood');}, 2000);
+                        $('.alert-danger').delay(3000).fadeOut('slow');
+                    });
+            });
+
+            $('.call_status').change(function() {
+                $this = $(this);
+
+                $.ajax({
+                    url: "index.php?route=extension/module/avail/changeMailStatus&user_token={{ user_token }}",
+                    type: 'post',
+                    data: 'id=' + $(this).attr('id') + '&status=' + $(this).children('option:selected').val(),
+                    success: function(r) {
+                        if (r == 'ok') {
+                            $this.css('background-color', 'rgb(167, 245, 147)');
+                        } else {
+                            $this.css('background-color', 'rgb(245, 147, 147)');
+                        }
+
+                    }
+                });
+            });
+            $("#update").click(function(){
+                location.reload();
+            });
+            $("#checkall").click(function(){
+                $("input[name*=selected]").prop("checked", this.checked);
+            });
+            $("#delete").click(function(e){
+                e.preventDefault();
+                var idArray = [];
+                $("input[name*=selected]:checked").each(function(index, element){
+                    idArray.push($(element).data('id'));
+                });
+                $.ajax({
+                    url: "index.php?route=extension/module/avail/deleteNotifications&user_token={{ user_token }}",
+                    type: 'post',
+                    data: {idArray:idArray}
+                })
+                    .success(function(message){
+
+                        //location.reload();
+                        //$('a[data-toggle="tab"]').trigger("click");
+                        $("#tab-closed input:checkbox:checked").closest("tr").remove();
+                    })
+                    .error(function(message){
+                        $(".alert").remove();
+                        $(".breadcrumb").after("<div class='alert alert-danger'>" + message + "</div>");
+                        $('html, body').animate({ scrollTop: 0 }, 'slow');
+                    });
+            });
+            $(".all-hover").popover()
+
+            //ARBITRARY
+
+            $('.eye_hid').on('click', function(){
+                $(this).closest('.tr_hid').find('.form_hid').slideToggle(1);
+            });
+
+            //ARBITRARY
+
+        });
+    </script>
+    <script src="view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+    <link href="view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet" media="screen" />
+    <script type="text/javascript"><!--
+        $('.date').datetimepicker({
+            pickTime: false
+        });
+        //--></script>
+    <style>
+ 
+.box {
+	margin-bottom: 10px;
+}
+.makeLink1{
+	background-color: #e4b11f!important;
+	border-color: #b3902c;
+}
+#delete{
+	background-color: #ea7360;!important;
+	border-color: #ce471e;;
+}
+#delete:hover{
+	background-color: #ff1901;!important;
+	border-color: #ce471e;;
+}
+.makeLink1:hover{
+	background-color: #e4b11f!important;
+	border-color: rgb(232, 209, 41);
+}
+.closed {
+	border: 1px solid #e4e4e4;
+    color: #ababab;
+}
+.opened {
+	border: 1px solid #6dd61e;
+    color: #19c116;
+}
+</style>
+{{footer}}

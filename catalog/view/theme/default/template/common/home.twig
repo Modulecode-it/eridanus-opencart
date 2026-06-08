@@ -1,0 +1,32 @@
+{{ header }}
+<div id="common-home" class="container">
+  <div class="row">{{ column_left }}
+    {% if column_left and column_right %}
+    {% set class = 'col-sm-6' %}
+    {% elseif column_left or column_right %}
+    {% set class = 'col-sm-9' %}
+    {% else %}
+    {% set class = 'col-sm-12' %}
+    {% endif %}
+    <div id="content" class="{{ class }}">{{ content_top }}{{ content_bottom }}</div>
+    {{ column_right }}</div>
+	<div class="row soc_widget">
+	  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+	<script type="text/javascript" src="https://vk.com/js/api/openapi.js?162"></script>
+
+	<!-- VK Widget -->
+	<div id="vk_groups"></div>
+	<script type="text/javascript">
+	VK.Widgets.Group("vk_groups", {mode: 3}, 12429436);
+	  </script>
+	  </div>
+		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+			<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v4.0"></script>
+			<div class="fb-group" data-href="https://www.facebook.com/eridanus.ru/" data-width="280" data-show-social-context="true" data-show-metadata="true"></div>
+	  </div>
+		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+	  </div>
+	</div>
+</div>
+{{ footer }}

@@ -1,0 +1,353 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-payment" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-payment" class="form-horizontal">
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-paymentname">{{ entry_paymentname }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="payment_modulbank_paymentname" value="{{ payment_modulbank_paymentname }}" placeholder="{{ entry_paymentname }}" id="input-paymentname" class="form-control" />
+              {% if error_paymentname %}
+              <div class="text-danger">{{ error_paymentname }}</div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-merchant">{{ entry_merchant }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="payment_modulbank_merchant" value="{{ payment_modulbank_merchant }}" placeholder="{{ entry_merchant }}" id="input-merchant" class="form-control" />
+              {% if error_merchant %}
+              <div class="text-danger">{{ error_merchant }}</div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-secret_key">{{ entry_secret_key }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="payment_modulbank_secret_key" value="{{ payment_modulbank_secret_key }}" placeholder="{{ entry_secret_key }}" id="input-secret_key" class="form-control" />
+              {% if error_secret_key %}
+              <div class="text-danger">{{ error_secret_key }}</div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-test_secret_key">{{ entry_test_secret_key }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="payment_modulbank_test_secret_key" value="{{ payment_modulbank_test_secret_key }}" placeholder="{{ entry_test_secret_key }}" id="input-test_secret_key" class="form-control" />
+              {% if error_test_secret_key %}
+              <div class="text-danger">{{ error_test_secret_key }}</div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-success_url">{{ entry_success_url }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="payment_modulbank_success_url" value="{{ payment_modulbank_success_url }}" placeholder="{{ entry_success_url }}" id="input-success_url" class="form-control" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-fail_url">{{ entry_fail_url }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="payment_modulbank_fail_url" value="{{ payment_modulbank_fail_url }}" placeholder="{{ entry_fail_url }}" id="input-fail_url" class="form-control" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-back_url">{{ entry_back_url }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="payment_modulbank_back_url" value="{{ payment_modulbank_back_url }}" placeholder="{{ entry_back_url }}" id="input-back_url" class="form-control" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-mode">{{ entry_mode }}</label>
+            <div class="col-sm-10">
+              <select name="payment_modulbank_mode" id="input-mode" class="form-control">
+                {% if payment_modulbank_mode == 'test' %}
+                <option value="test" selected="selected">{{ text_mode_test }}</option>
+                {% else %}
+                <option value="test">{{ text_mode_test }}</option>
+                {% endif %}
+                {% if payment_modulbank_mode == 'prod' %}
+                <option value="prod" selected="selected">{{ text_mode_prod }}</option>
+                {% else %}
+                <option value="prod">{{ text_mode_prod }}</option>
+                {% endif %}
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-preauth">{{ entry_preauth }}</label>
+            <div class="col-sm-10">
+              <select name="payment_modulbank_preauth" id="input-preauth" class="form-control">
+                {% if payment_modulbank_preauth == '0' %}
+                <option value="0" selected="selected">{{ text_preauth_off }}</option>
+                {% else %}
+                <option value="0">{{ text_preauth_off }}</option>
+                {% endif %}
+                {% if payment_modulbank_preauth == '1' %}
+                <option value="1" selected="selected">{{ text_preauth_on }}</option>
+                {% else %}
+                <option value="1">{{ text_preauth_on }}</option>
+                {% endif %}
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-confirm-order-status">{{ entry_confirm_order_status }}</label>
+            <div class="col-sm-10">
+              <select name="payment_modulbank_confirm_order_status_id" id="input-confirm-order-status" class="form-control">
+                {% for order_status in order_statuses %}
+                {% if order_status.order_status_id == payment_modulbank_confirm_order_status_id %}
+                <option value="{{ order_status.order_status_id }}" selected="selected">{{ order_status.name }}</option>
+                {% else %}
+                <option value="{{ order_status.order_status_id }}">{{ order_status.name }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-sno">{{ entry_sno }}</label>
+            <div class="col-sm-10">
+              <select name="payment_modulbank_sno" id="input-sno" class="form-control">
+                {% for key, sno in sno_list %}
+                {% if key == payment_modulbank_sno %}
+                <option value="{{ key }}" selected="selected">{{ sno }}</option>
+                {% else %}
+                <option value="{{ key }}">{{ sno }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-product-vat">{{ entry_product_vat }}</label>
+            <div class="col-sm-10">
+              <select name="payment_modulbank_product_vat" id="input-product-vat" class="form-control">
+                <option value="0" >{{ text_vat_0 }}</option>
+                {% for key, vat in vat_list %}
+                {% if key == payment_modulbank_product_vat %}
+                <option value="{{ key }}" selected="selected">{{ vat }}</option>
+                {% else %}
+                <option value="{{ key }}">{{ vat }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-delivery-vat">{{ entry_delivery_vat }}</label>
+            <div class="col-sm-10">
+              <select name="payment_modulbank_delivery_vat" id="input-delivery-vat" class="form-control">
+                {% for key, vat in vat_list %}
+                {% if key == payment_modulbank_delivery_vat %}
+                <option value="{{ key }}" selected="selected">{{ vat }}</option>
+                {% else %}
+                <option value="{{ key }}">{{ vat }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-voucher-vat">{{ entry_voucher_vat }}</label>
+            <div class="col-sm-10">
+              <select name="payment_modulbank_voucher_vat" id="input-voucher-vat" class="form-control">
+                {% for key, vat in vat_list %}
+                {% if key == payment_modulbank_voucher_vat %}
+                <option value="{{ key }}" selected="selected">{{ vat }}</option>
+                {% else %}
+                <option value="{{ key }}">{{ vat }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-payment-method">{{ entry_payment_method}}</label>
+            <div class="col-sm-10">
+              <select name="payment_modulbank_payment_method" id="input-payment-method" class="form-control">
+                {% for key, method in payment_method_list %}
+                {% if key == payment_modulbank_payment_method %}
+                <option value="{{ key }}" selected="selected">{{ method }}</option>
+                {% else %}
+                <option value="{{ key }}">{{ method }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-object-method">{{ entry_payment_object }}</label>
+            <div class="col-sm-10">
+              <select name="payment_modulbank_payment_object" id="input-object-method" class="form-control">
+                {% for key, object in payment_object_list %}
+                {% if key == payment_modulbank_payment_object %}
+                <option value="{{ key }}" selected="selected">{{ object }}</option>
+                {% else %}
+                <option value="{{ key }}">{{ object }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-object-method-delivery">{{ entry_payment_object_delivery }}</label>
+            <div class="col-sm-10">
+              <select name="payment_modulbank_payment_object_delivery" id="input-object-method-delivery" class="form-control">
+                {% for key, object in payment_object_list %}
+                {% if key == payment_modulbank_payment_object_delivery %}
+                <option value="{{ key }}" selected="selected">{{ object }}</option>
+                {% else %}
+                <option value="{{ key }}">{{ object }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-object-method-voucher">{{ entry_payment_object_voucher }}</label>
+            <div class="col-sm-10">
+              <select name="payment_modulbank_payment_object_voucher" id="input-object-method-voucher" class="form-control">
+                {% for key, object in payment_object_list %}
+                {% if key == payment_modulbank_payment_object_voucher %}
+                <option value="{{ key }}" selected="selected">{{ object }}</option>
+                {% else %}
+                <option value="{{ key }}">{{ object }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-total"><span data-toggle="tooltip" title="{{ help_total }}">{{ entry_total }}</span></label>
+            <div class="col-sm-10">
+              <input type="text" name="payment_modulbank_total" value="{{ payment_modulbank_total }}" placeholder="{{ entry_total }}" id="input-total" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-order-status">{{ entry_order_status }}</label>
+            <div class="col-sm-10">
+              <select name="payment_modulbank_order_status_id" id="input-order-status" class="form-control">
+                {% for order_status in order_statuses %}
+                {% if order_status.order_status_id == payment_modulbank_order_status_id %}
+                <option value="{{ order_status.order_status_id }}" selected="selected">{{ order_status.name }}</option>
+                {% else %}
+                <option value="{{ order_status.order_status_id }}">{{ order_status.name }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-order-status">{{ entry_order_refund_status }}</label>
+            <div class="col-sm-10">
+              <select name="payment_modulbank_refund_order_status_id" id="input-order-status" class="form-control">
+                {% for order_status in order_statuses %}
+                {% if order_status.order_status_id == payment_modulbank_refund_order_status_id %}
+                <option value="{{ order_status.order_status_id }}" selected="selected">{{ order_status.name }}</option>
+                {% else %}
+                <option value="{{ order_status.order_status_id }}">{{ order_status.name }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-logging">{{ entry_logging }}</label>
+            <div class="col-sm-10">
+              <select name="payment_modulbank_logging" id="input-logging" class="form-control">
+                {% if payment_modulbank_logging == '0' %}
+                <option value="0" selected="selected">{{ text_logging_off }}</option>
+                {% else %}
+                <option value="0">{{ text_logging_off }}</option>
+                {% endif %}
+                {% if payment_modulbank_logging == '1' %}
+                <option value="1" selected="selected">{{ text_logging_on }}</option>
+                {% else %}
+                <option value="1">{{ text_logging_on }}</option>
+                {% endif %}
+              </select>
+              &nbsp;
+              <a href="{{ text_log_link }}">{{ text_download_logs}}</a>
+            </div>
+          </div>
+
+
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-log_size_limit">{{ entry_log_size_limit }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="payment_modulbank_log_size_limit" value="{{ payment_modulbank_log_size_limit }}" placeholder="{{ entry_log_size_limit }}" id="input-log_size_limit" class="form-control" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-geo-zone">{{ entry_geo_zone }}</label>
+            <div class="col-sm-10">
+              <select name="payment_modulbank_geo_zone_id" id="input-geo-zone" class="form-control">
+                <option value="0">{{ text_all_zones }}</option>
+                {% for geo_zone in geo_zones %}
+                {% if geo_zone.geo_zone_id == payment_modulbank_geo_zone_id %}
+                <option value="{{ geo_zone.geo_zone_id }}" selected="selected">{{ geo_zone.name }}</option>
+                {% else %}
+                <option value="{{ geo_zone.geo_zone_id }}">{{ geo_zone.name }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-status">{{ entry_status }}</label>
+            <div class="col-sm-10">
+              <select name="payment_modulbank_status" id="input-status" class="form-control">
+                {% if payment_modulbank_status %}
+                <option value="1" selected="selected">{{ text_enabled }}</option>
+                <option value="0">{{ text_disabled }}</option>
+                {% else %}
+                <option value="1">{{ text_enabled }}</option>
+                <option value="0" selected="selected">{{ text_disabled }}</option>
+                {% endif %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-sort-order">{{ entry_sort_order }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="payment_modulbank_sort_order" value="{{ payment_modulbank_sort_order }}" placeholder="{{ entry_sort_order }}" id="input-sort-order" class="form-control" />
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{ footer }}

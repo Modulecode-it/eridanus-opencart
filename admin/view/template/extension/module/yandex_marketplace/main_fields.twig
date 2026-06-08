@@ -1,0 +1,235 @@
+{% for form_field in form_fields %}
+    <div class="form-row {% if form_field.required == true %} required {% endif %} {% if form_field.unique == false %} not_unique {% endif %} form-row field_row_{{ form_field.key }}" id="field_row_{{ form_field.key }}">
+        <input type="hidden" value="{{ form_field.unique }}">
+        <div class="col">
+			{% if form_field.info %}<label class="control-label"> <span data-toggle="tooltip" title="{{form_field.info}}">{{ form_field.name }}</span></label>{% else %}<label class="control-label">{{ form_field.name }}</label>{% endif %}
+        </div>
+        <div class="col">
+            <select name="main_fields[{{ form_field.key }}][source]" data-field_key="field_row_{{ form_field.key }}" class="form-control source_select">
+               <option value="0">{{ text_select }}</option>
+                {% for source in sources %}
+					{% if source.key == form_field.source %}
+						<option value="{{ source.key }}" selected>{{ source.name }}</option>
+					{% else %}
+						<option value="{{ source.key }}">{{ source.name }}</option>
+					{% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col">
+            <select name="main_fields[{{ form_field.key }}][field]" class="val form-control">
+                <option value="0">{{ text_select }}</option>
+                {% for field in form_field.field %}
+                {% if field.selected %}
+                <option value="{{ field.key }}" selected>{{ field.name }}</option>
+                {% else %}
+                <option value="{{ field.key }}">{{ field.name }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+		<div class="pull-right col-sm-1"></div>
+        {% if form_field.error  %}
+			<div class="text-danger col-sm-12" style="text-align: right;">{{ form_field.error  }}</div>
+		{% endif %}
+    </div>
+
+	<div class="form-row field_row_{{ form_field.key }}">
+		{% if field.key == 'param' %}
+			<div class="col"></div>
+			<div class="col">
+				<input type="text" value='{{ field.unit }}' name="main_fields[{{ form_field.key }}][unit]" class="col-sm-12">
+			</div>
+			<div class="col">
+				<input type="text" value='{{ field.name_param }}' name="main_fields[{{ form_field.key }}][name_param]" class="col-sm-12">
+			</div>
+
+			{% if error_param_name %}
+				<div class="text-danger col-sm-12" style="text-align: right;">{{ error_param_name }}</div>
+			{% endif %}
+
+		{% elseif field.key == 'age' %}
+			<div class="col"></div>
+			<div class="col">
+				<select name="all_fields[{{ row_key }}][unit]" class="form-control val">
+					{% if field.unit == 'year' %}
+						<option value="year" selected>{{text_year}}</option>
+						<option value="month">{{text_month}}</option>
+					{% else %}
+						<option value="year">{{text_year}}</option>
+						<option value="month" selected>{{text_month}}</option>
+					{% endif %}
+				</select>
+			</div>
+			<div class="col"></div>
+			<div class="pull-right col-sm-1"></div>
+		{% endif %}
+	</div>
+{% endfor %}
+{% for fieldset_all in fieldsets_all %}
+	<div class="form-row {% if fieldset_all.unique == false %} not_unique {% endif %} form-row field_row_{{ fieldset_all.key }}" id="field_row_{{ fieldset_all.key }}">
+		<div class="col">
+			{% if fieldset_all.info %}<label class="control-label"> <span data-toggle="tooltip" title="{{fieldset_all.info}}">{{ fieldset_all.name }}</span></label>{% else %}<label class="control-label">{{ fieldset_all.name }}</label>{% endif %}
+		</div>
+		<div class="col">
+			<select name="all_fields[{{ fieldset_all.key }}][source]" class="form-control source_select" data-field_key="field_row_{{ fieldset_all.key }}">
+				<option value="0">{{ text_select }}</option>
+				{% for source in sources %}
+					{% if source.key == fieldset_all.source %}
+						<option value="{{ source.key }}" selected>{{ source.name }}</option>
+					{% else %}
+						<option value="{{ source.key }}">{{ source.name }}</option>
+					{% endif %}
+                {% endfor %}
+			</select>
+		</div>
+		<div class="col">
+			<select name="all_fields[{{ fieldset_all.key }}][field]" class="form-control val">
+				<option value="0">{{ text_select }}</option>
+				{% for field in fieldset_all.field %}
+					{% if field.selected %}
+						<option value="{{ field.key }}" selected>{{ field.name }}</option>
+					{% else %}
+						<option value="{{ field.key }}">{{ field.name }}</option>
+					{% endif %}
+				{% endfor %}
+			</select>
+		</div>
+		<div class="pull-right col-sm-1">
+			<button type="button" class="btn btn-danger" onclick="confirm('{{ text_confirm_delete_field }}') ? $('.field_row_{{ fieldset_all.key }}').remove() : false;" data-original-title="{{ text_delete }}"><i class="fa fa-trash-o"></i></button>
+		</div>
+	</div>
+
+	<div class="form-row field_row_{{ fieldset_all.key }}">
+		{% if fieldset_all.key == 'param' %}
+			<div class="col"></div>
+			<div class="col">
+				<input placeholder="{{text_unit}}" type="text" value='{{ fieldset_all.unit }}' name="all_fields[{{ fieldset_all.key }}][unit]" class="col-sm-12">
+			</div>
+			<div class="col">
+				<input placeholder="{{text_name_param}}" type="text" value='{{ fieldset_all.name_param }}' name="all_fields[{{ fieldset_all.key }}][name_param]" class="col-sm-12">
+			</div>
+			<div class="pull-right col-sm-1"></div>
+
+			{% if error_param_name %}
+				<div class="text-danger col-sm-12" style="text-align: right;">{{ error_param_name }}</div>
+			{% endif %}
+		{% elseif fieldset_all.key == 'age' %}
+			<div class="col"></div>
+			<div class="col">
+				<select name="all_fields[{{ fieldset_all.key }}][unit]" class="form-control val">
+					{% if field.unit == 'year' %}
+						<option value="year" selected>{{text_year}}</option>
+						<option value="month">{{text_month}}</option>
+					{% else %}
+						<option value="year">{{text_year}}</option>
+						<option value="month" selected>{{text_month}}</option>
+					{% endif %}
+				</select>
+			</div>
+			<div class="col"></div>
+			<div class="pull-right col-sm-1"></div>
+		{% endif %}
+	</div>
+	{% if fieldset_all.childs %}
+		{% for child in fieldset_all.childs %}
+			<div class="form-row form-row field_row_{{ fieldset_all.key }}" id="field_row_{{ fieldset_all.key }}">
+				<div class="col">
+					{% if child.info %}<label class="control-label"> <span data-toggle="tooltip" title="{{child.info}}">{{ child.name }}</span></label>{% else %}<label class="control-label">{{ child.name }}</label>{% endif %}
+				</div>
+				<div class="col">
+					<select name="all_fields[{{ fieldset_all.key }}][childs][{{child.key}}][source]" class="form-control source_select" data-field_key="field_row_{{ fieldset_all.key }}">
+						<option value="0">{{ text_select }}</option>
+						{% for source in sources %}
+							{% if source.key == child.source %}
+								<option value="{{ source.key }}" selected>{{ source.name }}</option>
+							{% else %}
+								<option value="{{ source.key }}">{{ source.name }}</option>
+							{% endif %}
+						{% endfor %}
+					</select>
+				</div>
+				<div class="col">
+					<select name="all_fields[{{ fieldset_all.key }}][childs][{{child.key}}][field]" class="form-control val">
+						<option value="0">{{ text_select }}</option>
+						{% for field in child.field %}
+							{% if field.selected %}
+								<option value="{{ field.key }}" selected>{{ field.name }}</option>
+							{% else %}
+								<option value="{{ field.key }}">{{ field.name }}</option>
+							{% endif %}
+						{% endfor %}
+					</select>
+				</div>
+				<div class="pull-right col-sm-1"></div>
+			</div>
+		{% endfor %}
+	{% endif %}
+
+{% endfor %}
+
+
+
+<div class="form-row text-right add-param-attr-container">
+	<div class="col">
+        <a data-toggle="modal" data-target="#addFieldModal">{{ text_add_attribute }}</a>
+    </div>
+</div>
+
+
+
+<!-- Modal addField-->
+<div class="modal fade" id="addFieldModal" tabindex="-1" role="dialog" aria-labelledby="addFieldModalTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title">{{ text_select_attribute }}</h4>
+			</div>
+			<div class="modal-body form-horizontal">
+				<div class="form-group">
+					<div class="col-xs-6">
+						<select name="additional_field"  class="form-control col-xs-6" id="additional_field">
+						{% for key, additional_field in additional_fields %}
+								<option value="{{ key }}" data-info = "{{ additional_field.info }}">{{ additional_field.name }}</option>
+						{% endfor %}
+						</select>
+					</div>
+				<div class="col-xs-6 field_info">
+				
+				</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">{{ text_close }}</button>
+				<button type="button" class="btn btn-primary" id="param-attr-add">{{ text_add }}</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Modal addField-->
+
+<script>
+
+    $('#param-attr-add').on('click', function(e) {
+		e.preventDefault();
+		var field_val = $('#additional_field option:selected').val();
+		var field_name = $('#additional_field option:selected').text();
+		var type = $('#select-type option:selected').val();
+
+		if ($("div").is('#field_row_' + field_val) && !$("div#" + 'field_row_' + field_val).hasClass('not_unique')) {
+			$('.alert').remove();
+			$('#content>.container-fluid').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_element_already_exists }} <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+			$('#addFieldModal').modal('toggle');
+		} else {
+			$.get('index.php?route=extension/module/yandex_marketplace/yandex_market/getSourceFieldRow&row=' + field_val + '&user_token={{ user_token }}&type=' + type, function(data) {
+				$('.add-param-attr-container').before(data);
+				$('#addFieldModal').modal('toggle');
+			});
+		}
+
+	});
+
+</script>

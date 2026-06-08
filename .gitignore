@@ -1,0 +1,48 @@
+# ─── Конфиги с паролями ───────────────────────────────────────────────────────
+config.php
+admin/config.php
+php.ini
+
+# ─── image/ — 29 ГБ, не хранится в git ───────────────────────────────────────
+# Картинки синхронизируются отдельно (rsync/S3/вручную)
+image/
+
+# ─── storage79/ — бэкап/перемещённый storage, не часть кода ─────────────────
+storage79/
+
+# ─── webstat/ — статистика посещений, не код ─────────────────────────────────
+webstat/
+
+# ─── OpenCart storage — кеш, сессии, логи ────────────────────────────────────
+system/storage/cache/
+system/storage/modification/
+system/storage/logs/
+system/storage/session/
+system/storage/upload/
+
+# ─── Служебные инструменты (не часть OpenCart) ───────────────────────────────
+adminer-4.7.3-mysql.php
+wldb.php
+phpinfo.php
+fP46rbbUAI3e2VFVpuhaTGcYUIHmjxGodAjuBkf2.php
+
+# ─── Верификационные файлы поисковиков (можно добавить обратно если нужно) ───
+yandex_*.html
+google*.html
+mailru-*.html
+# верификационные txt
+5AE548A93B9C1096B09EC5D177611A6E.txt
+A4789D7CD17D1E64969EB46BB336BDF8.txt
+cmsmagazine*.txt
+live-*.txt
+
+# ─── Резервные файлы редакторов ──────────────────────────────────────────────
+*.bak
+*.orig
+*.swp
+*~
+
+# ─── OS ──────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.gitkeep
