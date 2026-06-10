@@ -1,0 +1,10 @@
+# Эта директория содержит код OpenCart 3.0.3.2.
+# Заполните её одним из способов:
+#   1. git submodule (если код в отдельном репозитории)
+#   2. unzip opencart-3.0.3.2.zip -d opencart/
+#   3. rsync с prod-сервера
+#
+# Обязательные файлы перед запуском:
+#   opencart/index.php
+#   opencart/config.php (копия config-dist.php, настроенная под Docker)
+#   opencart/admin/config.php
