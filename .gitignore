@@ -15,7 +15,6 @@ webstat/
 
 # ─── OpenCart storage — кеш, сессии, логи ────────────────────────────────────
 system/storage/cache/
-system/storage/modification/
 system/storage/logs/
 system/storage/session/
 system/storage/upload/
