@@ -1,41 +1,43 @@
-# Codex Context
+# Контекст Codex
 
-Start every project task from these files:
+Начинайте каждую задачу проекта с этих файлов:
 
-1. `PROJECT_STRUCTURE.md` - saved structure and important modules.
-2. `RULES.md` - repository-specific working rules.
-3. `CHECKLISTS.md` - task checklists and verification steps.
-4. Task documentation under `specs/`, `analysis/`, `implementation/`, and `reports/` when the task is non-trivial.
+1. `PROJECT_STRUCTURE.md` - сохраненная структура и важные модули.
+2. `RULES.md` - рабочие правила, специфичные для репозитория.
+3. `CHECKLISTS.md` - чеклисты задач и шаги проверки.
+4. Документация задачи в `specs/`, `analysis/`, `implementation/` и `reports/`, если задача нетривиальная.
 
-Default rule for this repository: do not scan the whole tree on each request. Use the saved structure map, then inspect only the specific paths relevant to the task.
+Правило по умолчанию для этого репозитория: не сканировать все дерево на каждый запрос. Используйте сохраненную карту структуры, затем просматривайте только конкретные пути, относящиеся к задаче.
 
-For every non-trivial task, keep the four task documentation folders in sync:
+Язык документации `.codex`: все новые и обновляемые документы, отчеты, спецификации, анализ и журналы реализации писать на русском языке. Технические имена, пути, маршруты, классы, методы, коды модулей, команды и фрагменты кода оставлять в оригинальном виде.
 
-- Save analysis results in `analysis/`.
-- Document decisions and architectural choices in `analysis/` or the task spec.
-- Document code and documentation changes in `implementation/`.
-- Create the final task report in `reports/`.
-- Do not delete existing `.codex` documentation as part of normal task work; append or update it.
+Для каждой нетривиальной задачи поддерживайте синхронизацию четырех папок документации:
 
-Keep `.codex` current. When a task reveals durable project knowledge, add it to the right file before finishing:
+- Сохраняйте результаты анализа в `analysis/`.
+- Документируйте решения и архитектурные выборы в `analysis/` или спецификации задачи.
+- Документируйте изменения кода и документации в `implementation/`.
+- Создавайте итоговый отчет по задаче в `reports/`.
+- Не удаляйте существующую документацию `.codex` в ходе обычной работы; дополняйте или обновляйте ее.
 
-- Structure, modules, entry points: `PROJECT_STRUCTURE.md`
-- Workflow rules, exclusions, safety constraints: `RULES.md`
-- Repeatable task steps and verification: `CHECKLISTS.md`
-- Task requirements: `specs/<task-id>-<slug>.md`
-- Task investigation notes: `analysis/<task-id>-<slug>-analysis.md`
-- Task implementation progress: `implementation/<task-id>-implementation-log.md`
-- Task outcome and verification: `reports/<task-id>-final-report.md`
-- One-off notes that are not durable: do not save unless they will help future work
+Поддерживайте `.codex` в актуальном состоянии. Если задача выявляет долговечное знание о проекте, перед завершением добавьте его в нужный файл:
 
-Every task implementation log must include a changed-file journal. For each changed file, record:
+- Структура, модули, точки входа: `PROJECT_STRUCTURE.md`
+- Правила процесса, исключения, ограничения безопасности: `RULES.md`
+- Повторяемые шаги задач и проверки: `CHECKLISTS.md`
+- Требования задачи: `specs/<task-id>-<slug>.md`
+- Заметки исследования задачи: `analysis/<task-id>-<slug>-analysis.md`
+- Ход реализации задачи: `implementation/<task-id>-implementation-log.md`
+- Результат задачи и проверка: `reports/<task-id>-final-report.md`
+- Разовые заметки без долгосрочной ценности: не сохранять, если они не помогут будущей работе
 
-- File
-- Reason
-- Short description
-- Possible side effects
+Каждый журнал реализации задачи должен включать журнал измененных файлов. Для каждого измененного файла фиксируйте:
 
-Use this task documentation layout for new non-trivial work:
+- Файл
+- Причину
+- Краткое описание
+- Возможные побочные эффекты
+
+Используйте такую структуру документации для новых нетривиальных работ:
 
 ```text
 .codex/
@@ -58,7 +60,7 @@ Use this task documentation layout for new non-trivial work:
     `-- 1.3-final-report.md
 ```
 
-Avoid broad recursive reads of:
+Избегайте широкого рекурсивного чтения:
 
 - `storage79/`
 - `webstat/`
@@ -70,5 +72,4 @@ Avoid broad recursive reads of:
 - `system/storage/session/`
 - `system/storage/upload/`
 
-If deeper context is needed, prefer targeted file reads and focused searches in the OpenCart source directories listed in `PROJECT_STRUCTURE.md`.
-
+Если нужен более глубокий контекст, предпочитайте точечное чтение файлов и сфокусированный поиск в исходных директориях OpenCart, перечисленных в `PROJECT_STRUCTURE.md`.

@@ -1,56 +1,56 @@
-# Project Structure
+# Структура Проекта
 
-Last updated: 2026-06-10
+Последнее обновление: 2026-06-11
 
-Use this file as the first source of project context. Do not recursively scan the whole repository unless the requested task requires it.
+Используйте этот файл как первый источник контекста проекта. Не сканируйте весь репозиторий рекурсивно, если запрошенная задача этого не требует.
 
-## Project
+## Проект
 
-- Platform: OpenCart 3.0.3.2.
-- Public entry point: `index.php`.
-- Admin entry point: `admin/index.php`.
-- Catalog app: `catalog/`.
-- Admin app: `admin/`.
-- Core/framework code: `system/`.
-- Extra integration app: `yaorder/`.
+- Платформа: OpenCart 3.0.3.2.
+- Публичная точка входа: `index.php`.
+- Точка входа админки: `admin/index.php`.
+- Приложение catalog: `catalog/`.
+- Приложение admin: `admin/`.
+- Код ядра/framework: `system/`.
+- Дополнительное приложение интеграции: `yaorder/`.
 - Instagram widget/package: `inwidget/`.
 - Runtime/backup storage: `storage79/`.
-- Web analytics dump: `webstat/`.
+- Дамп web analytics: `webstat/`.
 
-## Top-Level Layout
+## Верхнеуровневая Структура
 
 ```text
 .
-|-- admin/                  OpenCart admin application
-|-- catalog/                OpenCart catalog/storefront application
-|-- .codex/                 Codex rules, structure memory, and task documentation
-|-- inwidget/               Standalone widget with composer.json
-|-- storage79/              Large storage/log/modification backup; avoid scanning by default
-|-- system/                 OpenCart core, libraries, storage, OCMOD XML files
-|-- webstat/                AWStats/static analytics reports; avoid scanning by default
-|-- yaorder/                Custom Yandex order integration app
-|-- .htaccess               Apache rewrite and deny rules
-|-- config.php              Catalog config; contains environment-specific constants
-|-- admin/config.php        Admin config; contains environment-specific constants
-|-- index.php               Catalog bootstrap, VERSION 3.0.3.2
-|-- robots.txt              Search crawler rules
-`-- index.xml               Sitemap/static feed artifact
+|-- admin/                  админское приложение OpenCart
+|-- catalog/                catalog/storefront приложение OpenCart
+|-- .codex/                 правила Codex, память структуры и документация задач
+|-- inwidget/               отдельный widget с composer.json
+|-- storage79/              большой backup storage/log/modification; по умолчанию не сканировать
+|-- system/                 ядро OpenCart, библиотеки, storage, OCMOD XML-файлы
+|-- webstat/                AWStats/static analytics reports; по умолчанию не сканировать
+|-- yaorder/                кастомное приложение интеграции заказов Yandex
+|-- .htaccess               Apache rewrite и deny rules
+|-- config.php              config catalog; содержит environment-specific constants
+|-- admin/config.php        config admin; содержит environment-specific constants
+|-- index.php               bootstrap catalog, VERSION 3.0.3.2
+|-- robots.txt              правила search crawler
+`-- index.xml               artifact sitemap/static feed
 ```
 
-## Codex Task Documentation
+## Документация Задач Codex
 
-New non-trivial tasks should be documented with one shared task id across four folders:
+Новые нетривиальные задачи нужно документировать с одним общим task id в четырех папках. Основной текст документов писать на русском языке; технические пути и идентификаторы оставлять без перевода.
 
 ```text
 .codex/
 |-- PROJECT_STRUCTURE.md
-|-- specs/                  Task requirements and acceptance criteria
-|-- analysis/               Investigation notes, current behavior, risks, decisions
-|-- implementation/         Implementation logs and important code changes
-`-- reports/                Final outcome, verification, and known gaps
+|-- specs/                  требования задачи и критерии приемки
+|-- analysis/               заметки исследования, текущее поведение, риски, решения
+|-- implementation/         журналы реализации и важные изменения кода
+`-- reports/                итоговый результат, проверка и известные пробелы
 ```
 
-Example task file set:
+Пример набора файлов задачи:
 
 ```text
 .codex/specs/1.1-checkout-flow.md
@@ -59,7 +59,7 @@ Example task file set:
 .codex/reports/1.1-final-report.md
 ```
 
-## Main OpenCart Areas
+## Основные Области OpenCart
 
 ```text
 admin/
@@ -97,7 +97,7 @@ catalog/
 `-- view/theme/default/
 ```
 
-## Important Custom/Third-Party Modules
+## Важные Кастомные И Сторонние Модули
 
 - `admin/controller/extension/module/cdek_integrator.php`
 - `admin/controller/extension/module/filterit.php`
@@ -114,23 +114,23 @@ catalog/
 - `catalog/controller/extension/module/filterit.php`
 - `catalog/controller/extension/module/sms_alert.php`
 - `catalog/model/export/yandex_market.php`
-- `yaorder/` custom Yandex order workflow and automation scripts.
+- `yaorder/` кастомный workflow заказов Yandex и automation scripts.
 
-## OCMOD And Generated Code
+## OCMOD И Сгенерированный Код
 
-- Source OCMOD files:
+- Исходные OCMOD-файлы:
   - `system/availpro.ocmod.xml`
   - `system/tweak.ocmod.xml`
   - `system/__fix_theme_editor.ocmod.xml`
-- Generated modification directories:
+- Директории сгенерированных modifications:
   - `system/storage/modification/`
   - `storage79/modification/`
 
-Do not edit generated modification files first. Prefer source controllers/models/templates or OCMOD XML, then refresh modifications in OpenCart.
+Не редактируйте сначала сгенерированные modification-файлы. Предпочитайте исходные controllers/models/templates или OCMOD XML, затем обновляйте modifications в OpenCart.
 
-## Paths To Avoid By Default
+## Пути, Которых Нужно Избегать По Умолчанию
 
-These are large, generated, sensitive, or low-value for normal code work:
+Эти пути большие, сгенерированные, чувствительные или малоценные для обычной работы с кодом:
 
 - `.git/`
 - `.idea/`
@@ -148,18 +148,18 @@ These are large, generated, sensitive, or low-value for normal code work:
   - `phpinfo.php`
   - `user.php`
 
-## Security Notes From Initial Review
+## Заметки Безопасности Из Первичного Ревью
 
-- `user.php` creates an admin user with a hardcoded password. Treat as critical.
-- `phpinfo.php` exposes PHP/server configuration.
-- Adminer-like database tools exist in the web root.
-- `yaorder/config.php` contains `APP_ID` and `APP_PASSWORD`.
-- `yaorder/*.token` contains token files.
-- `storage79/logs/` contains large logs and likely operational data.
+- `user.php` создает admin user с hardcoded password. Считать критичным.
+- `phpinfo.php` раскрывает конфигурацию PHP/server.
+- Инструменты, похожие на Adminer, находятся в web root.
+- `yaorder/config.php` содержит `APP_ID` и `APP_PASSWORD`.
+- `yaorder/*.token` содержит token files.
+- `storage79/logs/` содержит большие логи и, вероятно, operational data.
 
-## Recommended Search Scope
+## Рекомендуемая Область Поиска
 
-For most tasks, search only these paths first:
+Для большинства задач сначала ищите только в этих путях:
 
 ```text
 admin/controller/
@@ -177,5 +177,4 @@ system/*.ocmod.xml
 yaorder/
 ```
 
-Use targeted searches in `storage79/` only when debugging generated modifications, old runtime behavior, or logs.
-
+Используйте точечный поиск в `storage79/` только при отладке сгенерированных modifications, старого runtime behavior или логов.

@@ -1,30 +1,31 @@
-# Implementation Logs
+# Журналы Реализации
 
-Implementation logs live here.
+Здесь хранятся журналы реализации.
 
-Naming:
+Именование:
 
-- Use `<task-id>-implementation-log.md`.
-- Keep the same `<task-id>` across `specs/`, `analysis/`, `implementation/`, and `reports/`.
-- Example: `1.1-implementation-log.md`.
+- Используйте `<task-id>-implementation-log.md`.
+- Сохраняйте один и тот же `<task-id>` в `specs/`, `analysis/`, `implementation/` и `reports/`.
+- Пример: `1.1-implementation-log.md`.
 
-Recommended sections:
+Рекомендуемые разделы:
 
-- Plan
-- Changes
-- Changed File Journal
-- Verification
-- Open Items
+- План
+- Изменения
+- Журнал Измененных Файлов
+- Проверка
+- Открытые Пункты
 
-Each changed file entry must include:
+Каждая запись об измененном файле должна включать:
 
-- File
-- Reason
-- Short description
-- Possible side effects
+- Файл
+- Причину
+- Краткое описание
+- Возможные побочные эффекты
 
-Rules:
+Правила:
 
-- Document every code or documentation change here.
-- Keep entries aligned with the task id used in `specs/`, `analysis/`, and `reports/`.
-- Append useful history instead of deleting existing documentation.
+- Документируйте здесь каждое изменение кода или документации.
+- Сохраняйте записи согласованными с task id из `specs/`, `analysis/` и `reports/`.
+- Дополняйте полезную историю вместо удаления существующей документации.
+- Основной текст, заголовки и пояснения новых журналов писать на русском языке.

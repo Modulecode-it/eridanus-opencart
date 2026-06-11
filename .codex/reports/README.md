@@ -1,23 +1,24 @@
-# Final Reports
+# Итоговые Отчеты
 
-Final task reports live here.
+Здесь хранятся итоговые отчеты по задачам.
 
-Naming:
+Именование:
 
-- Use `<task-id>-final-report.md`.
-- Keep the same `<task-id>` across `specs/`, `analysis/`, `implementation/`, and `reports/`.
-- Example: `1.1-final-report.md`.
+- Используйте `<task-id>-final-report.md`.
+- Сохраняйте один и тот же `<task-id>` в `specs/`, `analysis/`, `implementation/` и `reports/`.
+- Пример: `1.1-final-report.md`.
 
-Recommended sections:
+Рекомендуемые разделы:
 
-- Summary
-- Changed Files
-- Verification
-- Known Gaps
+- Сводка
+- Измененные Файлы
+- Проверка
+- Известные Пробелы
 
-Rules:
+Правила:
 
-- Create or update a final report after each non-trivial task.
-- Include links or paths to the matching spec, analysis, and implementation log.
-- Include changed files, verification performed, verification not performed, and known gaps.
-- Append useful history instead of deleting existing documentation.
+- Создавайте или обновляйте итоговый отчет после каждой нетривиальной задачи.
+- Включайте ссылки или пути к соответствующей спецификации, анализу и журналу реализации.
+- Включайте измененные файлы, выполненную проверку, невыполненную проверку и известные пробелы.
+- Дополняйте полезную историю вместо удаления существующей документации.
+- Основной текст, заголовки и пояснения новых отчетов писать на русском языке.

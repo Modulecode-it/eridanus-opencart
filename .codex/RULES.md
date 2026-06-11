@@ -1,15 +1,15 @@
-# Repository Rules
+# Правила Репозитория
 
-Last updated: 2026-06-10
+Последнее обновление: 2026-06-11
 
-These rules apply to work in this OpenCart repository.
+Эти правила применяются к работе в этом репозитории OpenCart.
 
-## Context Loading
+## Загрузка Контекста
 
-1. Read `.codex/README.md` and `.codex/PROJECT_STRUCTURE.md` before broad analysis.
-2. Do not recursively scan the whole repository unless the task needs it.
-3. Use targeted searches in likely source paths first.
-4. Avoid generated, large, and sensitive directories by default:
+1. Перед широким анализом прочитайте `.codex/README.md` и `.codex/PROJECT_STRUCTURE.md`.
+2. Не сканируйте весь репозиторий рекурсивно, если задача этого не требует.
+3. Сначала используйте точечный поиск в вероятных исходных путях.
+4. По умолчанию избегайте сгенерированных, больших и чувствительных директорий:
    - `storage79/`
    - `webstat/`
    - `.git/`
@@ -20,9 +20,17 @@ These rules apply to work in this OpenCart repository.
    - `system/storage/session/`
    - `system/storage/upload/`
 
-## Task Documentation Structure
+## Язык Документации
 
-Use this structure for new non-trivial tasks:
+1. Все новые и обновляемые документы в `.codex` писать на русском языке.
+2. Спецификации, анализ, журналы реализации, итоговые отчеты, чеклисты и проектные правила писать на русском языке.
+3. Технические идентификаторы не переводить: пути, имена файлов, классы, методы, маршруты OpenCart, коды расширений, переменные, команды, SQL, XML, PHP/Twig/JS-фрагменты и значения конфигурации оставлять в оригинальном виде.
+4. Если документ содержит внешние названия вроде `CDEK`, `Measoft`, `OpenCart`, `PayPal`, оставлять их как есть.
+5. При создании новых файлов в `specs/`, `analysis/`, `implementation/` и `reports/` русским должен быть основной текст, заголовки разделов и пояснения.
+
+## Структура Документации Задач
+
+Используйте эту структуру для новых нетривиальных задач:
 
 ```text
 .codex/
@@ -45,49 +53,49 @@ Use this structure for new non-trivial tasks:
     `-- 1.3-final-report.md
 ```
 
-Task documentation rules:
+Правила документации задач:
 
-1. Use one shared task id prefix across all task documents, for example `1.2`.
-2. Store requirements and acceptance criteria in `.codex/specs/<task-id>-<slug>.md`.
-3. Store current-state investigation, touched modules, risks, and decisions in `.codex/analysis/<task-id>-<slug>-analysis.md`.
-4. Store implementation progress and important code changes in `.codex/implementation/<task-id>-implementation-log.md`.
-5. Store the final outcome, changed files, verification, and known gaps in `.codex/reports/<task-id>-final-report.md`.
-6. If the user gives a task id or filename, use it. If not, choose a short descriptive slug and keep the numbering consistent with existing task files.
-7. Do not store secrets, tokens, full logs, customer data, or environment-specific credentials in task docs.
-8. Do not delete existing documentation during normal task work. Append or revise the relevant section while preserving useful history.
-9. Save all analysis results in `.codex/analysis/`.
-10. Document all decisions and architectural decisions in the task analysis file or task spec.
-11. Document every code or documentation change in `.codex/implementation/`.
-12. Create or update the final report in `.codex/reports/` after completing the task.
-13. Every implementation log entry for a changed file must include file, reason, short description, and possible side effects.
+1. Используйте один общий префикс идентификатора задачи во всех документах задачи, например `1.2`.
+2. Требования и критерии приемки храните в `.codex/specs/<task-id>-<slug>.md`.
+3. Исследование текущего состояния, затронутые модули, риски и решения храните в `.codex/analysis/<task-id>-<slug>-analysis.md`.
+4. Ход реализации и важные изменения кода храните в `.codex/implementation/<task-id>-implementation-log.md`.
+5. Итоговый результат, измененные файлы, проверку и известные пробелы храните в `.codex/reports/<task-id>-final-report.md`.
+6. Если пользователь дал идентификатор задачи или имя файла, используйте его. Если нет, выберите короткий описательный slug и сохраняйте нумерацию согласованной с существующими файлами задач.
+7. Не сохраняйте секреты, токены, полные логи, данные клиентов или учетные данные окружения в документации задач.
+8. Не удаляйте существующую документацию при обычной работе. Дополняйте или редактируйте релевантный раздел, сохраняя полезную историю.
+9. Сохраняйте все результаты анализа в `.codex/analysis/`.
+10. Документируйте все решения и архитектурные решения в файле анализа задачи или спецификации задачи.
+11. Документируйте каждое изменение кода или документации в `.codex/implementation/`.
+12. После завершения задачи создавайте или обновляйте итоговый отчет в `.codex/reports/`.
+13. Каждая запись журнала реализации для измененного файла должна включать файл, причину, краткое описание и возможные побочные эффекты.
 
-## Git And Existing Changes
+## Git И Существующие Изменения
 
-1. Check `git status --short` before code edits.
-2. Do not revert existing user changes unless explicitly requested.
-3. Treat unrelated untracked or modified files as user-owned.
-4. Prefer non-interactive git commands.
+1. Перед правками кода проверяйте `git status --short`.
+2. Не откатывайте существующие изменения пользователя, если это явно не запрошено.
+3. Считайте несвязанные неотслеживаемые или измененные файлы принадлежащими пользователю.
+4. Предпочитайте неинтерактивные команды Git.
 
-Current known working tree notes:
+Текущие известные заметки о рабочем дереве:
 
-- `admin/controller/extension/extension/thon.py` is deleted in the working tree.
-- `.idea/` is ignored by `.gitignore`.
-- Several untracked copy files with broken Cyrillic names exist under `admin/model/`, `catalog/model/`, and `catalog/view/theme/default/`.
+- `admin/controller/extension/extension/thon.py` удален в рабочем дереве.
+- `.idea/` игнорируется через `.gitignore`.
+- Несколько неотслеживаемых копий файлов с поврежденными кириллическими именами существуют в `admin/model/`, `catalog/model/` и `catalog/view/theme/default/`.
 
-## OpenCart Change Rules
+## Правила Изменений OpenCart
 
-1. Prefer editing source files in `admin/`, `catalog/`, `system/`, or `yaorder/`.
-2. Do not edit generated files in `system/storage/modification/` or `storage79/modification/` as the primary fix.
-3. For OCMOD behavior, edit the relevant source `.ocmod.xml` file and refresh modifications in OpenCart.
-4. Keep OpenCart 3.0.3.2 conventions: controllers load language/model/view, models access DB through `$this->db`, templates stay in Twig.
-5. Preserve existing theme/admin visual conventions unless the task explicitly asks for redesign.
+1. Предпочитайте править исходные файлы в `admin/`, `catalog/`, `system/` или `yaorder/`.
+2. Не редактируйте сгенерированные файлы в `system/storage/modification/` или `storage79/modification/` как основное исправление.
+3. Для поведения OCMOD редактируйте соответствующий исходный файл `.ocmod.xml`, затем обновляйте модификации в OpenCart.
+4. Соблюдайте соглашения OpenCart 3.0.3.2: контроллеры загружают language/model/view, модели работают с БД через `$this->db`, шаблоны остаются в Twig.
+5. Сохраняйте существующие визуальные соглашения темы и админки, если задача явно не просит редизайн.
 
-## Security Rules
+## Правила Безопасности
 
-1. Treat configs, tokens, logs, and admin tools as sensitive.
-2. Do not expose real secrets in new docs or examples.
-3. Do not add new public scripts that can mutate database state without authentication.
-4. Flag these known critical files if they matter to the task:
+1. Считайте конфиги, токены, логи и админские инструменты чувствительными.
+2. Не раскрывайте реальные секреты в новой документации или примерах.
+3. Не добавляйте новые публичные скрипты, которые могут изменять состояние базы данных без аутентификации.
+4. Отмечайте эти известные критичные файлы, если они относятся к задаче:
    - `user.php`
    - `phpinfo.php`
    - `adminer-4.7.3-mysql.php`
@@ -96,18 +104,18 @@ Current known working tree notes:
    - `yaorder/*.token`
    - `yaorder/config.php`
 
-## Verification
+## Проверка
 
-1. Run `php -l` on changed PHP files when PHP is available.
-2. Validate XML syntax when editing `.ocmod.xml`.
-3. For storefront changes, check affected catalog route manually when possible.
-4. For admin changes, check permissions, language keys, controller route, and template variables.
-5. For checkout/order/payment/shipping changes, test the complete order flow or clearly state what was not tested.
+1. Запускайте `php -l` для измененных PHP-файлов, когда PHP доступен.
+2. Проверяйте синтаксис XML при редактировании `.ocmod.xml`.
+3. Для изменений витрины вручную проверяйте затронутый catalog route, когда возможно.
+4. Для изменений админки проверяйте права, языковые ключи, route контроллера и переменные шаблона.
+5. Для изменений checkout/order/payment/shipping тестируйте полный поток заказа или четко указывайте, что не проверялось.
 
-## Codex Memory
+## Память Codex
 
-Before finishing a task, update `.codex` if new durable knowledge was discovered:
+Перед завершением задачи обновите `.codex`, если было обнаружено новое долговечное знание:
 
-- New module map or file ownership: update `PROJECT_STRUCTURE.md`.
-- New rule, caveat, unsafe path, or workflow constraint: update `RULES.md`.
-- Repeatable steps or verification flow: update `CHECKLISTS.md`.
+- Новая карта модулей или владение файлами: обновить `PROJECT_STRUCTURE.md`.
+- Новое правило, оговорка, небезопасный путь или ограничение процесса: обновить `RULES.md`.
+- Повторяемые шаги или процесс проверки: обновить `CHECKLISTS.md`.

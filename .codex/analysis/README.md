@@ -1,26 +1,27 @@
-# Task Analysis
+# Анализ Задач
 
-Task investigation notes live here.
+Здесь хранятся заметки исследования задач.
 
-Naming:
+Именование:
 
-- Use `<task-id>-<slug>-analysis.md` or another clear analysis suffix.
-- Keep the same `<task-id>` across `specs/`, `analysis/`, `implementation/`, and `reports/`.
-- Example: `1.1-current-checkout-analysis.md`.
+- Используйте `<task-id>-<slug>-analysis.md` или другой понятный suffix анализа.
+- Сохраняйте один и тот же `<task-id>` в `specs/`, `analysis/`, `implementation/` и `reports/`.
+- Пример: `1.1-current-checkout-analysis.md`.
 
-Recommended sections:
+Рекомендуемые разделы:
 
-- Current Behavior
-- Relevant Files
-- Data Flow
-- Risks
-- Decisions
-- Architectural Decisions
-- Analysis Results
+- Текущее Поведение
+- Релевантные Файлы
+- Поток Данных
+- Риски
+- Решения
+- Архитектурные Решения
+- Результаты Анализа
 
-Rules:
+Правила:
 
-- Save all task analysis results in this folder.
-- Record decisions and architectural decisions here when they affect implementation.
-- Do not store secrets, full logs, customer data, or credentials.
-- Append useful findings instead of deleting existing documentation.
+- Сохраняйте все результаты анализа задач в этой папке.
+- Фиксируйте здесь решения и архитектурные решения, если они влияют на реализацию.
+- Не храните секреты, полные логи, данные клиентов или учетные данные.
+- Дополняйте полезные находки вместо удаления существующей документации.
+- Основной текст, заголовки и пояснения новых файлов анализа писать на русском языке.

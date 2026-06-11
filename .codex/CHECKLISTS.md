@@ -1,97 +1,98 @@
-# Project Checklists
+# Чеклисты Проекта
 
-Last updated: 2026-06-10
+Последнее обновление: 2026-06-11
 
-Use these checklists for repeatable work in this OpenCart project.
+Используйте эти чеклисты для повторяемой работы в этом проекте OpenCart.
 
-## Before Any Code Change
+## Перед Любым Изменением Кода
 
-1. Read `.codex/README.md`.
-2. Read `.codex/PROJECT_STRUCTURE.md`.
-3. Check `git status --short`.
-4. Identify whether the task affects catalog, admin, OCMOD, integration, or runtime data.
-5. For non-trivial new tasks, identify the task id and create or update the matching files in `.codex/specs/`, `.codex/analysis/`, `.codex/implementation/`, and `.codex/reports/`.
-6. Inspect only the focused files needed for the task.
+1. Прочитать `.codex/README.md`.
+2. Прочитать `.codex/PROJECT_STRUCTURE.md`.
+3. Проверить `git status --short`.
+4. Определить, затрагивает ли задача catalog, admin, OCMOD, интеграцию или runtime-данные.
+5. Для новых нетривиальных задач определить task id и создать или обновить соответствующие файлы в `.codex/specs/`, `.codex/analysis/`, `.codex/implementation/` и `.codex/reports/`.
+6. Просматривать только сфокусированные файлы, нужные для задачи.
+7. Все новые и обновляемые документы `.codex` писать на русском языке, оставляя технические идентификаторы без перевода.
 
-## New Task Documentation Flow
+## Процесс Документирования Новой Задачи
 
-1. Create or update `.codex/specs/<task-id>-<slug>.md` with goal, scope, requirements, constraints, and acceptance criteria.
-2. Create or update `.codex/analysis/<task-id>-<slug>-analysis.md` with current behavior, relevant files, data flow, risks, analysis results, decisions, and architectural decisions.
-3. Update `.codex/implementation/<task-id>-implementation-log.md` while implementing meaningful changes.
-4. For every changed file, add a journal entry with file, reason, short description, and possible side effects.
-5. Create or update `.codex/reports/<task-id>-final-report.md` before finishing with the final result, changed files, verification, and known gaps.
-6. Keep all four documents aligned on the same task id prefix.
-7. Append to existing documentation instead of deleting it.
+1. Создать или обновить `.codex/specs/<task-id>-<slug>.md` с целью, областью, требованиями, ограничениями и критериями приемки.
+2. Создать или обновить `.codex/analysis/<task-id>-<slug>-analysis.md` с текущим поведением, релевантными файлами, потоком данных, рисками, результатами анализа, решениями и архитектурными решениями.
+3. Обновлять `.codex/implementation/<task-id>-implementation-log.md` во время реализации значимых изменений.
+4. Для каждого измененного файла добавить запись журнала с файлом, причиной, кратким описанием и возможными побочными эффектами.
+5. Перед завершением создать или обновить `.codex/reports/<task-id>-final-report.md` с итоговым результатом, измененными файлами, проверкой и известными пробелами.
+6. Поддерживать один и тот же префикс task id во всех четырех документах.
+7. Дополнять существующую документацию вместо удаления.
+8. Писать основной текст и заголовки этих документов на русском языке.
 
-## PHP Change
+## Изменение PHP
 
-1. Locate the source controller/model/library file.
-2. Check related language files and templates.
-3. Keep OpenCart 3.0.3.2 patterns.
-4. Avoid generated modification files as the primary edit target.
-5. Run `php -l path/to/changed.php` when PHP is available.
-6. Update `.codex` if the change reveals durable project knowledge.
+1. Найти исходный controller/model/library файл.
+2. Проверить связанные языковые файлы и шаблоны.
+3. Соблюдать паттерны OpenCart 3.0.3.2.
+4. Не использовать сгенерированные modification-файлы как основную цель правки.
+5. Запустить `php -l path/to/changed.php`, когда PHP доступен.
+6. Обновить `.codex`, если изменение выявляет долговечное знание о проекте.
 
-## Catalog UI Or Template Change
+## Изменение Catalog UI Или Шаблона
 
-1. Inspect the affected Twig template in `catalog/view/theme/default/template/`.
-2. Inspect related stylesheet in `catalog/view/theme/default/stylesheet/`.
-3. Check controller-provided variables before changing template logic.
-4. Preserve existing theme conventions unless redesign is requested.
-5. Verify desktop and mobile layout when possible.
+1. Проверить затронутый Twig-шаблон в `catalog/view/theme/default/template/`.
+2. Проверить связанный stylesheet в `catalog/view/theme/default/stylesheet/`.
+3. Проверить переменные, которые передает контроллер, перед изменением логики шаблона.
+4. Сохранять соглашения существующей темы, если не запрошен редизайн.
+5. По возможности проверить desktop и mobile layout.
 
-## Admin UI Or Module Change
+## Изменение Admin UI Или Модуля
 
-1. Inspect admin controller under `admin/controller/`.
-2. Inspect admin model under `admin/model/` if data changes.
-3. Inspect admin language file under `admin/language/`.
-4. Inspect admin template under `admin/view/template/`.
-5. Check route, permission key, form token/user token usage, and save/cancel URLs.
-6. Run PHP lint on changed PHP files.
+1. Проверить admin controller в `admin/controller/`.
+2. Проверить admin model в `admin/model/`, если меняются данные.
+3. Проверить admin language file в `admin/language/`.
+4. Проверить admin template в `admin/view/template/`.
+5. Проверить route, permission key, form token/user token, URL сохранения и отмены.
+6. Запустить PHP lint для измененных PHP-файлов.
 
-## OCMOD Change
+## Изменение OCMOD
 
-1. Find the source `.ocmod.xml` in `system/`.
-2. Confirm what target file and search operation it modifies.
-3. Do not patch `system/storage/modification/` directly unless debugging.
-4. Validate XML syntax.
-5. After deployment, refresh OpenCart modifications and clear relevant cache.
+1. Найти исходный `.ocmod.xml` в `system/`.
+2. Подтвердить, какой target file и search operation он изменяет.
+3. Не править `system/storage/modification/` напрямую, кроме отладки.
+4. Проверить XML-синтаксис.
+5. После деплоя обновить OpenCart modifications и очистить релевантный cache.
 
-## Shipping, Payment, Or Order Flow Change
+## Изменение Доставки, Оплаты Или Потока Заказа
 
-1. Identify affected extension:
+1. Определить затронутое расширение:
    - CDEK: `cdek_integrator`, `shipping/cdek`, `total/cdek`
    - Yandex: `yandex_marketplace`, `yandex_market`, `yaorder`
    - Modulbank: `payment/modulbank`
    - Measoft: `shipping/measoftcourier`
-2. Inspect catalog and admin sides of the extension.
-3. Check order status changes, totals, shipping quote calculation, and external API logging.
-4. Test a full checkout/order scenario when possible.
-5. State clearly if external API calls were not tested.
+2. Проверить catalog- и admin-стороны расширения.
+3. Проверить изменения статуса заказа, totals, расчет shipping quote и логирование внешнего API.
+4. По возможности протестировать полный сценарий checkout/order.
+5. Ясно указать, если внешние API-вызовы не тестировались.
 
-## Security Cleanup
+## Очистка Безопасности
 
-1. Identify public root service files:
+1. Определить публичные service-файлы в корне:
    - `user.php`
    - `phpinfo.php`
    - `adminer-4.7.3-mysql.php`
    - `wldb.php`
    - `fP46rbbUAI3e2VFVpuhaTGcYUIHmjxGodAjuBkf2.php`
-2. Identify token/config files:
+2. Определить token/config-файлы:
    - `config.php`
    - `admin/config.php`
    - `yaorder/config.php`
    - `yaorder/*.token`
-3. Check `.htaccess` deny rules for the affected paths.
-4. Prefer removing public access or moving tools outside the web root.
-5. Rotate credentials if a real secret was exposed.
+3. Проверить deny rules в `.htaccess` для затронутых путей.
+4. Предпочитать удаление публичного доступа или перенос инструментов за пределы web root.
+5. Ротировать учетные данные, если был раскрыт реальный секрет.
 
-## Final Response Checklist
+## Чеклист Финального Ответа
 
-1. State what changed or what was found.
-2. Mention files touched with links when useful.
-3. Mention verification performed.
-4. Mention verification not performed if relevant.
-5. Mention the analysis, implementation log, and task report paths when they were created or updated.
-6. Suggest only concrete next steps that naturally follow from the task.
-
+1. Указать, что изменилось или что найдено.
+2. Упомянуть затронутые файлы со ссылками, когда полезно.
+3. Указать выполненную проверку.
+4. Указать невыполненную проверку, если релевантно.
+5. Упомянуть пути анализа, журнала реализации и отчета задачи, если они были созданы или обновлены.
+6. Предлагать только конкретные следующие шаги, естественно вытекающие из задачи.

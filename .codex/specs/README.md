@@ -1,23 +1,24 @@
-# Task Specs
+# Спецификации Задач
 
-Task specifications live here.
+Здесь хранятся спецификации задач.
 
-Naming:
+Именование:
 
-- Use `<task-id>-<slug>.md`.
-- Keep the same `<task-id>` across `specs/`, `analysis/`, `implementation/`, and `reports/`.
-- Example: `1.1-checkout-flow.md`.
+- Используйте `<task-id>-<slug>.md`.
+- Сохраняйте один и тот же `<task-id>` в `specs/`, `analysis/`, `implementation/` и `reports/`.
+- Пример: `1.1-checkout-flow.md`.
 
-Recommended sections:
+Рекомендуемые разделы:
 
-- Goal
-- Scope
-- Requirements
-- Constraints
-- Acceptance Criteria
+- Цель
+- Область
+- Требования
+- Ограничения
+- Критерии Приемки
 
-Rules:
+Правила:
 
-- Capture user requirements before implementation when the task is non-trivial.
-- Keep requirements aligned with analysis, implementation, and report files using the same task id.
-- Append useful updates instead of deleting existing documentation.
+- Фиксируйте требования пользователя перед реализацией, если задача нетривиальная.
+- Сохраняйте требования согласованными с analysis, implementation и report файлами через один task id.
+- Дополняйте полезные обновления вместо удаления существующей документации.
+- Основной текст, заголовки и пояснения новых спецификаций писать на русском языке.
