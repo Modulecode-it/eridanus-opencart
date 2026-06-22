@@ -1,0 +1,38 @@
+# docs / text
+*.md
+*.txt
+*.rst
+*.adoc
+*.html
+*.htm
+*.xml
+
+# images
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.webp
+*.bmp
+*.ico
+*.tif
+*.tiff
+*.avif
+
+# graphify output
+graphify-out/
+
+# project/meta
+.codex/
+.git/
+.idea/
+
+# noisy/vendor-like dirs
+admin/view/javascript/jquery/flot/
+inwidget/
+storage79/
+webstat/
+
+# runtime storage
+system/storage/
