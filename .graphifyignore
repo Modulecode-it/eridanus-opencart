@@ -21,23 +21,23 @@
 *.avif
 
 # styles / frontend presentation
-*.css
-*.scss
-*.sass
-*.less
-*.map
+#*.css
+#*.scss
+#*.sass
+#*.less
+#*.map
 
 # OpenCart view templates, mostly layout/presentation
-*.twig
-*.tpl
+#*.twig
+#*.tpl
 
 # frontend/design JS
-catalog/view/javascript/
-admin/view/javascript/
-catalog/view/theme/*/stylesheet/
-catalog/view/theme/*/javascript/
-system/library/vendor/
-node_modules/
+#catalog/view/javascript/
+#admin/view/javascript/
+#catalog/view/theme/*/stylesheet/
+#catalog/view/theme/*/javascript/
+#system/library/vendor/
+#node_modules/
 
 # graphify output
 graphify-out/
