@@ -1,3 +1,19 @@
+## codex project memory
+
+This project has repository-specific Codex workflow documentation in `.codex/`.
+
+For every new non-trivial task:
+- Read `.codex/README.md`, `.codex/PROJECT_STRUCTURE.md`, and `.codex/RULES.md` before broad analysis or implementation.
+- Use `.codex/CHECKLISTS.md` as the task checklist.
+- Create or update task documentation with one shared task id in:
+  - `.codex/specs/`
+  - `.codex/analysis/`
+  - `.codex/implementation/`
+  - `.codex/reports/`
+- Write new and updated `.codex` documents in Russian, keeping technical identifiers, paths, routes, code, SQL, XML, PHP/Twig/JS fragments, and config values untranslated.
+- Do not store secrets, tokens, full logs, customer data, or environment credentials in `.codex`.
+- Before finishing, update `.codex` if the task discovers durable project knowledge.
+
 ## graphify
 
 This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
