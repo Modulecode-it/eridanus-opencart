@@ -100,6 +100,15 @@ class ControllerCheckoutPaymentAddress extends Controller {
 
 					unset($this->session->data['payment_method']);
 					unset($this->session->data['payment_methods']);
+
+					if ($this->cart->hasShipping()) {
+						$this->session->data['shipping_address'] = $this->session->data['payment_address'];
+						$this->session->data['shipping_address_id'] = $this->request->post['address_id'];
+						$this->session->data['customer_addresses'] = $this->model_account_address->getAddresses();
+
+						unset($this->session->data['shipping_method']);
+						unset($this->session->data['shipping_methods']);
+					}
 				}
 			} else {
 				if ((utf8_strlen(trim($this->request->post['firstname'])) < 1) || (utf8_strlen(trim($this->request->post['firstname'])) > 32)) {
@@ -163,6 +172,15 @@ class ControllerCheckoutPaymentAddress extends Controller {
 
 					unset($this->session->data['payment_method']);
 					unset($this->session->data['payment_methods']);
+
+					if ($this->cart->hasShipping()) {
+						$this->session->data['shipping_address'] = $this->session->data['payment_address'];
+						$this->session->data['shipping_address_id'] = $address_id;
+						$this->session->data['customer_addresses'] = $this->model_account_address->getAddresses();
+
+						unset($this->session->data['shipping_method']);
+						unset($this->session->data['shipping_methods']);
+					}
 				}
 			}
 		}
