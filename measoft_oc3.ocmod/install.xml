@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+	<code>measoftcourier</code>
+	<name>MeaSoft</name>
+	<version>4.3.12</version>
+	<author>Measoft</author>
+	<link>http://courierexe.ru</link>
+	<!-- admin order -->
+	<file path="admin/controller/sale/order.php">
+		<operation error="skip">
+			<search>
+				<![CDATA[
+				public function getForm() {
+				]]>
+			</search>
+			<add position="after">
+				<![CDATA[
+                    if ( $this->config->get('shipping_measoftcourier_status') ) {
+                        $measoftshipping_client_id = $this->config->get('shipping_measoftcourier_extra') ? $this->config->get('shipping_measoftcourier_extra') : '';
+						$measoftshipping_client_code = $this->config->get('shipping_measoftcourier_client_code') ? $this->config->get('shipping_measoftcourier_client_code') : '';
+                        $measoftshipping_weight = $this->config->get('shipping_measoftcourier_order_default_weight') ? $this->config->get('shipping_measoftcourier_order_default_weight') : 0.1;
+                        $measoftshipping_map_width = $this->config->get('shipping_measoftcourier_map_width') ? $this->config->get('shipping_measoftcourier_map_width') : 650;
+                        $measoftshipping_map_height = $this->config->get('shipping_measoftcourier_map_height') ? $this->config->get('shipping_measoftcourier_map_height') : 755;
+                        $data['ks2008client'] = '<script>
+                            var ks2008client = {
+                                "id":"'.$measoftshipping_client_id.'",
+								"code":"'.$measoftshipping_client_code.'",
+                                "weight":"'.$measoftshipping_weight.'",
+                                "width":"'.$measoftshipping_map_width.'",
+                                "height":"'.$measoftshipping_map_height.'"
+                                };
+                        </script>';
+
+                        $this->document->addScript('https://home.courierexe.ru/js/measoft_map.js?v4.3.11');
+                        $this->document->addScript('/admin/view/javascript/measoftcourier/script.js?v4.3.11');
+                        $this->document->addStyle('/admin/view/stylesheet/measoftcourier/style.css', $rel = 'stylesheet');
+                    }				
+				]]>
+			</add>
+		</operation>
+		<operation error="skip">
+			<search>
+				<![CDATA[public function info() {]]>
+			</search>
+			<add position="after">
+				<![CDATA[
+                    if ( $this->config->get('shipping_measoftcourier_status') ) {
+                        $measoftshipping_client_id = $this->config->get('shipping_measoftcourier_extra') ? $this->config->get('shipping_measoftcourier_extra') : '';
+						$measoftshipping_client_code = $this->config->get('shipping_measoftcourier_client_code') ? $this->config->get('shipping_measoftcourier_client_code') : '';
+                        $measoftshipping_weight = $this->config->get('shipping_measoftcourier_order_default_weight') ? $this->config->get('shipping_measoftcourier_order_default_weight') : 0.1;
+                        $measoftshipping_map_width = $this->config->get('shipping_measoftcourier_map_width') ? $this->config->get('shipping_measoftcourier_map_width') : 650;
+                        $measoftshipping_map_height = $this->config->get('shipping_measoftcourier_map_height') ? $this->config->get('shipping_measoftcourier_map_height') : 755;
+                        $data['ks2008client'] = '<script>
+                            var ks2008client = {
+                                "id":"'.$measoftshipping_client_id.'",
+								"code":"'.$measoftshipping_client_code.'",
+                                "weight":"'.$measoftshipping_weight.'",
+                                "width":"'.$measoftshipping_map_width.'",
+                                "height":"'.$measoftshipping_map_height.'"
+                                };
+                        </script>';
+
+                        $this->document->addScript('https://home.courierexe.ru/js/measoft_map.js?v4.3.11');
+                        $this->document->addScript('/admin/view/javascript/measoftcourier/script.js?v4.3.11');
+                        $this->document->addStyle('/admin/view/stylesheet/measoftcourier/style.css', $rel = 'stylesheet');
+                    }				
+				]]>
+			</add>
+		</operation>	
+
+        <operation error="skip">
+            <search><![CDATA[
+				public function shipping() {				
+			]]></search>
+            <add position='before'>
+                <![CDATA[
+				public function saveSession() 
+				{
+					if (isset($this->request->get['order_id']) && $this->request->get['order_id']) {
+						$order_id = $this->request->get['order_id'];
+						$post = json_decode(html_entity_decode($this->request->post['data'],ENT_QUOTES), true);
+						$this->load->model('sale/order');
+						if (isset($post['pvz_id'])) {
+							$data = array(
+								'pvz_id'	=> $post['pvz_id'],
+								'order_id'	=> $this->request->get['order_id'],
+							);
+							$this->model_sale_order->updateOrderPvz($data);
+							
+						}
+						if (isset($post['pvz_name'])) {
+							$data = array(
+								'pvz_name'	=> $post['pvz_name'],
+								'order_id'	=> $this->request->get['order_id'],
+							);
+							$this->model_sale_order->updateOrderPvz($data);
+						}
+					}
+					$this->response->addHeader('Content-Type: application/json; charset=utf-8');
+					$this->response->setOutput(json_encode([]));
+				}
+                ]]>
+            </add>
+        </operation>					
+	</file>
+
+	<!-- admin order_info tpl -->
+	<file path="admin/view/template/sale/{order_info.twig,order_form.twig}">
+		<operation error="skip">
+			<search>
+				<![CDATA[{{ header }}{{ column_left }}]]>
+			</search>
+			<add position="before">
+				<![CDATA[
+				{% if ks2008client %}
+                  {{ ks2008client }}
+              	{% endif %}
+				]]>
+			</add>
+		</operation>
+	</file>
+	<!-- admin model sale order -->
+	<file path="admin/model/sale/order.php">
+		<operation error="skip">
+			<search>
+				<![CDATA['date_added'              => $order_query->row['date_added'],]]>
+			</search>
+			<add position="after">
+				<![CDATA[
+				'pvz_id'              	  => isset($order_query->row['pvz_id']) ? $order_query->row['pvz_id'] : '',
+				'pvz_name'              	  => isset($order_query->row['pvz_name']) ? $order_query->row['pvz_name'] : '',]]>
+			</add>
+		</operation>
+
+		<operation error="skip">
+			<search>
+				<![CDATA[
+				public function getTotalEmailsByProductsOrdered($products)
+				]]>
+			</search>
+			<add position="before">
+				<![CDATA[
+					public function updateOrderPvz($data) {
+						if (isset($data['pvz_id'])) {
+							$this->db->query("UPDATE `" . DB_PREFIX . "order` SET  pvz_id = '" . $this->db->escape($data['pvz_id']) . "' WHERE order_id = '".$data['order_id']."'");
+						}
+						if (isset($data['pvz_name'])) {
+							$this->db->query("UPDATE `" . DB_PREFIX . "order` SET  pvz_name = '" . $this->db->escape($data['pvz_name']) . "' WHERE order_id = '".$data['order_id']."'");
+						}
+					}
+				]]>
+			</add>
+		</operation>		
+	</file>
+
+	<!-- checkout map -->
+	<file path="catalog/controller/checkout/checkout.php">
+		<operation error="skip">
+			<search>
+				<![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]>
+			</search>
+			<add position="after">
+				<![CDATA[
+					if ( $this->config->get('shipping_measoftcourier_status') ) {
+						$this->document->addScript('https://home.courierexe.ru/js/measoft_map.js?v4.3.11');
+						$this->document->addScript('/catalog/view/javascript/measoftcourier/checkout_script.js?v4.3.11');
+						$this->document->addStyle('/catalog/view/javascript/measoftcourier/style.css', $rel = 'stylesheet');
+					}
+				]]>
+			</add>
+		</operation>
+	</file>
+
+    <file path="catalog/controller/checkout/simplecheckout.php">
+        <operation error="skip">
+            <search><![CDATA[
+			public function index($args = null) {
+			]]></search>
+            <add position='after'>
+                <![CDATA[
+					if ( $this->config->get('shipping_measoftcourier_status') ) {
+						$this->document->addScript('https://home.courierexe.ru/js/measoft_map.js?v4.3.11');
+						$this->document->addScript('/catalog/view/javascript/measoftcourier/checkout_script.js?v4.3.11');
+						$this->document->addStyle('/catalog/view/javascript/measoftcourier/style.css', $rel = 'stylesheet');
+					}
+                ]]>
+            </add>
+        </operation>
+    </file>
+	
+    <file path="catalog/controller/checkout/uni_checkout.php">
+        <operation error="skip">
+            <search><![CDATA[
+			public function index() {
+			]]></search>
+            <add position='after'>
+                <![CDATA[
+					if ( $this->config->get('shipping_measoftcourier_status') ) {
+						$this->document->addScript('https://home.courierexe.ru/js/measoft_map.js?v4.3.11');
+						$this->document->addScript('/catalog/view/javascript/measoftcourier/checkout_script.js?v4.3.11');
+						$this->document->addStyle('/catalog/view/javascript/measoftcourier/style.css', $rel = 'stylesheet');
+					}
+                ]]>
+            </add>
+        </operation>
+    </file>		
+	
+
+	
+
+	<file path="catalog/view/theme/default/template/checkout/simplecheckout_shipping.twig">
+		<operation error="skip">
+			<search ><![CDATA[
+			{{ quote['title'] is not empty ? quote['title'] : '' }}{{ quote['text'] is not empty and hide_cost is empty ? ' - ' ~ quote['text'] : '' }}
+			]]></search>
+			<add position="replace"><![CDATA[
+			{% if  quote.code == 'measoftcouriershipping.standard' %}
+				{% if quote.title_html %}
+					{{ quote.title_html }}
+				{% endif %}
+			{% else %}
+				{{ quote['title'] is not empty ? quote['title'] : '' }}{{ quote['text'] is not empty and hide_cost is empty ? ' - ' ~ quote['text'] : '' }}
+			{% endif %}
+			]]></add>
+		</operation>
+	</file>	  
+
+	<!-- checkout guest save -->
+	<file path="catalog/controller/checkout/shipping_method.php">
+		<operation error="skip">
+			<search>
+				<![CDATA[$this->response->addHeader('Content-Type: application/json');]]>
+			</search>
+			<add position="before">
+				<![CDATA[
+
+				]]>
+			</add>
+		</operation>
+	</file>
+
+	<!-- checkout confirm -->
+	<file path="catalog/controller/checkout/confirm.php">
+		<operation error="skip">
+			<search>
+				<![CDATA[$this->load->model('checkout/order');]]>
+			</search>
+			<add position="before">
+				<![CDATA[	if (isset($this->session->data['pvz_id'])) {
+					$order_data['pvz_id'] = $this->session->data['pvz_id'];
+				}
+				if (isset($this->session->data['pvz_name'])) {
+					$order_data['pvz_name'] = $this->session->data['pvz_name'];
+				}]]>
+			</add>
+		</operation>
+	</file>
+
+	<!-- checkout success -->
+	<file path="catalog/controller/checkout/success.php">
+		<operation error="skip">
+			<search>
+				<![CDATA[unset($this->session->data['totals']);]]>
+			</search>
+			<add position="before">
+				<![CDATA[
+                    unset($this->session->data['pvz_id']);
+			        unset($this->session->data['pvz_name']);
+                    unset($this->session->data['pvz_cost']);
+                    unset($this->session->data['cart_weight']);					
+					unset($this->session->data['pvz_acceptcash']);					
+					unset($this->session->data['pvz_acceptcard']);					
+				]]>
+			</add>
+		</operation>
+	</file>
+
+	<!-- model checkout confirm -->
+	<file path="catalog/model/checkout/order.php">
+		<operation error="skip">
+			<search>
+				<![CDATA[$order_id = $this->db->getLastId();]]>
+			</search>
+			<add position="after">
+				<![CDATA[
+					if ($this->config->get('shipping_measoftcourier_status') && $data['shipping_code'] == 'measoftcouriershipping.standard'){
+						if (isset($this->session->data['pvz_id'])) {
+							$this->db->query("UPDATE `" . DB_PREFIX . "order` SET pvz_id = '" . $this->db->escape($this->session->data['pvz_id']) . "' WHERE order_id = '".$order_id."'");
+						}
+						if (isset($this->session->data['pvz_name'])) {
+							$this->db->query("UPDATE `" . DB_PREFIX . "order` SET pvz_name = '" . $this->db->escape($this->session->data['pvz_name']) . "' WHERE order_id = '".$order_id."'");
+						}
+					}
+				]]>
+			</add>
+		</operation>
+		<operation error="skip">
+			<search>
+				<![CDATA[
+				'date_added'              => $order_query->row['date_added'],
+				]]>
+			</search>
+			<add position="after">
+				<![CDATA[
+				'pvz_id'              => $order_query->row['pvz_id'],
+				'pvz_name'           => $order_query->row['pvz_name'],
+				]]>
+			</add>
+		</operation>		
+	</file>
+
+	<!-- catalog view shipping_method -->
+	<file path="catalog/view/theme/*/template/checkout/shipping_method.twig">
+		<operation error="skip">
+			<search>
+				<![CDATA[
+				{{ quote.title }} - {{ quote.text }}</label>
+				]]>
+			</search>
+			<add position='replace'>
+				<![CDATA[
+				{% if  quote.code == 'measoftcouriershipping.standard' %}
+					{{ quote.title_html }}
+				{% else %}
+					{{ quote.title }} - {{ quote.text }}</label>
+				{% endif %}
+                ]]>
+			</add>
+		</operation>
+
+		<operation error="skip">
+			<search>
+				<![CDATA[		{% if error_warning %}]]>
+			</search>
+			<add position='before'>
+				<![CDATA[
+					<div class="hidden_city_info" style="display:none;">
+						{{ customer_address }}
+					</div>
+                ]]>
+			</add>
+		</operation>
+
+        <operation error="skip">
+            <search>
+                <![CDATA[<div class="buttons">]]>
+            </search>
+            <add position='before'>
+                <![CDATA[
+                <script>
+                    document.querySelectorAll('input[name="shipping_method"]').forEach(e=>{
+                    e.onchange = ev => {
+                        let def_btn = document.querySelector('#button-shipping-method');
+                        let code_e = document.querySelector('.pvzcode');
+                        if (ev.target.value === "measoftcouriershipping.standard" ) {
+                        def_btn.setAttribute('disabled', !code_e.value);
+                        } else {
+                        def_btn.removeAttribute('disabled');
+                        }
+                    }
+                    })
+                </script>
+                ]]>
+            </add>
+        </operation>  		
+	</file>
+
+	<!-- catalog controller shipping_method -->
+	<file path="catalog/controller/checkout/shipping_method.php">
+		<operation error="skip">
+			<search>
+				<![CDATA[if (empty($this->session->data['shipping_methods'])) {]]>
+			</search>
+			<add position='before'>
+			<![CDATA[
+				if (isset($this->session->data['shipping_address']['city'])) {
+					$data['customer_address'] = $this->session->data['shipping_address']['city'];
+				} else {
+					$data['customer_address'] =  $this->session->data['customer_addresses'][$this->session->data['shipping_address_id']]['city'];
+				}
+		  	]]>
+			</add>
+		</operation>
+	</file>
+
+	<!-- catalog controller shipping_address -->
+	<file path="catalog/controller/checkout/shipping_address.php">
+		<operation error="skip">
+			<search>
+				<![CDATA[		$data['addresses'] = $this->model_account_address->getAddresses();]]>
+			</search>
+			<add position='after'>
+				<![CDATA[
+		$this->session->data['customer_addresses'] = $this->model_account_address->getAddresses();
+                ]]>
+			</add>
+		</operation>
+	</file>
+
+	
+    <file path="admin/view/template/sale/order_form.twig">
+        <operation error="skip">
+            <search><![CDATA[
+				$('#button-shipping-address').on('click', function() {
+			]]></search>
+            <add position='after'>
+                <![CDATA[
+					var url = '{{ catalog }}index.php?route=api/shipping/methods&api_token={{ api_token }}&store_id=' + $('select[name=\'store_id\'] option:selected').val();
+					if ($('input[name=\'order_id\']').val() != 0) {
+
+						var moreData = '&order_id=' + $('input[name=\'order_id\']').val();
+						var pvz = document.querySelector('input[name="pvz_id"]');
+						if (pvzchanged) {
+							moreData += '&pvz_id=' + pvz.value;
+						}
+
+						url = '{{ catalog }}index.php?route=api/shipping/methods&api_token={{ api_token }}&store_id=' + $('select[name=\'store_id\'] option:selected').val() + moreData;
+					}
+                ]]>
+            </add>
+        </operation>	
+        <operation error="skip">
+            <search><![CDATA[
+				url: '{{ catalog }}index.php?route=api/shipping/methods&api_token={{ api_token }}&store_id=' + $('select[name=\'store_id\'] option:selected').val(),
+			]]></search>
+            <add position='replace'>
+                <![CDATA[
+				url: url,
+                ]]>
+            </add>
+        </operation>
+        <operation error="skip">
+            <search><![CDATA[
+				if (json['shipping_methods']) {
+			]]></search>
+            <add position='before'>
+                <![CDATA[
+				pvzchanged = false;
+                ]]>
+            </add>
+        </operation>	
+        <operation error="skip">
+            <search><![CDATA[
+				$('select[name=\'currency\']').on('change', function() {
+			]]></search>
+            <add position='before'>
+                <![CDATA[
+				var api_token = '{{ api_token }}';
+                ]]>
+            </add>
+        </operation>				
+    </file>
+
+
+</modification>
