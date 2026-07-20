@@ -1,0 +1,17 @@
+{
+  "_comment": "Опциональный пример хуков. Скопируй в .agent/hooks.json (или в конфиг агента) и адаптируй. По умолчанию ядро НЕ требует хуков.",
+  "_usage": "Пример ниже подключает graphify hook-check на каждый вызов Bash. Чтобы активировать: 1) скопировать skill graphify в .agent/skills/graphify/, 2) исправить путь к graphify.EXE под свою систему, 3) подключить этот файл в конфиге агента (PreToolUse).",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "graphify.EXE hook-check"
+          }
+        ]
+      }
+    ]
+  }
+}

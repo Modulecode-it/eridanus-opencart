@@ -1,18 +1,19 @@
-## codex project memory
+## agent memory system
 
-This project has repository-specific Codex workflow documentation in `.codex/`.
+This project uses the `.agent/` memory system for agent workflow documentation.
 
 For every new non-trivial task:
-- Read `.codex/README.md`, `.codex/PROJECT_STRUCTURE.md`, and `.codex/RULES.md` before broad analysis or implementation.
-- Use `.codex/CHECKLISTS.md` as the task checklist.
+- Read `.agent/README.md`, `.agent/CORE.md`, `.agent/PROJECT_STRUCTURE.md`, and `.agent/STACK.md` before broad analysis or implementation.
+- Use `.agent/CHECKLISTS.md` as the task checklist.
 - Create or update task documentation with one shared task id in:
-  - `.codex/specs/`
-  - `.codex/analysis/`
-  - `.codex/implementation/`
-  - `.codex/reports/`
-- Write new and updated `.codex` documents in Russian, keeping technical identifiers, paths, routes, code, SQL, XML, PHP/Twig/JS fragments, and config values untranslated.
-- Do not store secrets, tokens, full logs, customer data, or environment credentials in `.codex`.
-- Before finishing, update `.codex` if the task discovers durable project knowledge.
+  - `.agent/specs/`
+  - `.agent/analysis/`
+  - `.agent/implementation/`
+  - `.agent/reports/`
+- Keep `.agent/INDEX.md` (task registry) and `.agent/CHANGELOG.md` (memory system history) current.
+- Write new and updated `.agent` documents in Russian, keeping technical identifiers, paths, routes, code, SQL, XML, PHP/Twig/JS fragments, and config values untranslated.
+- Do not store secrets, tokens, full logs, customer data, or environment credentials in `.agent`.
+- Before finishing, update `.agent` if the task discovers durable project knowledge (see `.agent/CORE.md` for the routing table: PROJECT_STRUCTURE / STACK / RULES / CHECKLISTS / ADR).
 
 ## graphify
 

@@ -1,0 +1,18 @@
+{
+  "_comment": "Пример хука graphify для PreToolUse/Bash. Копировать в .agent/hooks.json (или в конфиг агента) и адаптировать путь к graphify под свою систему.",
+  "_windows_example": "C:\\Users\\<user>\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\graphify.EXE hook-check",
+  "_unix_example": "graphify hook-check",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "graphify hook-check"
+          }
+        ]
+      }
+    ]
+  }
+}
