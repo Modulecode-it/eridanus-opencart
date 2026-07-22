@@ -2,6 +2,11 @@
 {% set simple_page = 'simplecheckout' %}
 {% set heading_title = heading_title  ~ (display_weight ? '&nbsp;(<span id="weight">' ~ weight  ~ '</span>)' : '') %}
 {% include simple_header %}
+{% if simple_blocks['shipping'] is defined and 'measoftcouriershipping.standard' in simple_blocks['shipping'] %}
+<link href="catalog/view/javascript/measoftcourier/style.css" rel="stylesheet" />
+<script src="https://home.courierexe.ru/js/measoft_map.js?v4.3.11" type="text/javascript"></script>
+<script src="catalog/view/javascript/measoftcourier/checkout_script.js?v4.3.11" type="text/javascript"></script>
+{% endif %}
 <style>
     {% if left_column_width %}
         @media only screen and (min-width:1024px) {

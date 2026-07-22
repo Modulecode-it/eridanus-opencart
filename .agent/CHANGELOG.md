@@ -4,6 +4,10 @@
 
 Формат: `Keep a Changelog`, даты в ISO (`YYYY-MM-DD`).
 
+## [1.0.2] — 2026-07-22
+
+### Changed
+- Уточнено правило деплоя: новые generated-файлы `system/storage/modification/**` игнорируются, чтобы обычный `git clean -fd` не удалял серверные OCMOD modifications; коммитить их нужно только осознанно через `git add -f`.
 ## [1.0.1] — 2026-07-22
 
 ### Added

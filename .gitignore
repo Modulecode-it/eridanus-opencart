@@ -18,6 +18,11 @@ system/storage/cache/
 system/storage/logs/
 system/storage/session/
 system/storage/upload/
+# ─── OpenCart generated modifications ────────────────────────────────────────
+# Tracked baseline files remain tracked, but new server-generated OCMOD files
+# are protected from ordinary `git clean -fd`. Use `git add -f` intentionally
+# when a generated modification must be committed.
+system/storage/modification/**
 
 # ─── Служебные инструменты (не часть OpenCart) ───────────────────────────────
 adminer-4.7.3-mysql.php
