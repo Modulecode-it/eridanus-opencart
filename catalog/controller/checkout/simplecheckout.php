@@ -11,6 +11,12 @@ class ControllerCheckoutSimpleCheckout extends SimpleController {
 
     public function index($args = null) {
 
+        if ($this->config->get('shipping_measoftcourier_status')) {
+            $this->document->addScript('https://home.courierexe.ru/js/measoft_map.js?v4.3.11');
+            $this->document->addScript('/catalog/view/javascript/measoftcourier/checkout_script.js?v4.3.11');
+            $this->document->addStyle('/catalog/view/javascript/measoftcourier/style.css', $rel = 'stylesheet');
+        }
+
         $this->loadLibrary('simple/simplecheckout');
 
         $settingsGroup = !empty($args['group']) ? $args['group'] : (!empty($this->request->get['group']) ? $this->request->get['group'] : $this->config->get('simple_default_checkout_group'));
