@@ -109,6 +109,7 @@ catalog/
 - `admin/controller/extension/payment/modulbank.php`
 - `admin/controller/extension/shipping/cdek.php`
 - `admin/controller/extension/shipping/measoftcourier.php`
+- `apiship-1.2_3.x.ocmod/` + `apiship-1.2_3.x.ocmod.zip` — пакет доставки ApiShip 1.2 (задача 1.5), ставится через Extension Installer; агрегатор Яндекс Доставки и др. ТК.
 - `catalog/controller/extension/module/yandex_market.php`
 - `catalog/controller/extension/module/yandex_market_dbs.php`
 - `catalog/controller/extension/module/filterit.php`

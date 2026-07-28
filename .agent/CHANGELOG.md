@@ -4,6 +4,12 @@
 
 Формат: `Keep a Changelog`, даты в ISO (`YYYY-MM-DD`).
 
+## [1.0.3] — 2026-07-29
+
+### Added
+- Задача 1.5-apiship-install: установка модуля доставки ApiShip 1.2 (zip + распакованный исходник `apiship-1.2_3.x.ocmod/` в корне, по образцу задачи 1.4). Зафиксировано долговечное знание: ApiShip — агрегатор, требует собственный токен из ЛК `apiship.ru` (не OAuth Яндекса); модуль ставится через Extension Installer, файлы не раскладываются по `admin/catalog/system`.
+- `PROJECT_STRUCTURE.md`: упоминание пакета `apiship-1.2_3.x.ocmod/` в списке модулей доставки.
+
 ## [1.0.2] — 2026-07-22
 
 ### Changed
