@@ -4,6 +4,21 @@
 
 Формат: `Keep a Changelog`, даты в ISO (`YYYY-MM-DD`).
 
+## [1.0.5] — 2026-08-18
+
+### Added
+- Скилл **`git-sync`** (`.agents/skills/git-sync/`) — синхронизация с GitHub через HTTPS + PAT (задача 0.4-agents-sync-from-mailflow, перенос из донора mailflow). В репозитории — плейсхолдер `<GITHUB_PAT>` (пуш с реальным токеном блокирует GitHub Push Protection; реальный PAT вставляется в локальную копию файла и не коммитится). Команды адаптированы под наш SSH-remote: явный HTTPS-URL `https://github.com/Modulecode-it/eridanus-opencart.git`, ветка `main`.
+- Скилл **`no-local-testing`** (`.agents/skills/no-local-testing/`) — запрет локального запуска php/сервера, переписан под OpenCart (сайт на сервере; МОЖНО статические проверки и `graphify update .`; отсылка к правилу «Деплой На Сервер» в `STACK.md` вместо дублирования).
+- Корневой `AGENTS.md`: 3 новые секции — «⚠️ Главное правило: нет локальной среды запуска PHP/сервера» (полная развёрнутая структура донора, адаптированная под OpenCart), «Git sync», «Язык».
+- `.agents/skills/README.md`: раздел «Активные скиллы этого проекта» с ℹ️-примечанием о совмещении рабочей папки ZCode-скиллов и описаниями `git-sync` / `no-local-testing` / `graphify` (с проверенным путём утилиты и версией 0.8.49).
+
+### Changed
+- `.agents/README.md`: заголовок `.agent` → `.agents … + Скиллы` (заодно исправлен недосмотр задачи 0.3), папка `skills/` описана как рабочая папка ZCode-скиллов (формулировки донора).
+
+### Skipped (уже есть)
+- `CORE.md`, `RULES.md`, `ONBOARDING.md`, `prompts/*` — идентичны донору (сверка `diff --strip-trailing-cr`).
+- `CHECKLISTS.md` — наш новее (пункт про запрет локального HTTP-тестирования, v1.0.1), версия донора не переносилась.
+
 ## [1.0.4] — 2026-08-18
 
 ### Changed

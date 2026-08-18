@@ -26,4 +26,24 @@ skills/
 
 ## Активные скиллы этого проекта
 
-- `graphify/` — knowledge graph кодовой базы (god nodes, community detection, cross-file relationships). Вывод в `graphify-out/`. Подключён через `../hooks.json` (PreToolUse на Bash → `graphify hook-check`). Команды: `/graphify`, `graphify query "<q>"`, `graphify path "<A>" "<B>"`, `graphify explain "<concept>"`, `graphify update .`.
+> ℹ️ **Про расположение скиллов.** Все скиллы проекта — и ZCode-проектные (`git-sync`, `no-local-testing`), и опциональный плагин `graphify` — лежат в одной папке **`.agents/skills/`**. Это рабочая папка, откуда ZCode ожидает и грузит скиллы, совмещённая с системой памяти (`.agents/`).
+
+### `git-sync` — синхронизация с GitHub через HTTPS + PAT
+
+- **Расположение:** `.agents/skills/git-sync/`.
+- Триггер: пользователь просит «забрать», «подтянуть», «отправить», «спушить», «git pull», «git push», «обновить код из GitHub», или любое упоминание синхронизации с удалённым репозиторием.
+- Запуск: скилл `git-sync` (или `/git-sync`).
+
+### `no-local-testing` — запрет локального запуска php/сервера
+
+- **Расположение:** `.agents/skills/no-local-testing/`.
+- Триггер: правишь PHP/контроллеры/модели/Twig-шаблоны/OCMOD XML/конфиги OpenCart, или пользователь просит «проверить», «прогнать», «запустить», «оттестировать», «поднять сайт».
+- Правило: локально нет среды запуска (сайт крутится на сервере). Тестирование выполняет пользователь **на сервере**.
+
+### `graphify` — knowledge graph кодовой базы (опциональный плагин)
+
+- **Расположение:** `.agents/skills/graphify/` (подключён из `agent-deploy-kit/optional/graphify/skill/`).
+- Триггер: вопросы о кодовой базе; команда `/graphify`.
+- Подключение хука: см. `.agents/hooks.json` (PreToolUse на Bash → `graphify hook-check` для инкрементального обновления графа). Файл — пример/заготовка; подключается в конфиге агента (ZCode читает хуки из своей конфигурации).
+- Запуск утилиты: `C:\Users\lunkin\AppData\Local\Programs\Python\Python313\Scripts\graphify.exe` (v0.8.49). Первичная сборка — `graphify` в корне проекта (создаст `graphify-out/`).
+- Команды: `graphify query "<вопрос>"`, `graphify path "<A>" "<B>"`, `graphify explain "<концепт>"`, `graphify update .`.
