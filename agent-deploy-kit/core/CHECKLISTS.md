@@ -6,8 +6,8 @@
 
 ## Перед Любым Изменением Кода
 
-1. Прочитать `.agent/README.md` и `.agent/CORE.md`.
-2. Прочитать `.agent/PROJECT_STRUCTURE.md` и `.agent/STACK.md`.
+1. Прочитать `.agents/README.md` и `.agents/CORE.md`.
+2. Прочитать `.agents/PROJECT_STRUCTURE.md` и `.agents/STACK.md`.
 3. Проверить `git status --short`.
 4. Определить, затрагивает ли задача исходный код, конфиг, миграции, документацию или инфраструктуру.
 5. Для новых нетривиальных задач определить `task-id` и создать/обновить файлы в `specs/`, `analysis/`, `implementation/`, `reports/`.

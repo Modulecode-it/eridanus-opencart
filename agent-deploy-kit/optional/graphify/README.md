@@ -2,7 +2,7 @@
 
 [graphify](https://github.com/) — утилита, строящая knowledge graph кодовой базы: god nodes, community detection, cross-file relationships. Хранит вывод в `graphify-out/`.
 
-> **Не входит в универсальное ядро `.agent/`.** Подключается только если в проекте нужен knowledge graph.
+> **Не входит в универсальное ядро `.agents/`.** Подключается только если в проекте нужен knowledge graph.
 
 ## Что Внутри
 
@@ -14,14 +14,14 @@
 ## Установка В Проект
 
 1. Убедиться, что graphify установлен в системе (например через `pip install graphify` или `graphify.EXE` в PATH на Windows).
-2. Скопировать `skill/` → `.agent/skills/graphify/`:
+2. Скопировать `skill/` → `.agents/skills/graphify/`:
    ```bash
-   cp -r agent-deploy-kit/optional/graphify/skill .agent/skills/graphify
+   cp -r agent-deploy-kit/optional/graphify/skill .agents/skills/graphify
    ```
-3. (Опционально) скопировать `hooks.json.example` → `.agent/hooks.json` и адаптировать путь к `graphify.EXE` под свою систему.
-4. Подключить `.agent/hooks.json` в конфиге агента (PreToolUse).
+3. (Опционально) скопировать `hooks.json.example` → `.agents/hooks.json` и адаптировать путь к `graphify.EXE` под свою систему.
+4. Подключить `.agents/hooks.json` в конфиге агента (PreToolUse).
 5. В корневом `AGENTS.md` раскомментировать секцию `## graphify` (см. шаблон `core/templates/agents-root.md`).
-6. Документировать подключение в `.agent/skills/README.md` (раздел «Активные скиллы»).
+6. Документировать подключение в `.agents/skills/README.md` (раздел «Активные скиллы»).
 7. Запустить `/graphify` для первичной сборки графа (создаст `graphify-out/`).
 
 ## Использование
@@ -37,10 +37,10 @@
 ## Удаление
 
 ```bash
-rm -rf .agent/skills/graphify .agent/hooks.json graphify-out/
+rm -rf .agents/skills/graphify .agents/hooks.json graphify-out/
 ```
 
-И убрать секцию graphify из корневого `AGENTS.md` и из `.agent/skills/README.md`.
+И убрать секцию graphify из корневого `AGENTS.md` и из `.agents/skills/README.md`.
 
 ## Заметки
 

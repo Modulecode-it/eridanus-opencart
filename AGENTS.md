@@ -1,29 +1,31 @@
-## agent memory system
+# AGENTS.md
 
-This project uses the `.agent/` memory system for agent workflow documentation.
+## Система памяти агента
 
-For every new non-trivial task:
-- Read `.agent/README.md`, `.agent/CORE.md`, `.agent/PROJECT_STRUCTURE.md`, and `.agent/STACK.md` before broad analysis or implementation.
-- Use `.agent/CHECKLISTS.md` as the task checklist.
-- Create or update task documentation with one shared task id in:
-  - `.agent/specs/`
-  - `.agent/analysis/`
-  - `.agent/implementation/`
-  - `.agent/reports/`
-- Keep `.agent/INDEX.md` (task registry) and `.agent/CHANGELOG.md` (memory system history) current.
-- Write new and updated `.agent` documents in Russian, keeping technical identifiers, paths, routes, code, SQL, XML, PHP/Twig/JS fragments, and config values untranslated.
-- Do not store secrets, tokens, full logs, customer data, or environment credentials in `.agent`.
-- Before finishing, update `.agent` if the task discovers durable project knowledge (see `.agent/CORE.md` for the routing table: PROJECT_STRUCTURE / STACK / RULES / CHECKLISTS / ADR).
+Этот проект использует систему памяти `.agents/` для документирования рабочего процесса агента.
+
+Для каждой новой нетривиальной задачи:
+- Перед широким анализом или реализацией прочитать `.agents/README.md`, `.agents/CORE.md`, `.agents/PROJECT_STRUCTURE.md` и `.agents/STACK.md`.
+- Использовать `.agents/CHECKLISTS.md` как чек-лист задачи.
+- Создавать или обновлять документацию задачи с одним общим task-id в:
+  - `.agents/specs/`
+  - `.agents/analysis/`
+  - `.agents/implementation/`
+  - `.agents/reports/`
+- Поддерживать актуальными `.agents/INDEX.md` (реестр задач) и `.agents/CHANGELOG.md` (история системы памяти).
+- Новые и обновляемые документы `.agents` писать на русском, оставляя без перевода технические идентификаторы, пути, роуты, код, SQL, XML, фрагменты PHP/Twig/JS и значения конфигов.
+- Не хранить в `.agents` секреты, токены, полные логи, данные клиентов и доступы к окружениям.
+- Перед завершением обновить `.agents`, если задача выявила долговечное знание о проекте (таблица маршрутизации — в `.agents/CORE.md`: PROJECT_STRUCTURE / STACK / RULES / CHECKLISTS / ADR).
 
 ## graphify
 
-This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
+В этом проекте есть граф знаний в `graphify-out/`: god-узлы, структура сообществ и межфайловые связи.
 
-When the user types `/graphify`, invoke the `skill` tool with `skill: "graphify"` before doing anything else.
+Когда пользователь вводит `/graphify`, вызови инструмент `skill` с `skill: "graphify"` прежде чем делать что-либо ещё.
 
-Rules:
-- For codebase questions, first run `graphify query "<question>"` when graphify-out/graph.json exists. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. These return a scoped subgraph, usually much smaller than GRAPH_REPORT.md or raw grep output.
-- Dirty graphify-out/ files are expected after hooks or incremental updates; dirty graph files are not a reason to skip graphify. Only skip graphify if the task is about stale or incorrect graph output, or the user explicitly says not to use it.
-- If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
-- Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
-- After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
+Правила:
+- По вопросам о кодовой базе сначала запускай `graphify query "<вопрос>"`, если существует `graphify-out/graph.json`. Для связей используй `graphify path "<A>" "<B>"`, для фокусированных концепций — `graphify explain "<концепция>"`. Они возвращают ограниченный подграф, обычно намного меньший, чем GRAPH_REPORT.md или сырой вывод grep.
+- «Грязные» файлы `graphify-out/` после хуков или инкрементальных обновлений — норма; грязные файлы графа не причина пропускать graphify. Пропускай graphify, только если задача касается устаревшего или некорректного вывода графа либо пользователь явно просит его не использовать.
+- Если существует `graphify-out/wiki/index.md`, используй его для широкой навигации вместо сырого просмотра исходников.
+- Читай `graphify-out/GRAPH_REPORT.md` только для широкого ревью архитектуры или когда query/path/explain не дают достаточного контекста.
+- После изменения кода запускай `graphify update .`, чтобы граф оставался актуальным (только AST, без затрат на API).

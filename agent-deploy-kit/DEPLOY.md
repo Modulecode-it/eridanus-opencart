@@ -1,4 +1,4 @@
-# ★ Мастер-Промт: Развернуть Систему Памяти `.agent/` в Этом Проекте
+# ★ Мастер-Промт: Развернуть Систему Памяти `.agents/` в Этом Проекте
 
 Вставь весь текст ниже в своего агента в **корне целевого проекта**. Агент развернёт универсальную систему памяти и адаптирует её под стек проекта.
 
@@ -6,7 +6,7 @@
 
 ## Инструкция Агенту
 
-Твоя задача — развернуть в текущем репозитории универсальную агентскую систему памяти `.agent/` из кита `agent-deploy-kit/` (или из копии кита, если он уже лежит в репо). Система стек-агностичная; правила конкретного стека подгружаются одним файлом `STACK.md`.
+Твоя задача — развернуть в текущем репозитории универсальную агентскую систему памяти `.agents/` из кита `agent-deploy-kit/` (или из копии кита, если он уже лежит в репо). Система стек-агностичная; правила конкретного стека подгружаются одним файлом `STACK.md`.
 
 **Контекст:** кит `agent-deploy-kit/` лежит в корне этого репозитория (или был скопирован сюда). Если папки `agent-deploy-kit/` нет — попроси пользователя её предоставить.
 
@@ -16,87 +16,87 @@
 - [ ] Определить стек проекта: посмотри `composer.json` (Laravel?), `package.json`, `index.php` + `system/` (OpenCart?), `requirements.txt`/`pyproject.toml` (Python?), и т.д. **Спроси пользователя** если неоднозначно.
 - [ ] Проверить `git status --short`. Не откатывать чужие изменения.
 
-### Шаг 1. Развёртывание ядра `.agent/`
+### Шаг 1. Развёртывание ядра `.agents/`
 
-Скопировать всё из `agent-deploy-kit/core/` → `.agent/` (кроме `STACK.example.md` — он только как шаблон):
+Скопировать всё из `agent-deploy-kit/core/` → `.agents/` (кроме `STACK.example.md` — он только как шаблон):
 
 ```bash
 mkdir -p .agent
-cp -r agent-deploy-kit/core/. .agent/
+cp -r agent-deploy-kit/core/. .agents/
 # STACK.example.md оставляем как шаблон; STACK.md создастся на шаге 2
-rm -f .agent/STACK.example.md  # или переименовать, если хочешь держать шаблон в проекте
+rm -f .agents/STACK.example.md  # или переименовать, если хочешь держать шаблон в проекте
 ```
 
 Должна получиться структура: `README.md`, `CORE.md`, `RULES.md`, `CHECKLISTS.md`, `INDEX.md`, `CHANGELOG.md`, `ONBOARDING.md`, `hooks.json.example`, + папки `specs/`, `analysis/`, `implementation/`, `reports/`, `decisions/`, `templates/`, `prompts/`, `skills/`.
 
-### Шаг 2. Выбор стека → `.agent/STACK.md`
+### Шаг 2. Выбор стека → `.agents/STACK.md`
 
-- Если готовый адаптер существует в `agent-deploy-kit/stacks/<name>.md` (например `laravel.md`, `opencart.md`) — скопировать как `.agent/STACK.md`:
+- Если готовый адаптер существует в `agent-deploy-kit/stacks/<name>.md` (например `laravel.md`, `opencart.md`) — скопировать как `.agents/STACK.md`:
   ```bash
-  cp agent-deploy-kit/stacks/laravel.md .agent/STACK.md
+  cp agent-deploy-kit/stacks/laravel.md .agents/STACK.md
   ```
-- Если готового нет — создать `.agent/STACK.md` из `agent-deploy-kit/core/STACK.example.md` и заполнить под свой стек.
+- Если готового нет — создать `.agents/STACK.md` из `agent-deploy-kit/core/STACK.example.md` и заполнить под свой стек.
 - **Адаптировать** `STACK.md`: уточнить версии, пути, команды под конкретный проект (например, Laravel 10 vs 11, Sail vs Herd, Pest vs PHPUnit).
 
-### Шаг 3. Генерация `.agent/PROJECT_STRUCTURE.md`
+### Шаг 3. Генерация `.agents/PROJECT_STRUCTURE.md`
 
 `PROJECT_STRUCTURE.md` уникален для каждого репо — **нельзя** копировать из кита дословно.
 
-1. Скопировать скелет: `cp agent-deploy-kit/core/templates/project-structure.md .agent/PROJECT_STRUCTURE.md`
+1. Скопировать скелет: `cp agent-deploy-kit/core/templates/project-structure.md .agents/PROJECT_STRUCTURE.md`
 2. **Сканировать репо** (не `vendor/`, `node_modules/`, `storage/`, `.git/`): определить структуру директорий, ключевые модули/домены, точки входа, БД, окружение.
 3. Заполнить секции: Проект, Верхнеуровневая Структура, Ключевые Модули и Домены, Пути по умолчанию не сканировать, Критичные Файлы и Секреты (БЕЗ раскрытия секретов — только пути), Рекомендуемая Область Поиска.
 4. Поставить дату обновления.
 
 ### Шаг 4. Аккуратный Перенос Существующих Скиллов ⚠️
 
-Если в проекте **уже есть** скиллы (от другого агента/инструмента), их надо перенести в `.agent/skills/`, не сломав триггеры.
+Если в проекте **уже есть** скиллы (от другого агента/инструмента), их надо перенести в `.agents/skills/`, не сломав триггеры.
 
 **Инвентаризация.** Найти все `SKILL.md`:
 ```bash
 find . -name "SKILL.md" -not -path "*/node_modules/*" -not -path "*/vendor/*" -not -path "*/.git/*" 2>/dev/null
 ```
-Типичные расположения: `.claude/skills/`, `.cursor/skills/`, `.codex/skills/`, `skills/`, `.agent/skills/`, `.github/skills/`.
+Типичные расположения: `.claude/skills/`, `.cursor/skills/`, `.codex/skills/`, `skills/`, `.agents/skills/`, `.github/skills/`.
 
 **Перенос каждого скилла:**
 1. Прочитать `SKILL.md`, убедиться что frontmatter содержит `name` и `description`.
-2. Скопировать всю папку скилла в `.agent/skills/<name>/`, **сохраняя**:
+2. Скопировать всю папку скилла в `.agents/skills/<name>/`, **сохраняя**:
    - `name` и `description` в frontmatter как есть (это триггеры активации);
    - подпапку `references/` если есть;
    - любые вспомогательные файлы (`.version`, и т.п.).
 3. Не переименовывать, не редактировать содержимое (если только пользователь не попросил).
-4. Записать скилл в список «Активные скиллы» в `.agent/skills/README.md`.
+4. Записать скилл в список «Активные скиллы» в `.agents/skills/README.md`.
 
-**Конфликты имён:** если в `.agent/skills/` уже есть скилл с тем же `name` — спросить пользователя, не перетирать вслепую.
+**Конфликты имён:** если в `.agents/skills/` уже есть скилл с тем же `name` — спросить пользователя, не перетирать вслепую.
 
 ### Шаг 5. (Опционально) Подключение Плагинов
 
 **graphify** (если нужен knowledge graph):
-1. Скопировать: `cp -r agent-deploy-kit/optional/graphify/skill .agent/skills/graphify`
+1. Скопировать: `cp -r agent-deploy-kit/optional/graphify/skill .agents/skills/graphify`
 2. Убедиться, что graphify установлен в системе.
-3. Скопировать `agent-deploy-kit/optional/graphify/hooks.json.example` → `.agent/hooks.json`, адаптировать путь к `graphify.EXE`.
+3. Скопировать `agent-deploy-kit/optional/graphify/hooks.json.example` → `.agents/hooks.json`, адаптировать путь к `graphify.EXE`.
 4. В корневом `AGENTS.md` (шаг 6) раскомментировать секцию `## graphify`.
-5. Записать в `.agent/skills/README.md`.
+5. Записать в `.agents/skills/README.md`.
 
-Другие плагины — по тому же принципу: папка в `.agent/skills/<name>/`.
+Другие плагины — по тому же принципу: папка в `.agents/skills/<name>/`.
 
 ### Шаг 6. Корневой `AGENTS.md`
 
 Скопировать шаблон: `cp agent-deploy-kit/core/templates/agents-root.md AGENTS.md` (если `AGENTS.md` уже есть — аккуратно слить, не перетирая пользовательский контент).
 
-`AGENTS.md` — компактная точка входа, ссылается на `.agent/`. Если подключён graphify — раскомментировать секцию `## graphify`.
+`AGENTS.md` — компактная точка входа, ссылается на `.agents/`. Если подключён graphify — раскомментировать секцию `## graphify`.
 
 ### Шаг 7. Инициализация `INDEX.md` и `CHANGELOG.md`
 
-- `.agent/INDEX.md` оставить пустым (заполнится первой задачей).
-- В `.agent/CHANGELOG.md` (раздел `[Unreleased]` → `### Added`) добавить запись о развёртывании системы памяти в этом проекте. Поставить дату.
+- `.agents/INDEX.md` оставить пустым (заполнится первой задачей).
+- В `.agents/CHANGELOG.md` (раздел `[Unreleased]` → `### Added`) добавить запись о развёртывании системы памяти в этом проекте. Поставить дату.
 
 ### Шаг 8. Проверка Готовности (чек-лист)
 
-- [ ] `.agent/` развёрнут из `core/`.
-- [ ] `.agent/STACK.md` заполнен под стек проекта.
-- [ ] `.agent/PROJECT_STRUCTURE.md` описывает конкретный репо.
-- [ ] Существующие скиллы перенесены в `.agent/skills/` (если были).
-- [ ] `AGENTS.md` в корне ссылается на `.agent/`.
+- [ ] `.agents/` развёрнут из `core/`.
+- [ ] `.agents/STACK.md` заполнен под стек проекта.
+- [ ] `.agents/PROJECT_STRUCTURE.md` описывает конкретный репо.
+- [ ] Существующие скиллы перенесены в `.agents/skills/` (если были).
+- [ ] `AGENTS.md` в корне ссылается на `.agents/`.
 - [ ] `INDEX.md` и `CHANGELOG.md` инициализированы.
 - [ ] (Опционально) graphify подключён.
 
@@ -113,7 +113,7 @@ find . -name "SKILL.md" -not -path "*/node_modules/*" -not -path "*/vendor/*" -n
 1. Скопируй папку `agent-deploy-kit/` в корень нового проекта (или используй уже лежащую).
 2. Открой агента в корне этого проекта.
 3. Вставь промт выше (от «★ Мастер-Промт» до конца раздела «Инструкция Агенту») — или просто открой этот файл `DEPLOY.md` в агенте и попроси «выполни инструкции в этом файле».
-4. Агент задаст вопросы про стек и существующие скиллы, развернёт `.agent/`, сгенерирует `STACK.md` и `PROJECT_STRUCTURE.md`.
+4. Агент задаст вопросы про стек и существующие скиллы, развернёт `.agents/`, сгенерирует `STACK.md` и `PROJECT_STRUCTURE.md`.
 5. Проверь результат, закоммить.
 
-**Для развёртывания на Laravel-проекте** агент выберет `stacks/laravel.md` автоматически (по `composer.json`), перенесёт существующие скиллы проекта в `.agent/skills/` и сгенерирует `PROJECT_STRUCTURE.md` сканированием `app/`, `routes/`, `database/`, и т.д.
+**Для развёртывания на Laravel-проекте** агент выберет `stacks/laravel.md` автоматически (по `composer.json`), перенесёт существующие скиллы проекта в `.agents/skills/` и сгенерирует `PROJECT_STRUCTURE.md` сканированием `app/`, `routes/`, `database/`, и т.д.

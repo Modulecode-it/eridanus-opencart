@@ -27,7 +27,7 @@ skills/
 ## Активные скиллы этого проекта
 
 <!-- Заполни при внедрении. Формат:
-- `graphify/` — knowledge graph кодовой базы. Подключён через `.agent/../hooks.json` (PreToolUse на Bash).
+- `graphify/` — knowledge graph кодовой базы. Подключён через `.agents/../hooks.json` (PreToolUse на Bash).
 -->
 
 _Пока нет._
