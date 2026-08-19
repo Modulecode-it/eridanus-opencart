@@ -18,6 +18,7 @@
 | 0.2 | agents-codex-workflow | 2026-06-30 | завершён | Настройка `AGENTS.md` и workflow системы памяти. |
 | 0.3 | agents-folder-rename | 2026-08-18 | завершён | Перенос `.agent/` → `.agents/` (git mv, история сохранена), обновление всех ссылок, перевод агентских файлов на русский (AGENTS.md, шаблон agents-root, скилл graphify, синхронизация agent-deploy-kit). |
 | 0.4 | agents-sync-from-mailflow | 2026-08-18 | завершён | Доливка улучшений системы из донора mailflow: скиллы git-sync и no-local-testing (OpenCart-адаптация), README системы, skills/README, 3 секции корневого AGENTS.md. |
+| 0.5 | ai-browser-access | 2026-08-19 | завершён | Разрешён браузерный доступ AI к dev-сайту (browser-use): правки AGENTS.md/STACK.md/скилла no-local-testing; SSH недоступен; креды AI-пользователя в `.secrets/` (gitignored); правило бекапов перед важными операциями. |
 
 ## Продуктовые задачи (1.x+)
 
