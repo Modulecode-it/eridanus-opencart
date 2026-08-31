@@ -4,6 +4,19 @@
 
 Формат: `Keep a Changelog`, даты в ISO (`YYYY-MM-DD`).
 
+## [1.0.10] — 2026-09-01
+
+### Added
+- Задача 1.9-5post-delivery: боевое подключение 5Пост через ApiShip (без правок кода): connection id=39490 (providerKey `x5`, ИНН 7814471347, consumer key заказчика, partnerId `e4436874-…`), склад «Склад Диона Планерная 47» (197373, СПб, Планерная 47 к 1, id `ff796dfb-…`); в модуле включён pickup_type для x5 без точки приёма. Подробности — `implementation/1.9-implementation-log.md`.
+- Долговечные знания: (а) partnerId для формы подключения ApiShip достаётся из JWT шлюза X5 по consumer key (`POST /jwt-generate-claims/rs256/1?apikey=…`, form `subject=OpenAPI&audience=A122019!`); (б) для x5 НЕ передавать `pointInId` — ApiShip сам подставляет склад подключения (передача uuid склада даёт «Пункт приема x5 не соответствует указанной СД»); (в) калькулятор ApiShip может возвращать `x5 tariffs: []` до активации тарифной сетки на стороне 5Пост (ПВЗ Пятёрочка в справочнике при этом уже есть; методы чекаута появятся автоматически); (г) кэш калькулятора модуля (PHP-сессия) не инвалидируется сменой флагов провайдеров — hash их не включает; (д) curl из Git Bash/Windows с кириллицей в `-d` ломает кодировку (ApiShip 400) — тело в UTF-8-файл через `--data-binary` или python urllib. Всё — в `analysis/1.9-…-analysis.md`, `implementation/1.9-implementation-log.md`.
+
+## [1.0.9] — 2026-09-01
+
+### Added
+- Открыта задача 1.9-5post-delivery («Доставка через Пятёрочку»: постаматы и кассы = сервис 5Пост/FivePost, X5 Group): спека + анализ с двумя маршрутами (A — провайдер 5Пост в ApiShip, рекомендуемый, по образцу 1.7; B — прямой API или модуль iPol, резерв) + журнал реализации.
+- Заготовка секрета `.secrets/5post.md` (consumer key `REPLACE-ME`, поля-кандидаты ConsumerSecret/PartnerId/ЛК).
+- Долговечное знание — авторизация прямого API 5Пост (шлюз X5 Omni на Apigee): consumer key → `POST /jwt-generate-claims/rs256/1?apikey=<key>` (form: `subject=OpenAPI`, `audience=A122019!`) → JWT на 1 час → `Authorization: Bearer`; контуры `https://api-omni.x5.ru` (прод) / `https://api-preprod-omni.x5.ru` (тест). Всё — в `analysis/1.9-…-analysis.md`.
+
 ## [1.0.8] — 2026-08-31
 
 ### Added
