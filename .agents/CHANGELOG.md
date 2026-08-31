@@ -4,6 +4,15 @@
 
 Формат: `Keep a Changelog`, даты в ISO (`YYYY-MM-DD`).
 
+## [1.0.8] — 2026-08-31
+
+### Added
+- Долговечные знания по задаче 1.8 (ТЗ по сдаче/возвратам): семантика настроек модуля ApiShip — `pickup_type`→orderPickupType=2 (самопривоз на точку `provider[id]`/pointInId), `courier_type`→orderPickupType=1 (курьер забирает у отправителя); суффикс pickup_type входит в код метода чекаута (`point_yataxi_<tariff>_<pointId>_<pt>` / `door_yataxi_<tariff>_<pt>`) и определяет pickupType выгрузки; `returnAddress` заказа строится из полей `shipping_apiship_sending_*` (отдельной настройки точки возврата нет); калькулятор считает «от» города отправителя. Всё — в `analysis/1.8-…-analysis.md`, `implementation/1.8-implementation-log.md`.
+- Правило соответствия ТЗ заказчика: сдача и возвраты только через ПВЗ = courier_type выключен + pickup_type с точкой Планерная 47 (id 1043536) + адрес отправителя = адрес ПВЗ.
+
+### Changed
+- Задача 1.8-apiship-tz-delivery-check завершена (INDEX обновлён): у провайдера Яндекс.Доставка выключен «Забирает курьер»; доставка ПВЗ+курьер по РФ перепроверена (Москва 239р./425р., СПб 185р./328р., коды методов с `_2`).
+
 ## [1.0.7] — 2026-08-20
 
 ### Added
