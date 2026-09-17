@@ -424,7 +424,8 @@ $('#button-cart').on('click', function() {
                         }
                 },
         error: function(xhr, ajaxOptions, thrownError) {
-            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            console.error('cart/add error:', thrownError, xhr.statusText, xhr.responseText);
+            alert('Не удалось добавить товар в корзину. Обновите страницу (F5) и попробуйте ещё раз.');
         }
         });
 });
