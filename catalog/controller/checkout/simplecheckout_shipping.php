@@ -10,13 +10,13 @@ class ControllerCheckoutSimpleCheckoutShipping extends SimpleController {
     private $_templateData = array();
 
     public function index() {
-        if (!$this->simplecheckout->hasShipping()) {
-            return;
-        }
-
         $this->loadLibrary('simple/simplecheckout');
 
         $this->simplecheckout = SimpleCheckout::getInstance($this->registry);
+
+        if (!$this->simplecheckout->hasShipping()) {
+            return;
+        }
 
         if ($this->simplecheckout->getSettingValue('ignoreShipping')) {
             return;

@@ -24,11 +24,11 @@ class ControllerCheckoutSimpleCheckoutShippingAddress extends SimpleController {
     }
 
     public function index() {
+        $this->init();
+
         if (!$this->simplecheckout->hasShipping()) {
             return;
         }
-
-        $this->init();
 
         if ($this->simplecheckout->isBlockHidden('shipping_address') || (!$this->simplecheckout->isBlockHidden('shipping_address') && !$this->simplecheckout->isBlockHidden('payment_address') && $this->simplecheckout->isAddressSame())) {
             return;
