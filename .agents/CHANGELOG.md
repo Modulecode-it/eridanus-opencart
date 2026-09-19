@@ -4,6 +4,12 @@
 
 Формат: `Keep a Changelog`, даты в ISO (`YYYY-MM-DD`).
 
+## [1.0.13] — 2026-09-19
+
+### Added
+- Задача 1.14-apiship-shadows-restore: восстановление OCMOD-теней ApiShip после зачистки 1.12.
+- Долговечное знание: `.gitignore` содержит `system/storage/modification/**` — новые тени НЕ попадают в git при обычном `git add`; `git clean -fdx` (с `-x`) удаляет игнорируемые тени с сервера. Правило: после изменения OCMOD-набора коммитить тени явно `git add -f`. Интеграция ApiShip↔Simple живёт в тенях `simplecheckout_shipping.php/.twig` (+`shipping_method.*`, админ `sale/order*`) — по `apiship-1.2_3.x.ocmod/install.xml`; при их потере страница чекаута теряет `apiship_open`/`ApishipMap` и ссылку «выбрать ПВЗ». Кэш калькулятора ApiShip — PHP-сессия по md5(адрес+корзина+нал), без TTL: неудачный ответ залипает до смены хэша; калькулятор чувствителен к несовпадению регион/город и части улиц; при `codCost` у Яндекса остаётся только тариф до ПВЗ. Всё — `implementation/1.14-apiship-shadows-restore.md`.
+
 ## [1.0.12] — 2026-09-19
 
 ### Added
