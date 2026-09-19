@@ -1,0 +1,59 @@
+{% if error_warning %}
+<div class="alert alert-warning alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}</div>
+{% endif %}
+{% if shipping_methods %}
+<p>{{ text_shipping_method }}</p>
+{% for shipping_method in shipping_methods %}  
+
+            <!-- apiship start -->
+            {% if shipping_method.script is not empty %}
+	        {{ shipping_method.script }}
+			{% endif %}
+            <!-- apiship end -->
+
+			
+<p><strong>{{ shipping_method.title }}</strong></p>
+{% if not shipping_method.error %}
+{% for quote in shipping_method.quote %}
+<div class="radio">
+  <label> {% if quote.code == code or not code %}
+    {% set code = quote.code %}
+    <input type="radio" name="shipping_method" value="{{ quote.code }}" checked="checked" />
+    {% else %}
+    <input type="radio" name="shipping_method" value="{{ quote.code }}" />
+    {% endif %}
+      
+
+            <!-- apiship start -->
+          {% if quote.apiship_image is not empty %}
+          <img src="{{ quote.apiship_image }}" {{ quote.apiship_image_class is not empty ? 'class="' ~ quote.apiship_image_class ~ '"' : '' }}>
+          {% endif %}
+            <!-- apiship end -->
+
+          {{ quote.title }} - {{ quote.text }}
+
+            <!-- apiship start -->
+          {% if quote.apiship_link is not empty %}
+          <a class="{{ quote.apiship_link_class }}" href="#" onclick="{{ quote.apiship_link }}">{{ quote.apiship_link_text }} <div id='apiship_loading_{{quote['code']}}' class='apiship_loading' style='visibility:hidden;'></div> </a>
+	      {% endif %}
+            <!-- apiship end -->
+
+            </label>
+
+			
+</div>
+{% endfor %}
+{% else %}
+<div class="alert alert-danger alert-dismissible">{{ shipping_method.error }}</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+<p><strong>{{ text_comments }}</strong></p>
+<p>
+  <textarea name="comment" rows="8" class="form-control">{{ comment }}</textarea>
+</p>
+<div class="buttons">
+  <div class="pull-right">
+    <input type="button" value="{{ button_continue }}" id="button-shipping-method" data-loading-text="{{ text_loading }}" class="btn btn-primary" />
+  </div>
+</div>
