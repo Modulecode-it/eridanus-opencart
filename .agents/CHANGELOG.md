@@ -4,6 +4,12 @@
 
 Формат: `Keep a Changelog`, даты в ISO (`YYYY-MM-DD`).
 
+## [1.0.14] — 2026-09-19
+
+### Added
+- Задача 1.15-events-cleanup-ocmod-audit: чистка дублей `oc_event` (349→139) + полный аудит OCMOD.
+- Долговечные знания: (а) Adminer на dev (`adminer-4.7.3-mysql.php`) принимает сервер `host-eridanus` + логин/пароль из `config.php` репо (`DB_PASSWORD` там боевой для dev); SQL выполняется POST на `…&sql=SELECT` с `token` из формы, длинные тексты выводятся обрезанно — обход `HEX(SUBSTRING(...))` по 30КБ; (б) кнопка «Обновить» в Модификаторах на этом сайте даёт ~204 изменённых файлов (182 новых от Filterit/optimblog/Yandex_beru/modification_manager, 11 правок, 11 удалений теней выключенных модов СДЭК/Facebook) — текущий рабочий каталог теней невоспроизводим refresh'ем и должен жить только в git; (в) виртуальный refresh-скрипт и выгрузки XML всех модов — `.secrets/mods-xml/` (gitignored), метод описан в 1.15. Всё — `implementation/1.15-events-cleanup-ocmod-audit.md`.
+
 ## [1.0.13] — 2026-09-19
 
 ### Added
