@@ -4,6 +4,12 @@
 
 Формат: `Keep a Changelog`, даты в ISO (`YYYY-MM-DD`).
 
+## [1.0.12] — 2026-09-19
+
+### Added
+- Задача 1.13-checkout-single-column: редизайн чекаута (одна колонка, объединённый блок «Доставка и оплата») — без правок кода, настройкой Simple.
+- Долговечное знание: раскладка блоков чекаута Simple 4.11.9 задаётся строкой `settings.checkout[0].steps[0].template` (плейсхолдеры `{cart}`, `{customer}`, `{shipping_address}`, `{shipping}`, `{payment}`, `{comment}`, `{payment_form}`, колоночные обёртки `{left_column}…{/left_column}` и т.п.; допустим произвольный HTML вокруг плейсхолдеров, включая инлайн `<style>`). Безопасное изменение — только через админку: мутация `$store.state.settings[0].checkout[0].steps[0].template` + `dispatch('SAVE_SETTINGS')` (Vue-стор ищется как элемент с `__vue__.$store`); сырой POST на `route=extension/module/simple/settings` портит настройки (инцидент 1.10). Блоки AJAX-перезагрузки заменяются по id — кастомная обёртка вокруг `{shipping}`/`{payment}` переживает reload. Всё — в `implementation/1.13-checkout-single-column.md`.
+
 ## [1.0.11] — 2026-09-01
 
 ### Added
