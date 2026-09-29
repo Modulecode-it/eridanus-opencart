@@ -118,6 +118,12 @@ storage79/    большой backup storage/log/modification (по умолча�
 4. После удаления или обновления `system/storage/modification/` нужно заново обновить модификаторы OpenCart в админке и очистить релевантный cache.
 5. Если deploy упирается в локальные неотслеживаемые `.agents/`/`agent-deploy-kit/` файлы или права, сначала исправить владельца/права на сервере, а не удалять runtime-файлы OpenCart вслепую.
 
+## Правила Изменения Настроек в БД (из инцидентов 1.10/1.17)
+
+1. **Запрещён массовый импорт `oc_setting`** через `route=tool/backup/import` (TRUNCATE+INSERT полного дампа): полный цикл экспорт→импорт портит большие JSON-строки (`simple_settings`, 26КБ) — чекаут остаётся без блоков. Точечные однострочные INSERT этим же маршрутом — безопасны (проверено).
+2. Настройки сторонних модулей менять их собственными API/формами. Simple: чтение `GET route=extension/module/simple/settings`, запись — `POST` того же роута **form-urlencoded** с полем `settings=JSON.stringify([объект])` (формат vue-resource из simple.js; JSON-тело запроса очищает настройки). Контроль успеха: GET возвращает массив с объектом, а не `[null]`/`[[]]`. Бэкапы настроек Simple: `.agents/analysis/1.13-simple-settings-backup-before-layout-2026-09-19.json`, `.agents/analysis/1.17-simple-settings-repaired.json`.
+3. Дубли строк в `oc_setting` (один `key`, разные `setting_id`): при чтении конфига выигрывает строка с бóльшим `setting_id` (порядок выборки по PK). Известный дубль: `module_avail_status` (3 строки, чистка опциональна через Adminer).
+
 ## Браузерный Доступ к Dev-Сайту (AI)
 
 Разрешён владельцем с 2026-08-19 (задача 0.5). Инструмент — плагин browser-use

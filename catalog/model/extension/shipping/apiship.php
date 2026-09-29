@@ -202,6 +202,18 @@ class ModelExtensionShippingApiship extends Model {
 		return $this->currency->convert($end_total,$this->config->get('config_currency'),$this->apiship_params['shipping_apiship_rub_select']);
 	}
 
+	// В чекауте Simple блок доставки рендерится до блока оплаты, поэтому в момент
+	// расчёта котировок session payment_method отстаёт на один перерасчёт
+	// (проявляется как пропавший «курьер» после переключения оплаты туда-обратно).
+	// При AJAX-перезагрузке чекаута выбранный способ оплаты берём из POST запроса.
+	private function get_payment_method_code() {
+		if (isset($this->request->post['payment_method']) && is_string($this->request->post['payment_method']) && trim($this->request->post['payment_method']) != '') {
+			return $this->request->post['payment_method'];
+		}
+
+		return (isset($this->session->data['payment_method']['code'])) ? $this->session->data['payment_method']['code'] : '';
+	}
+
 	private function check_geo_zone($address) {
 		if (empty($this->apiship_params['shipping_apiship_geo_zone_id'])) return true;
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone_to_geo_zone WHERE geo_zone_id = '" . (int)$this->apiship_params['shipping_apiship_geo_zone_id'] . "' AND country_id = '" . (int)$address['country_id'] . "' AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
@@ -247,7 +259,7 @@ class ModelExtensionShippingApiship extends Model {
 		$postcode = (isset($address['postcode']))?trim($address['postcode']):'';
 		$ext_address = (isset($address['address_1']))?trim($address['address_1']):'';
 		$country = (isset($address['iso_code_2']))?trim($address['iso_code_2']):'';
-		$payment_method_code = (isset($this->session->data['payment_method']['code']))?$this->session->data['payment_method']['code']:'';
+		$payment_method_code = $this->get_payment_method_code();
 		$cash_on_delivery = in_array($payment_method_code, $this->apiship_params['shipping_apiship_cash_on_delivery_payment_methods']);
 
 		$apiship_calculator_data = $this->apiship->apiship_calculator($country,$region,$city,$postcode,$ext_address,[],$this->cart->getProducts(),$this->getCartTotal(),$cash_on_delivery);
@@ -947,7 +959,7 @@ EOT;
 		}
 
 		$apiship_point_types = ['Пункт выдачи заказа', 'Постамат', 'Отделение Почты России', 'Терминал'];
-		$payment_method_code = (isset($this->session->data['payment_method']['code']))?$this->session->data['payment_method']['code']:'';
+		$payment_method_code = $this->get_payment_method_code();
 		$cash_on_delivery = in_array($payment_method_code, $this->apiship_params['shipping_apiship_cash_on_delivery_payment_methods']);
 		$apiship_calculator_data = $this->apiship->apiship_calculator($country,$region,$city,$postcode,$ext_address,$provider,$products,$this->getCartTotal(),$cash_on_delivery);
 		$data = $apiship_calculator_data['body'];
@@ -1159,7 +1171,7 @@ EOT;
 
 		$cost = -1;   
   		$address1 = '';
-		$payment_method_code = (isset($this->session->data['payment_method']['code']))?$this->session->data['payment_method']['code']:'';
+		$payment_method_code = $this->get_payment_method_code();
 		$cash_on_delivery = in_array($payment_method_code, $this->apiship_params['shipping_apiship_cash_on_delivery_payment_methods']);
 		$apiship_calculator_data = $this->apiship->apiship_calculator($country,$region,$city,$postcode,$ext_address,[],$this->cart->getProducts(),$this->getCartTotal(),$cash_on_delivery);
 		$data = $apiship_calculator_data['body'];
