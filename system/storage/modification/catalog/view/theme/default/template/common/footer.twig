@@ -1,0 +1,83 @@
+<footer>
+  <div class="container">
+    <div class="row">
+      {% if informations %}
+      <div class="col-sm-3">
+        <h5>{{ text_information }}</h5>
+        <ul class="list-unstyled">
+         {% for information in informations %}
+          <li><a href="{{ information.href }}">{{ information.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      <div class="col-sm-3">
+        <h5>{{ text_service }}</h5>
+        <ul class="list-unstyled">
+          <li><a href="{{ contact }}">{{ text_contact }}</a></li>
+          <li><a href="{{ return }}">{{ text_return }}</a></li>
+          <li><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-3">
+        <h5>{{ text_extra }}</h5>
+        <ul class="list-unstyled">
+          <li><a href="{{ manufacturer }}">{{ text_manufacturer }}</a></li>
+          <li><a href="{{ voucher }}">{{ text_voucher }}</a></li>
+          <li><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
+          <li><a href="{{ special }}">{{ text_special }}</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-3">
+        <h5>{{ text_account }}</h5>
+        <ul class="list-unstyled">
+          <li><a href="{{ account }}">{{ text_account }}</a></li>
+          <li><a href="{{ order }}">{{ text_order }}</a></li>
+          <li><a href="{{ wishlist }}">{{ text_wishlist }}</a></li>
+          <li><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr>
+    <p>{{ powered }}</p>
+  </div>
+</footer>
+{% for script in scripts %}
+<script src="{{ script }}" type="text/javascript"></script>
+{% endfor %}
+<!--
+OpenCart is open source software and you are free to remove the powered by OpenCart if you want, but its generally accepted practise to make a small donation.
+Please donate via PayPal to donate@opencart.com
+//-->
+<div id="edit-modal-avail" class="modal fade avanoti" role="dialog">
+			<form id="notify">
+			<div class="modal-dialog">
+            <div class="modal-content">
+
+							<div class="before-captcha"></div>
+							{% if avail_config_google_captcha_status == '1' %}
+							<div class="block-with-avail-captcha col-sm-12">
+
+								<div class="form-group hidden center">
+															<input type="text" name="captcha_status" class="form-control " value="{{ avail_config_google_captcha_status }}">
+													</div>
+													<div id="capcha" class="form-group center">
+															<div id="avail-captcha" class="g-recaptcha"   data-sitekey="{{ google_captcha_key }}"></div>
+													</div>
+								<div class="form-group hidden center">
+															<input type="text" name="avail_config_google_captcha_public" class="form-control " value="{{ google_captcha_key }}">
+													</div>
+								<div class="form-group hidden center">
+															<input type="text" name="avail_config_google_captcha_secret" class="form-control " value="{{ google_captcha_secret }}">
+													</div>
+
+							</div>
+
+							{% endif %}
+							<div class="after-captcha"></div>
+
+			    </div>
+        </div>
+        </form>
+		</div>
+</body></html>
