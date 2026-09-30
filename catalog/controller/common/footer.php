@@ -4,6 +4,10 @@ class ControllerCommonFooter extends Controller {
 		$this->load->language('common/footer');
 
 		$this->load->model('catalog/information');
+$data['avail_config_google_captcha_status'] = $this->config->get('avail_config_google_captcha_status');
+					$data['google_captcha_key'] = $this->config->get('avail_config_google_captcha_public');
+					$data['google_captcha_secret'] = $this->config->get('avail_config_google_captcha_secret');
+			
 
 		$data['informations'] = array();
 

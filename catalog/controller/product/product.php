@@ -4,6 +4,7 @@ class ControllerProductProduct extends Controller {
 
         public function index() {
                 $this->load->language('product/product');
+$this->load->model('setting/setting');
 
                 $data['breadcrumbs'] = array();
 
@@ -157,6 +158,23 @@ class ControllerProductProduct extends Controller {
                 $this->load->model('catalog/product');
 
                 $product_info = $this->model_catalog_product->getProduct($product_id);
+$data['avail_status'] = $this->config->get('avail_status');
+                                      $AvailArray = Array(
+                                            'quantity' => $product_info['quantity'],
+                                            'stock_status_id' => $product_info['stock_status_id'],
+                                            'product_id' => $product_info['product_id'],
+                                            );
+
+                                         $avail_product_quantity =  $this->load->controller('extension/module/avail/GetProductStatus', $AvailArray);
+										$data['avail_product_quantity'] = $avail_product_quantity;
+										$data['language_id'] = (int)$this->config->get('config_language_id');
+										$avail_text = $this->config->get('avail_text');
+										$data['text_button_avail'] = $avail_text[$data['language_id']]['button_avail']?$avail_text[$data['language_id']]['button_avail']:$this->language->get('notify_me');
+										$data['avail_button_cart_productpage'] = $this->config->get('avail_button_cart_productpage');//avail
+										$data['avail_options_status'] = $this->config->get('avail_options_status')?$this->config->get('avail_options_status'):'0';//avail
+										$data['change_buttom'] = $this->config->get('avail_status')?$this->config->get('avail_status'):'0';
+										$data['avail_default'] = $this->config->get('avail_default');
+			
 
                 if ($product_info) {
                         $url = '';
@@ -310,7 +328,7 @@ class ControllerProductProduct extends Controller {
                                 $product_option_value_data = array();
 
                                 foreach ($option['product_option_value'] as $option_value) {
-                                        if (!$option_value['subtract'] || ($option_value['quantity'] > 0)) {
+                                        if (!$option_value['subtract'] || ($this->config->get('module_avail_status')?$option_value['quantity'] >= 0 : $option_value['quantity'] > 0 )) {
                                                 if ((($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) && (float)$option_value['price']) {
                                                         $price = $this->currency->format($this->tax->calculate($option_value['price'], $product_info['tax_class_id'], $this->config->get('config_tax') ? 'P' : false), $this->session->data['currency']);
                                                 } else {
@@ -408,7 +426,38 @@ class ControllerProductProduct extends Controller {
                                         $rating = false;
                                 }
 
+
+           if(!empty($result['product_id'])){
+            $AvailArray = Array(
+                'quantity' => $result['quantity'],
+                'stock_status_id' => $result['stock_status_id'],
+                'product_id' => $result['product_id'],
+                );
+            } else if(!empty($product_info['product_id'])){
+             $AvailArray = Array(
+                'quantity' => $product_info['quantity'],
+                'stock_status_id' => $product_info['stock_status_id'],
+                'product_id' => $product_info['product_id'],
+                );
+            } else if(!empty($product['product_id'])){
+            $AvailArray = Array(
+                'quantity' => $product['quantity'],
+                'stock_status_id' => $product['stock_status_id'],
+                'product_id' => $product['product_id'],
+                );
+            } else {
+            $AvailArray = false;
+            }
+
+
+           if($AvailArray) {
+                $avail_product_quantity =  $this->load->controller('extension/module/avail/GetProductStatus',$AvailArray);
+           }  else {
+               $avail_product_quantity = false;
+           }
+        
                                 $data['products'][] = array(
+ 'avail_product_quantity'	  => $avail_product_quantity,
                                         'product_id'  => $result['product_id'],
                                         'thumb'       => $image,
                                         'name'        => $result['name'],
@@ -522,6 +571,7 @@ class ControllerProductProduct extends Controller {
 
         public function review() {
                 $this->load->language('product/product');
+$this->load->model('setting/setting');
 
                 $this->load->model('catalog/review');
 
@@ -561,6 +611,7 @@ class ControllerProductProduct extends Controller {
 
         public function write() {
                 $this->load->language('product/product');
+$this->load->model('setting/setting');
 
                 $json = array();
 
@@ -601,6 +652,7 @@ class ControllerProductProduct extends Controller {
 
         public function getRecurringDescription() {
                 $this->load->language('product/product');
+$this->load->model('setting/setting');
                 $this->load->model('catalog/product');
 
                 if (isset($this->request->post['product_id'])) {
@@ -622,6 +674,23 @@ class ControllerProductProduct extends Controller {
                 }
 
                 $product_info = $this->model_catalog_product->getProduct($product_id);
+$data['avail_status'] = $this->config->get('avail_status');
+                                      $AvailArray = Array(
+                                            'quantity' => $product_info['quantity'],
+                                            'stock_status_id' => $product_info['stock_status_id'],
+                                            'product_id' => $product_info['product_id'],
+                                            );
+
+                                         $avail_product_quantity =  $this->load->controller('extension/module/avail/GetProductStatus', $AvailArray);
+										$data['avail_product_quantity'] = $avail_product_quantity;
+										$data['language_id'] = (int)$this->config->get('config_language_id');
+										$avail_text = $this->config->get('avail_text');
+										$data['text_button_avail'] = $avail_text[$data['language_id']]['button_avail']?$avail_text[$data['language_id']]['button_avail']:$this->language->get('notify_me');
+										$data['avail_button_cart_productpage'] = $this->config->get('avail_button_cart_productpage');//avail
+										$data['avail_options_status'] = $this->config->get('avail_options_status')?$this->config->get('avail_options_status'):'0';//avail
+										$data['change_buttom'] = $this->config->get('avail_status')?$this->config->get('avail_status'):'0';
+										$data['avail_default'] = $this->config->get('avail_default');
+			
 
                 $recurring_info = $this->model_catalog_product->getProfile($product_id, $recurring_id);
 

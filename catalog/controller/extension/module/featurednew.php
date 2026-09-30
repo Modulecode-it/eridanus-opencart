@@ -87,7 +87,37 @@ class ControllerExtensionModuleFeaturednew extends Controller {
                 $path = '';
             }					
 
+
+          if(!empty($result['stock_status_id'])){
+            $AvailArray = Array(
+                'quantity' => $result['quantity'],
+                'stock_status_id' => $result['stock_status_id'],
+                'product_id' => $result['product_id'],
+                );
+            } else if(!empty($product_info['stock_status_id'])){
+             $AvailArray = Array(
+                'quantity' => $product_info['quantity'],
+                'stock_status_id' => $product_info['stock_status_id'],
+                'product_id' => $product_info['product_id'],
+                );
+            } else if(!empty($product['stock_status_id'])){
+            $AvailArray = Array(
+                'quantity' => $product['quantity'],
+                'stock_status_id' => $product['stock_status_id'],
+                'product_id' => $product['product_id'],
+                );
+            } else {
+            $AvailArray = false;
+            }
+
+           if($AvailArray) {
+                $avail_product_quantity =  $this->load->controller('extension/module/avail/GetProductStatus',$AvailArray);
+           }  else {
+               $avail_product_quantity = false;
+           }
+        
 				$data['products'][] = array(
+ 'avail_product_quantity'	  => $avail_product_quantity,
 					'product_id'  => $result['product_id'],
 					'thumb'       => $image,
 					'name'        => $result['name'],

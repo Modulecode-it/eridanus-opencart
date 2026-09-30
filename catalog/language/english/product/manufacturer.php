@@ -3,6 +3,7 @@
 $_['heading_title']     = 'Find Your Favorite Brand';
 
 // Text
+$_['notify_me'] = 'Notify Me!';
 $_['text_brand']        = 'Brand';
 $_['text_index']        = 'Brand Index:';
 $_['text_error']        = 'Brand not found!';

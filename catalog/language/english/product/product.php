@@ -1,5 +1,6 @@
 <?php
 // Text
+$_['notify_me'] = 'Notify Me!';
 $_['text_search']              = 'Search';
 $_['text_brand']               = 'Brand';
 $_['text_manufacturer']        = 'Brand:';

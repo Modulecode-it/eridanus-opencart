@@ -1,5 +1,6 @@
 <?php
 // Text
+$_['notify_me'] = 'Notify Me!';
 $_['text_refine']       = 'Refine Search';
 $_['text_product']      = 'Products';
 $_['text_error']        = 'Category not found!';

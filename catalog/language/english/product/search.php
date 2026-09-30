@@ -4,6 +4,7 @@ $_['heading_title']     = 'Search';
 $_['heading_tag']       = 'Tag - ';
 
 // Text
+$_['notify_me'] = 'Notify Me!';
 $_['text_search']       = 'Products meeting the search criteria';
 $_['text_keyword']      = 'Keywords';
 $_['text_category']     = 'All Categories';

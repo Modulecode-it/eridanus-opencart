@@ -31,6 +31,8 @@ class ControllerAccountAccount extends Controller {
 			$data['success'] = '';
 		} 
 		
+$data['text_my_notifications'] = $this->language->get('text_my_notifications');
+$data['text_notifications'] = $this->language->get('text_notifications');
 		$data['edit'] = $this->url->link('account/edit', '', true);
 		$data['password'] = $this->url->link('account/password', '', true);
 		$data['address'] = $this->url->link('account/address', '', true);
@@ -64,6 +66,13 @@ class ControllerAccountAccount extends Controller {
 		
 		$data['return'] = $this->url->link('account/return', '', true);
 		$data['transaction'] = $this->url->link('account/transaction', '', true);
+
+
+            if(version_compare(VERSION, '2.2.0.0', '<') == true) {
+           $data['notifications'] = $this->url->link('extension/module/avail/accountavail', '', 'SSL');
+        } else {
+           $data['notifications'] = $this->url->link('extension/module/avail/accountavail', '', true);
+        }
 		$data['newsletter'] = $this->url->link('account/newsletter', '', true);
 		$data['recurring'] = $this->url->link('account/recurring', '', true);
 		

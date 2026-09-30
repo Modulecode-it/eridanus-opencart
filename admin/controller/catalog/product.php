@@ -73,6 +73,13 @@ class ControllerCatalogProduct extends Controller {
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			$this->model_catalog_product->editProduct($this->request->get['product_id'], $this->request->post);
+if ( $this->config->get('avail_config_product_edit') == '1' ) {
+
+					$this->load->model('extension/module/avail');
+					$this->model_extension_module_avail->notifyByProductId($this->request->get['product_id']);
+
+
+			}
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
