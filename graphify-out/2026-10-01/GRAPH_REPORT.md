@@ -1,16 +1,16 @@
-# Graph Report - eridanus-opencart  (2026-10-01)
+# Graph Report - eridanus-opencart  (2026-09-30)
 
 ## Corpus Check
-- 2435 files · ~2,886,627 words
+- 2431 files · ~2,884,537 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 15516 nodes · 24585 edges · 2178 communities (1487 shown, 691 thin omitted)
+- 15506 nodes · 24576 edges · 2174 communities (1484 shown, 690 thin omitted)
 - Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 1590 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `c5c2912d`
+- Built from commit: `2eedb0d0`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -300,7 +300,6 @@
 - [[_COMMUNITY_Community 304|Community 304]]
 - [[_COMMUNITY_Community 305|Community 305]]
 - [[_COMMUNITY_Community 306|Community 306]]
-- [[_COMMUNITY_Community 307|Community 307]]
 - [[_COMMUNITY_Community 308|Community 308]]
 - [[_COMMUNITY_Community 309|Community 309]]
 - [[_COMMUNITY_Community 310|Community 310]]
@@ -478,7 +477,6 @@
 - [[_COMMUNITY_Community 484|Community 484]]
 - [[_COMMUNITY_Community 485|Community 485]]
 - [[_COMMUNITY_Community 486|Community 486]]
-- [[_COMMUNITY_Community 487|Community 487]]
 - [[_COMMUNITY_Community 488|Community 488]]
 - [[_COMMUNITY_Community 489|Community 489]]
 - [[_COMMUNITY_Community 490|Community 490]]
@@ -560,7 +558,6 @@
 - [[_COMMUNITY_Community 568|Community 568]]
 - [[_COMMUNITY_Community 569|Community 569]]
 - [[_COMMUNITY_Community 570|Community 570]]
-- [[_COMMUNITY_Community 571|Community 571]]
 - [[_COMMUNITY_Community 572|Community 572]]
 - [[_COMMUNITY_Community 573|Community 573]]
 - [[_COMMUNITY_Community 574|Community 574]]
@@ -571,7 +568,6 @@
 - [[_COMMUNITY_Community 581|Community 581]]
 - [[_COMMUNITY_Community 582|Community 582]]
 - [[_COMMUNITY_Community 583|Community 583]]
-- [[_COMMUNITY_Community 584|Community 584]]
 - [[_COMMUNITY_Community 585|Community 585]]
 - [[_COMMUNITY_Community 586|Community 586]]
 - [[_COMMUNITY_Community 587|Community 587]]
@@ -855,6 +851,7 @@
 - [[_COMMUNITY_Relative Time Helpers|Relative Time Helpers]]
 - [[_COMMUNITY_Number Formatting|Number Formatting]]
 - [[_COMMUNITY_Measoft Plugin|Measoft Plugin]]
+- [[_COMMUNITY_CDEK Cron Job|CDEK Cron Job]]
 - [[_COMMUNITY_FilterIt Module|FilterIt Module]]
 - [[_COMMUNITY_Russian Post Module|Russian Post Module]]
 - [[_COMMUNITY_Admin Index Page|Admin Index Page]]
@@ -897,12 +894,11 @@
 - [[_COMMUNITY_Google Integration|Google Integration]]
 - [[_COMMUNITY_Metrika Analytics|Metrika Analytics]]
 - [[_COMMUNITY_Yandex Metrica Integration|Yandex Metrica Integration]]
-- [[_COMMUNITY_Community 979|Community 979]]
-- [[_COMMUNITY_Community 980|Community 980]]
-- [[_COMMUNITY_Community 981|Community 981]]
-- [[_COMMUNITY_Community 982|Community 982]]
+- [[_COMMUNITY_Order Page|Order Page]]
 - [[_COMMUNITY_Recent Items|Recent Items]]
+- [[_COMMUNITY_Sales Page|Sales Page]]
 - [[_COMMUNITY_Captcha Settings|Captcha Settings]]
+- [[_COMMUNITY_Information Pages|Information Pages]]
 - [[_COMMUNITY_Marketing Tools|Marketing Tools]]
 - [[_COMMUNITY_Menu Management|Menu Management]]
 - [[_COMMUNITY_Module Settings|Module Settings]]
@@ -935,11 +931,11 @@
 ## Import Cycles
 - None detected.
 
-## Communities (2178 total, 691 thin omitted)
+## Communities (2174 total, 690 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.01
-Nodes (63): ControllerAccountAccount, ControllerAccountLogout, ControllerAccountNewsletter, ControllerAccountSuccess, ControllerCommonColumnLeft, ControllerCommonFooter, ControllerCommonHeader, ControllerErrorNotFound (+55 more)
+Nodes (66): ControllerAccountLogout, ControllerAccountSuccess, ControllerAccountWishList, ControllerCommonColumnLeft, ControllerCommonFooter, ControllerCommonHeader, ControllerErrorNotFound, ControllerEventLanguage (+58 more)
 
 ### Community 1 - "Community 1"
 Cohesion: 0.02
@@ -947,11 +943,11 @@ Nodes (29): Twig_Node_Expression_Binary_Add, Twig_Node_Expression_Binary_And, Tw
 
 ### Community 3 - "Community 3"
 Cohesion: 0.01
-Nodes (45): ModelAccountActivity, ModelAccountCustomField, ModelCatalogInformation, ModelDesignBanner, ModelDesignTheme, ModelDesignTranslation, ModelExtensionFraudIp, ModelLocalisationCountry (+37 more)
+Nodes (44): ModelAccountActivity, ModelExtensionModuleProductStickers, ModelCatalogManufacturer, ModelDesignBanner, ModelDesignTranslation, ModelLocalisationCurrency, ModelLocalisationLocation, ModelSettingEvent (+36 more)
 
 ### Community 4 - "Community 4"
 Cohesion: 0.02
-Nodes (38): ControllerAccountOrder, ControllerExtensionModuleFeaturednew, ModelToolImage, ControllerApiCustomer, ControllerApiShipping, ControllerApiVoucher, ControllerExtensionModuleBestSeller, ControllerExtensionModuleFeatured (+30 more)
+Nodes (39): ControllerExtensionModuleCarousel, ControllerExtensionModuleSlideshow, ModelToolImage, ControllerApiCustomer, ControllerApiPayment, ControllerApiVoucher, ControllerExtensionModuleBestSeller, ControllerExtensionModuleFeatured (+31 more)
 
 ### Community 5 - "Community 5"
 Cohesion: 0.08
@@ -959,7 +955,7 @@ Nodes (106): cb(), cb(), _(), a(), ae(), an(), at(), b() (+98 more)
 
 ### Community 6 - "Community 6"
 Cohesion: 0.03
-Nodes (3): PHPExcel_Calculation_Functions, PHPExcel_Calculation_Statistical, trendClass
+Nodes (3): PHPExcel_Calculation_Database, PHPExcel_Calculation_Statistical, trendClass
 
 ### Community 7 - "Community 7"
 Cohesion: 0.03
@@ -979,23 +975,27 @@ Nodes (34): eifelerRegelAppliesToNumber(), format$1(), forms(), lastNumber(), ma
 
 ### Community 12 - "Community 12"
 Cohesion: 0.04
-Nodes (50): buildCollapsedSpan(), charCoords(), classTest(), cleanUpLine(), clearEmptySpans(), computeReplacedSel(), copyableRanges(), copyObj() (+42 more)
+Nodes (41): badPos(), buildCollapsedSpan(), charCoords(), classTest(), clearEmptySpans(), computeReplacedSel(), copyableRanges(), Delayed() (+33 more)
 
 ### Community 15 - "Community 15"
 Cohesion: 0.03
-Nodes (14): Twig_Node_AutoEscape, Twig_Node_Body, Twig_Node_CheckSecurity, Twig_Profiler_Node_EnterProfile, Twig_Node_Flush, Twig_Node_ForLoop, Twig_Node_If, Twig_Profiler_Node_LeaveProfile (+6 more)
+Nodes (14): Twig_Node_Body, Twig_Node_CheckSecurity, Twig_Profiler_Node_EnterProfile, Twig_Node_Flush, Twig_Node_ForLoop, Twig_Profiler_Node_LeaveProfile, Twig_Node_SetTemp, Twig_Profiler_NodeVisitor_Profiler (+6 more)
 
 ### Community 17 - "Community 17"
-Cohesion: 0.04
-Nodes (4): PHPExcel_Calculation_MathTrig, Pagination, PHPExcel_Shared_OLE_PPS, PHPExcel_Shared_OLE_PPS_Root
+Cohesion: 0.03
+Nodes (3): PHPExcel_Calculation_Engineering, PHPExcel_Calculation_Functions, PHPExcel_Calculation_MathTrig
 
 ### Community 21 - "Community 21"
 Cohesion: 0.09
 Nodes (5): PHPExcel_Writer_Excel2007_Rels, PHPExcel_Writer_Excel2007_Workbook, PHPExcel_Writer_Excel2007_Worksheet, PHPExcel_Shared_XMLWriter, XMLWriter
 
+### Community 22 - "Community 22"
+Cohesion: 0.10
+Nodes (3): PHPExcel_Writer_PDF_Core, PHPExcel_Writer_PDF_mPDF, PHPExcel_Writer_PDF_tcPDF
+
 ### Community 23 - "Community 23"
-Cohesion: 0.07
-Nodes (21): twig_capitalize_string_filter(), twig_convert_encoding(), _twig_default_filter(), _twig_escape_css_callback(), twig_escape_filter(), twig_escape_filter_is_safe(), _twig_escape_html_attr_callback(), _twig_escape_js_callback() (+13 more)
+Cohesion: 0.04
+Nodes (26): twig_capitalize_string_filter(), twig_convert_encoding(), twig_date_converter(), twig_date_format_filter(), twig_date_modify_filter(), _twig_default_filter(), _twig_escape_css_callback(), twig_escape_filter() (+18 more)
 
 ### Community 25 - "Community 25"
 Cohesion: 0.05
@@ -1010,12 +1010,12 @@ Cohesion: 0.05
 Nodes (30): $(), ae(), be(), cd(), dd(), de(), ed(), ee() (+22 more)
 
 ### Community 28 - "Community 28"
-Cohesion: 0.03
-Nodes (14): ControllerAccountRecurring, ControllerAccountReturn, ControllerAccountReward, ControllerAccountTransaction, ControllerExtensionFeedGoogleSitemap, ControllerCustomerCustomerApproval, ModelExtensionDashboardChart, APILogger (+6 more)
+Cohesion: 0.04
+Nodes (12): ControllerAccountOrder, ControllerAccountRecurring, ControllerAccountReturn, ControllerAccountReward, ControllerAccountTransaction, ModelExtensionDashboardChart, APILogger, ControllerMailReturn (+4 more)
 
 ### Community 29 - "Community 29"
-Cohesion: 0.11
-Nodes (6): Twig_Node_Block, Twig_NodeVisitor_Optimizer, compile(), Twig_NodeInterface, enterNode(), leaveNode()
+Cohesion: 0.05
+Nodes (14): Twig_Node_Expression_Unary, Twig_Node_AutoEscape, Twig_Node_If, Twig_Node_Sandbox, Twig_Node_Set, Twig_Node_Spaceless, Twig_NodeVisitor_Optimizer, compile() (+6 more)
 
 ### Community 31 - "Community 31"
 Cohesion: 0.05
@@ -1030,28 +1030,28 @@ Cohesion: 0.04
 Nodes (5): PHPExcel_Calculation_Logical, PHPExcel_Calculation_TextData, PHPExcel_Cell_AdvancedValueBinder, PHPExcel_Calculation, PHPExcel_Calculation_Token_Stack
 
 ### Community 36 - "Community 36"
-Cohesion: 0.05
-Nodes (12): Twig_Node_Expression_Array, Twig_Node_Expression_BlockReference, Twig_Node_Expression_Conditional, Twig_Node_Expression_ExtensionReference, Twig_Node_Expression_GetAttr, Twig_Node_Expression_MethodCall, Twig_Node_Expression_NullCoalesce, Twig_Node_Expression_Parent (+4 more)
+Cohesion: 0.04
+Nodes (14): Twig_Node_Expression_Array, Twig_Node_Expression_BlockReference, Twig_Node_Expression_Conditional, Twig_Node_Expression_ExtensionReference, Twig_Node_Expression_GetAttr, Twig_Node_Expression_MethodCall, Twig_Node_Expression_NullCoalesce, Twig_Node_Expression_Parent (+6 more)
 
 ### Community 37 - "Community 37"
-Cohesion: 0.09
-Nodes (38): badPos(), bidiLeft(), bidiRight(), collapsedSpanAtEnd(), collapsedSpanAtSide(), collapsedSpanAtStart(), compareBidiLevel(), compareCollapsedMarkers() (+30 more)
+Cohesion: 0.14
+Nodes (24): bidiLeft(), bidiRight(), compareBidiLevel(), coordsChar(), coordsCharInner(), cursorCoords(), findPosV(), getBidiPartAt() (+16 more)
 
 ### Community 39 - "Community 39"
-Cohesion: 0.08
-Nodes (50): activeElt(), bind(), clearDragCursor(), clickInGutter(), clipPos(), clipPosArray(), clipToLen(), CodeMirror() (+42 more)
+Cohesion: 0.09
+Nodes (45): activeElt(), bind(), clearDragCursor(), clickInGutter(), contextMenuInGutter(), dispatchKey(), doHandleBinding(), e_button() (+37 more)
 
 ### Community 42 - "Community 42"
-Cohesion: 0.13
-Nodes (4): ModelExtensionShippingCdek, parser_json, parser_xml, response_parser
+Cohesion: 0.07
+Nodes (5): CalculatePriceDeliveryCdek, ModelExtensionShippingCdek, parser_json, parser_xml, response_parser
 
 ### Community 44 - "Community 44"
 Cohesion: 0.07
 Nodes (7): Twig_Profiler_Dumper_Blackfire, Twig_Profiler_Dumper_Html, Twig_Profiler_Dumper_Text, Twig_Extension_Profiler, IteratorAggregate, Twig_Profiler_Profile, Serializable
 
 ### Community 45 - "Community 45"
-Cohesion: 0.06
-Nodes (4): Twig_Node_Macro, Twig_Parser, parse(), setParser()
+Cohesion: 0.05
+Nodes (5): Twig_Node_Block, Twig_Node_Macro, Twig_Parser, parse(), setParser()
 
 ### Community 46 - "Community 46"
 Cohesion: 0.12
@@ -1067,7 +1067,7 @@ Nodes (5): FacebookProductAPIFormatter, FacebookProductFeedFormatter, FacebookPr
 
 ### Community 57 - "Community 57"
 Cohesion: 0.11
-Nodes (38): alignHorizontally(), calculateScrollPos(), compensateForHScroll(), displayHeight(), DisplayUpdate(), displayWidth(), drawSelectionRange(), endOperation_finish() (+30 more)
+Nodes (36): alignHorizontally(), calculateScrollPos(), compensateForHScroll(), displayHeight(), DisplayUpdate(), displayWidth(), drawSelectionRange(), endOperation_finish() (+28 more)
 
 ### Community 59 - "Community 59"
 Cohesion: 0.16
@@ -1077,21 +1077,21 @@ Nodes (10): condition(), createTree(), expression(), fact(), func(), parenthesiz
 Cohesion: 0.07
 Nodes (6): Twig_Loader_Array, Twig_Loader_Chain, Twig_Loader_Filesystem, Twig_Loader_String, Twig_ExistsLoaderInterface, Twig_LoaderInterface
 
-### Community 63 - "Community 63"
-Cohesion: 0.08
-Nodes (3): PHPExcel_Writer_Excel2007_StringTable, encodeUTF16(), PHPExcel_Shared_String
-
 ### Community 66 - "Community 66"
-Cohesion: 0.06
-Nodes (7): ControllerCommonFooter, Mail, Smtp, ControllerMarketplaceInstaller, ControllerMarketplaceMarketplace, DB, ControllerToolBackup
+Cohesion: 0.05
+Nodes (9): ControllerCommonFooter, ModelExtensionModuleProductStickers, File, Mail, Smtp, ControllerMarketplaceInstaller, ControllerMarketplaceMarketplace, DB (+1 more)
 
 ### Community 67 - "Community 67"
 Cohesion: 0.08
-Nodes (37): addFormatToken(), addWeekYearFormatToken(), expandFormat(), format(), formatMoment(), get$2(), getSetDayOfWeek(), getSetISODayOfWeek() (+29 more)
+Nodes (37): absFloor(), addFormatToken(), addWeekYearFormatToken(), expandFormat(), format(), formatMoment(), get$2(), getSetDayOfWeek() (+29 more)
 
 ### Community 69 - "Community 69"
 Cohesion: 0.08
 Nodes (37): absFloor(), addFormatToken(), addWeekYearFormatToken(), expandFormat(), format(), formatMoment(), get$2(), getSetDayOfWeek() (+29 more)
+
+### Community 71 - "Community 71"
+Cohesion: 0.06
+Nodes (3): PHPExcel_CachedObjectStorageFactory, PHPExcel_Settings, PHPExcel_Reader_OOCalc
 
 ### Community 73 - "Community 73"
 Cohesion: 0.09
@@ -1106,16 +1106,16 @@ Cohesion: 0.09
 Nodes (18): $(), fb(), hb(), ib(), jb(), nb(), ob(), qb() (+10 more)
 
 ### Community 77 - "Community 77"
-Cohesion: 0.04
-Nodes (9): firstMileShipment, offerMappingEntries, orderInfo, Orderlabels, outletDelete, outletInfo, outlets, Orders (+1 more)
+Cohesion: 0.06
+Nodes (8): buyer, offerMappingEntries, offerPrices, outletInfo, outlets, regionCompany, Orders, yandex_beru
 
 ### Community 79 - "Community 79"
-Cohesion: 0.11
-Nodes (28): addLineWidget(), addMarkedSpan(), addToScrollPos(), adjustScrollWhenAboveVisible(), attachMarkedSpans(), changeLine(), clipLine(), docMethodOp() (+20 more)
+Cohesion: 0.07
+Nodes (50): addLineWidget(), addToScrollPos(), adjustScrollWhenAboveVisible(), adjustView(), buildViewArray(), changeLine(), clipLine(), collapsedSpanAtEnd() (+42 more)
 
 ### Community 81 - "Community 81"
-Cohesion: 0.10
-Nodes (6): PHPExcel_Writer_Excel2007_Comments, PHPExcel_Writer_Excel2007_ContentTypes, PHPExcel_Writer_Excel2007_RelsRibbon, PHPExcel_Writer_Excel2007_RelsVBA, PHPExcel_Writer_Excel2007_Theme, PHPExcel_Writer_Excel2007_WriterPart
+Cohesion: 0.07
+Nodes (8): PHPExcel_Writer_Excel2007_ContentTypes, PHPExcel_Writer_Excel2007_RelsRibbon, PHPExcel_Writer_Excel2007_RelsVBA, PHPExcel_Writer_Excel2007_StringTable, PHPExcel_Writer_Excel2007_Theme, PHPExcel_Writer_Excel2007_WriterPart, PHPExcel_Writer_IWriter, PHPExcel_Writer_PDF
 
 ### Community 82 - "Community 82"
 Cohesion: 0.06
@@ -1145,6 +1145,10 @@ Nodes (8): lastColumnIndex, PHPExcel_Reader_IReader, PHPExcel_Reader_IReadFilter
 Cohesion: 0.05
 Nodes (4): PHPExcel_Writer_Excel5_Font, PHPExcel_Shared_Drawing, PHPExcel_Shared_Excel5, PHPExcel_Shared_Font
 
+### Community 90 - "Community 90"
+Cohesion: 0.08
+Nodes (4): PHPExcel_CachedObjectStorage_MemoryGZip, PHPExcel_CachedObjectStorage_MemorySerialized, File, ModelExtensionShippingRussianPost
+
 ### Community 92 - "Community 92"
 Cohesion: 0.07
 Nodes (4): EigenvalueDecomposition, PHPExcel_Shared_JAMA_QRDecomposition, SingularValueDecomposition, hypo()
@@ -1154,8 +1158,8 @@ Cohesion: 0.07
 Nodes (8): animComplete(), childComplete(), complete(), Datepicker(), datepicker_bindHover(), focusable(), show(), visible()
 
 ### Community 95 - "Community 95"
-Cohesion: 0.09
-Nodes (38): buildLineContent(), buildLineElement(), buildTokenBadBidi(), charWidth(), clearLineMeasurementCache(), clearLineMeasurementCacheFor(), defaultSpecialCharPlaceholder(), Display() (+30 more)
+Cohesion: 0.08
+Nodes (40): buildLineContent(), buildLineElement(), buildToken(), buildTokenBadBidi(), charWidth(), clearLineMeasurementCache(), clearLineMeasurementCacheFor(), defaultSpecialCharPlaceholder() (+32 more)
 
 ### Community 96 - "Community 96"
 Cohesion: 0.08
@@ -1174,8 +1178,8 @@ Cohesion: 0.14
 Nodes (31): calendar$1(), clone(), cloneWithOffset(), configFromInput(), createLocal(), createUnix(), diff(), endOf() (+23 more)
 
 ### Community 103 - "Community 103"
-Cohesion: 0.11
-Nodes (30): addTimeToArrayFromToken(), checkOverflow(), configFromArray(), configFromISO(), configFromRFC2822(), configFromString(), configFromStringAndArray(), configFromStringAndFormat() (+22 more)
+Cohesion: 0.09
+Nodes (36): addTimeToArrayFromToken(), checkOverflow(), configFromArray(), configFromISO(), configFromRFC2822(), configFromString(), configFromStringAndArray(), configFromStringAndFormat() (+28 more)
 
 ### Community 105 - "Community 105"
 Cohesion: 0.09
@@ -1206,8 +1210,8 @@ Cohesion: 0.22
 Nodes (9): addRegexToken(), calendar(), isFunction(), makeFormatFunction(), relativeTime(), removeFormattingTokens(), set(), stringGet() (+1 more)
 
 ### Community 116 - "Community 116"
-Cohesion: 0.08
-Nodes (7): Twig_Node_BlockReference, Twig_Node_Embed, Twig_Node_Include, Twig_Node_Print, Twig_Node_SandboxedPrint, Twig_Node_Text, Twig_NodeOutputInterface
+Cohesion: 0.09
+Nodes (6): Twig_Node_BlockReference, Twig_Node_Print, Twig_Node_SandboxedPrint, Twig_Node_Text, Twig_NodeVisitor_Escaper, Twig_NodeOutputInterface
 
 ### Community 123 - "Community 123"
 Cohesion: 0.08
@@ -1223,31 +1227,31 @@ Nodes (38): addChangeToHistory(), addSelectionToHistory(), adjustForChange(), ap
 
 ### Community 127 - "Community 127"
 Cohesion: 0.10
-Nodes (12): __construct(), getColumn(), getMergeRange(), getRow(), isInMergeRange(), isInRange(), isMergeRangeValueCell(), notifyCacheController() (+4 more)
+Nodes (11): __construct(), getColumn(), getMergeRange(), getRow(), isInMergeRange(), isInRange(), isMergeRangeValueCell(), notifyCacheController() (+3 more)
 
 ### Community 129 - "Community 129"
 Cohesion: 0.07
 Nodes (83): _(), a(), ae(), at(), b(), be(), bt(), c() (+75 more)
 
 ### Community 131 - "Community 131"
-Cohesion: 0.08
-Nodes (6): Twig_Filter_Function, Twig_Filter_Method, Twig_Filter_Node, Twig_Filter, Twig_FilterCallableInterface, Twig_FilterInterface
+Cohesion: 0.09
+Nodes (5): Twig_Filter_Function, Twig_Filter_Node, Twig_Filter, Twig_FilterCallableInterface, Twig_FilterInterface
 
 ### Community 142 - "Community 142"
-Cohesion: 0.09
-Nodes (4): ControllerExtensionPaymentModulbank, ControllerExtensionPaymentModulbank, ModulbankHelper, ModelExtensionPaymentModulbank
+Cohesion: 0.13
+Nodes (3): ControllerExtensionPaymentModulbank, ModulbankHelper, ModelExtensionPaymentModulbank
 
 ### Community 144 - "Community 144"
-Cohesion: 0.06
-Nodes (8): cartDBS, deliveryServices, offerPrices, regionCompany, regions, ShipmentsReceptionTransferAct, updateRegions, exchange
+Cohesion: 0.10
+Nodes (5): cartDBS, deliveryServices, regions, updateRegions, exchange
 
 ### Community 146 - "Community 146"
-Cohesion: 0.08
-Nodes (6): Twig_Function_Function, Twig_Function_Method, Twig_Function_Node, Twig_Function, Twig_FunctionCallableInterface, Twig_FunctionInterface
+Cohesion: 0.10
+Nodes (5): Twig_Function_Function, Twig_Function_Node, Twig_Function, Twig_FunctionCallableInterface, Twig_FunctionInterface
 
 ### Community 153 - "Community 153"
-Cohesion: 0.14
-Nodes (27): a(), ac(), b(), cc(), d(), e(), f(), fb() (+19 more)
+Cohesion: 0.17
+Nodes (23): ac(), b(), cc(), d(), e(), f(), fb(), gb() (+15 more)
 
 ### Community 154 - "Community 154"
 Cohesion: 0.17
@@ -1261,25 +1265,21 @@ Nodes (5): Twig_Node_Expression_Call, Twig_Node_Expression_Constant, Twig_Node_E
 Cohesion: 0.06
 Nodes (3): app, Registry, Twig_Extension_DTwigManager
 
-### Community 162 - "Community 162"
-Cohesion: 0.06
-Nodes (7): PHPExcel_CachedObjectStorage_CacheBase, PHPExcel_CachedObjectStorage_Igbinary, PHPExcel_CachedObjectStorage_Memory, PHPExcel_CachedObjectStorage_MemoryGZip, PHPExcel_CachedObjectStorage_MemorySerialized, PHPExcel_CachedObjectStorage_ICache, attach()
-
-### Community 165 - "Community 165"
-Cohesion: 0.09
-Nodes (3): cdek_integrator, order_delete, order_status
-
 ### Community 170 - "Community 170"
-Cohesion: 0.14
-Nodes (5): ControllerStartupStartup, ControllerExtensionModuleRecentlyViewed, ControllerStartupStartup, ModelExtensionModuleShoputilsAntispam, ControllerStartupSession
+Cohesion: 0.22
+Nodes (3): ControllerExtensionModuleRecentlyViewed, ModelExtensionModuleShoputilsAntispam, ControllerStartupSession
 
 ### Community 172 - "Community 172"
 Cohesion: 0.10
 Nodes (7): parser_json, parser_original, parser_xml, parser_json, response_parser, parser_json, parser_pdf
 
 ### Community 175 - "Community 175"
-Cohesion: 0.20
-Nodes (5): PclZipUtilCopyBlock(), PclZipUtilOptionText(), PclZipUtilPathInclusion(), PclZipUtilPathReduction(), PclZipUtilTranslateWinPath()
+Cohesion: 0.16
+Nodes (6): PclZipUtilCopyBlock(), PclZipUtilOptionText(), PclZipUtilPathInclusion(), PclZipUtilPathReduction(), PclZipUtilTranslateWinPath(), Template
+
+### Community 177 - "Community 177"
+Cohesion: 0.06
+Nodes (6): ControllerAccountDownload, Log, PHPExcel_Autoloader, PHPExcel_Reader_Excel2007, PHPExcel_Shared_File, ControllerToolLog
 
 ### Community 181 - "Community 181"
 Cohesion: 0.16
@@ -1342,8 +1342,8 @@ Cohesion: 0.13
 Nodes (6): b(), d(), i(), n(), p(), v()
 
 ### Community 207 - "Community 207"
-Cohesion: 0.11
-Nodes (6): Twig_Test_Function, Twig_Test_Method, Twig_Test_Node, Twig_Test, Twig_TestCallableInterface, Twig_TestInterface
+Cohesion: 0.07
+Nodes (9): Twig_Filter_Method, Twig_Function_Method, Twig_Test_Function, Twig_Test_Method, Twig_Test_Node, Twig_ExtensionInterface, Twig_Test, Twig_TestCallableInterface (+1 more)
 
 ### Community 210 - "Community 210"
 Cohesion: 0.12
@@ -1366,28 +1366,24 @@ Cohesion: 0.15
 Nodes (3): ControllerExtensionAdvertiseGoogle, LibraryLoader, StoreLoader
 
 ### Community 225 - "Community 225"
-Cohesion: 0.16
-Nodes (18): buildToken(), callBlankLine(), estimateCoords(), extractLineClasses(), findStartLine(), getLine(), getLineStyles(), getStateBefore() (+10 more)
+Cohesion: 0.13
+Nodes (24): callBlankLine(), clipPos(), clipPosArray(), clipToLen(), estimateCoords(), extractLineClasses(), findPosH(), findSharedMarkers() (+16 more)
 
 ### Community 229 - "Community 229"
 Cohesion: 0.27
 Nodes (16): deleteFacebookSetting(), getExceptionMessageDueToProductSyncError(), getFacebookCatalogId(), getFacebookExternalMerchantSettings(), getFacebookFeedId(), getFacebookPageAccessToken(), getFacebookPageId(), getFacebookSetting() (+8 more)
 
-### Community 234 - "Community 234"
-Cohesion: 0.09
-Nodes (4): Twig_Profiler_NodeVisitor_Profiler, Twig_NodeVisitor_SafeAnalysis, Twig_NodeVisitor_Sandbox, Twig_BaseNodeVisitor
-
 ### Community 235 - "Community 235"
 Cohesion: 0.07
-Nodes (4): PHPExcel_Writer_IWriter, PHPExcel_Writer_Abstract, PHPExcel_Writer_Excel2007, PHPExcel_Writer_OpenDocument
+Nodes (3): PHPExcel_Writer_Abstract, PHPExcel_Writer_Excel2007, PHPExcel_Writer_OpenDocument
 
 ### Community 239 - "Community 239"
-Cohesion: 0.12
-Nodes (19): ab(), ba(), bb(), ca(), ea(), g(), hd(), ja() (+11 more)
+Cohesion: 0.14
+Nodes (16): ab(), ba(), ca(), ea(), g(), hd(), ja(), ka() (+8 more)
 
 ### Community 240 - "Community 240"
-Cohesion: 0.12
-Nodes (5): twig_date_converter(), twig_date_format_filter(), twig_date_modify_filter(), Twig_Extension_Core, twig_number_format_filter()
+Cohesion: 0.15
+Nodes (3): PHPExcel_CachedObjectStorage_Igbinary, PHPExcel_CachedObjectStorage_Memory, PHPExcel_CachedObjectStorage_ICache
 
 ### Community 244 - "Community 244"
 Cohesion: 0.14
@@ -1418,8 +1414,8 @@ Cohesion: 0.10
 Nodes (5): Twig_ParserInterface, Twig_TokenParserBroker, Twig_TokenParserBrokerInterface, setParser(), Twig_TokenParserInterface
 
 ### Community 268 - "Community 268"
-Cohesion: 0.05
-Nodes (9): PHPExcel_CachedObjectStorage_APC, PHPExcel_CachedObjectStorage_Wincache, IteratorIterator, PHPExcel_Writer_PDF_Core, PHPExcel_Writer_PDF_DomPDF, PHPExcel_Writer_PDF_mPDF, PHPExcel_Writer_PDF_tcPDF, PHPExcel_Shared_OLE_PPS_File (+1 more)
+Cohesion: 0.09
+Nodes (5): PHPExcel_CachedObjectStorage_Memcache, PHPExcel_CachedObjectStorage_Wincache, IteratorIterator, PHPExcel_Writer_PDF_DomPDF, Twig_Util_TemplateDirIterator
 
 ### Community 271 - "Community 271"
 Cohesion: 0.23
@@ -1437,17 +1433,21 @@ Nodes (14): configFromObject(), Duration(), getParseRegexForToken(), getPrioriti
 Cohesion: 0.20
 Nodes (8): a(), c(), d(), e(), n(), o(), r(), u()
 
+### Community 283 - "Community 283"
+Cohesion: 0.10
+Nodes (3): PHPExcel_HashTable, PHPExcel_IComparable, PHPExcel_Worksheet_MemoryDrawing
+
 ### Community 286 - "Community 286"
 Cohesion: 0.14
 Nodes (4): Twig_Sandbox_SecurityError, Twig_Sandbox_SecurityNotAllowedFilterError, Twig_Sandbox_SecurityNotAllowedFunctionError, Twig_Sandbox_SecurityNotAllowedTagError
 
 ### Community 298 - "Community 298"
-Cohesion: 0.15
-Nodes (13): addRegexToken(), calendar(), configFromObject(), Duration(), getPrioritizedUnits(), isDurationValid(), isFunction(), normalizeObjectUnits() (+5 more)
+Cohesion: 0.22
+Nodes (9): addRegexToken(), calendar(), isFunction(), makeFormatFunction(), relativeTime(), removeFormattingTokens(), set(), stringGet() (+1 more)
 
 ### Community 299 - "Community 299"
-Cohesion: 0.33
-Nodes (6): c(), fa(), ga(), ub(), vb(), wb()
+Cohesion: 0.17
+Nodes (13): a(), bb(), c(), fa(), ga(), pc(), sc(), ub() (+5 more)
 
 ### Community 300 - "Community 300"
 Cohesion: 0.28
@@ -1477,6 +1477,10 @@ Nodes (6): d(), e(), i(), m(), n(), p()
 Cohesion: 0.21
 Nodes (6): d(), e(), i(), n(), p(), u()
 
+### Community 313 - "Community 313"
+Cohesion: 0.13
+Nodes (3): PHPUnit_Framework_TestCase, Twig_Test_IntegrationTestCase, Twig_Test_NodeTestCase
+
 ### Community 330 - "Community 330"
 Cohesion: 0.21
 Nodes (12): aa(), da(), ha(), ia(), j(), l(), ma(), na() (+4 more)
@@ -1490,12 +1494,12 @@ Cohesion: 0.27
 Nodes (12): hb(), hc(), ib(), ic(), jb(), jc(), kb(), ta() (+4 more)
 
 ### Community 333 - "Community 333"
-Cohesion: 0.22
-Nodes (11): aa(), da(), ha(), ia(), j(), l(), ma(), na() (+3 more)
+Cohesion: 0.21
+Nodes (12): aa(), da(), ha(), ia(), j(), l(), ma(), na() (+4 more)
 
 ### Community 334 - "Community 334"
 Cohesion: 0.27
-Nodes (13): hb(), hc(), ib(), ic(), jb(), jc(), kb(), pa() (+5 more)
+Nodes (12): hb(), hc(), ib(), ic(), jb(), jc(), kb(), ta() (+4 more)
 
 ### Community 335 - "Community 335"
 Cohesion: 0.21
@@ -1530,32 +1534,16 @@ Cohesion: 0.30
 Nodes (12): getCalculatedValue(), getCoordinate(), getDataValidation(), getFormattedValue(), getHyperlink(), getParent(), getStyle(), getWorksheet() (+4 more)
 
 ### Community 352 - "Community 352"
-Cohesion: 0.14
-Nodes (20): adjustView(), attachDoc(), buildViewArray(), clearCaches(), countDirtyView(), estimateLineHeights(), findMaxLine(), findViewForLine() (+12 more)
-
-### Community 377 - "Community 377"
-Cohesion: 0.05
-Nodes (8): ControllerAccountDownload, File, File, Log, PHPExcel_Autoloader, PHPExcel_Reader_Gnumeric, PHPExcel_Reader_OOCalc, ControllerToolLog
-
-### Community 392 - "Community 392"
-Cohesion: 0.08
-Nodes (4): ControllerLocalisationReturnAction, ControllerLocalisationReturnReason, ControllerLocalisationStockStatus, ControllerLocalisationTaxRate
-
-### Community 393 - "Community 393"
-Cohesion: 0.19
-Nodes (14): createUTCDate(), dayOfYearFromWeeks(), daysInYear(), firstWeekOffset(), getIsLeapYear(), getISOWeeksInYear(), getSetISOWeek(), getSetWeekYearHelper() (+6 more)
-
-### Community 397 - "Community 397"
-Cohesion: 0.15
-Nodes (4): Twig_Node_Expression_Unary, Twig_Node_Expression_Unary_Neg, Twig_Node_Expression_Unary_Not, Twig_Node_Expression_Unary_Pos
+Cohesion: 0.10
+Nodes (20): addMarkedSpan(), attachDoc(), attachMarkedSpans(), cleanUpLine(), clearCaches(), CodeMirror(), copyObj(), createObj() (+12 more)
 
 ### Community 423 - "Community 423"
-Cohesion: 0.10
-Nodes (6): ControllerCheckoutSimpleCheckoutComment, ControllerCheckoutSimpleCheckoutLogin, ControllerCheckoutSimpleCheckoutPayment, ControllerCheckoutSimpleCheckoutSummary, ControllerCheckoutSimpleCheckoutText, SimpleController
+Cohesion: 0.09
+Nodes (8): ControllerAccountSimpleEdit, ControllerCheckoutSimpleCheckoutComment, ControllerCheckoutSimpleCheckoutLogin, ControllerCheckoutSimpleCheckoutSummary, ControllerCheckoutSimpleCheckoutText, ControllerExtensionModuleSimple, ControllerModuleSimple, SimpleController
 
 ### Community 428 - "Community 428"
-Cohesion: 0.16
-Nodes (4): PHPExcel_Cell_DataType, PHPExcel_Cell_DefaultValueBinder, PHPExcel_Cell_ExportImportValueBinder, PHPExcel_Cell_IValueBinder
+Cohesion: 0.15
+Nodes (5): PHPExcel_Cell_DataType, PHPExcel_Cell_DefaultValueBinder, PHPExcel_Cell_ExportImportValueBinder, PHPExcel_Cell_IValueBinder, setValueExplicit()
 
 ### Community 431 - "Community 431"
 Cohesion: 0.42
@@ -1566,24 +1554,28 @@ Cohesion: 0.28
 Nodes (3): clearMenus(), getParent(), getTargetFromTrigger()
 
 ### Community 468 - "Community 468"
-Cohesion: 0.25
-Nodes (9): absCeil(), absFloor(), as(), bubble(), daysToMonths(), makeAs(), monthsToDays(), relativeTime$1() (+1 more)
+Cohesion: 0.33
+Nodes (7): absCeil(), as(), bubble(), daysToMonths(), makeAs(), monthsToDays(), relativeTime$1()
 
 ### Community 473 - "Community 473"
-Cohesion: 0.28
-Nodes (3): clearMenus(), getParent(), getTargetFromTrigger()
+Cohesion: 0.20
+Nodes (4): clearMenus(), getParent(), getTargetFromTrigger(), ScrollSpy()
+
+### Community 474 - "Community 474"
+Cohesion: 0.14
+Nodes (14): configFromObject(), Duration(), getParseRegexForToken(), getPrioritizedUnits(), hasOwnProp(), isDurationValid(), monthsRegex(), monthsShortRegex() (+6 more)
 
 ### Community 475 - "Community 475"
 Cohesion: 0.27
 Nodes (8): a(), b(), c(), d(), e(), f(), h(), j()
 
+### Community 488 - "Community 488"
+Cohesion: 0.13
+Nodes (3): Iterator, PHPExcel_WorksheetIterator, Twig_Util_DeprecationCollector
+
 ### Community 490 - "Community 490"
 Cohesion: 0.31
 Nodes (16): a(), c(), d(), f(), g(), h(), i(), l() (+8 more)
-
-### Community 507 - "Community 507"
-Cohesion: 0.10
-Nodes (3): ControllerExtensionShippingApiship, ControllerExtensionCaptchaBasic, File
 
 ### Community 523 - "Community 523"
 Cohesion: 0.50
@@ -1593,17 +1585,9 @@ Nodes (7): alertMessage(), cdekPvzClick(), checkTariffPvz(), getPvzList(), initM
 Cohesion: 0.21
 Nodes (13): addCombinator(), condense(), createPositionalPseudo(), elementMatcher(), markFunction(), matcherFromGroupMatchers(), matcherFromTokens(), multipleContexts() (+5 more)
 
-### Community 557 - "Community 557"
-Cohesion: 0.16
-Nodes (4): ControllerAccountSimpleRegister, ControllerExtensionModuleSimple, ControllerModuleSimple, SimpleRegister
-
 ### Community 559 - "Community 559"
 Cohesion: 0.33
 Nodes (7): absCeil(), as(), bubble(), daysToMonths(), makeAs(), monthsToDays(), relativeTime$1()
-
-### Community 560 - "Community 560"
-Cohesion: 0.43
-Nodes (6): apply_operation(), expand_brace_glob(), main(), php_trim(), glob с поддержкой {a,b} как GLOB_BRACE (один уровень вложенности достаточно)., Построчная реплика цикла применения операции. Возвращает (content, applied_count
 
 ### Community 564 - "Community 564"
 Cohesion: 0.23
@@ -1658,8 +1642,8 @@ Cohesion: 0.70
 Nodes (4): advertise_google_chdir(), advertise_google_define_route(), advertise_google_init(), advertise_google_validate()
 
 ### Community 744 - "PayPal Pro"
-Cohesion: 0.14
-Nodes (5): ControllerAccountSimpleaddress, ControllerAccountSimpleEdit, Simple, SimpleAddress, SimpleEdit
+Cohesion: 0.11
+Nodes (5): ControllerAccountSimpleaddress, Simple, SimpleAddress, SimpleEdit, SimpleRegister
 
 ### Community 766 - "Export Import Error"
 Cohesion: 0.67
@@ -1744,22 +1728,22 @@ Nodes (3): determineTestTemplate(), getDecisionTaker(), getLocator()
 ## Knowledge Gaps
 - **22 isolated node(s):** `name`, `version`, `description`, `main`, `run` (+17 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **691 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **690 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Controller` connect `Community 0` to `Community 4`, `Community 519`, `Community 13`, `Community 532`, `Community 534`, `Community 535`, `Community 536`, `Community 537`, `Community 538`, `Community 539`, `Community 28`, `Community 540`, `Community 541`, `Community 542`, `Community 32`, `Community 543`, `Community 544`, `Community 545`, `Community 548`, `Community 546`, `Community 547`, `Community 211`, `Community 210`, `Community 554`, `Community 51`, `Community 569`, `Community 66`, `Community 585`, `Community 586`, `Community 587`, `Community 589`, `Community 591`, `Community 592`, `Community 593`, `Community 594`, `Community 595`, `Community 596`, `Community 83`, `Community 598`, `Community 597`, `Product View Report`, `Voucher Total Module`, `Filter Total Module`, `Facebook Product Pixel`, `Shipping Total Quote`, `Community 107`, `Outlet Delete Request`, `Yandex Market DBS`, `Workbook Password Hashing`, `Measoft Shipping Quote`, `Excel Cell Iterator`, `Order Cancellation Module`, `Customer Voucher`, `Activity Dashboard`, `Availability Dashboard`, `Customer Dashboard`, `Online Users Dashboard`, `Recently Viewed Module`, `Recent Activity Dashboard`, `Sales Dashboard`, `Store Settings`, `Product Stickers Module`, `Community 142`, `Customer Activity Report`, `Customer Orders Report`, `Customer Rewards Report`, `Customer Search Report`, `Customer Transactions Report`, `Marketing Report`, `Product Purchased Report`, `Community 150`, `Community 151`, `Coupon Sales Report`, `Sales Orders Report`, `Sales Returns Report`, `Shipping Sales Report`, `Tax Sales Report`, `CDEK Total Module`, `HTML Module`, `Language Event`, `Statistics Event`, `Voucher Total Module`, `Contact Form`, `Information Model`, `Community 440`, `Community 170`, `First Mile Shipments`, `Community 442`, `Community 179`, `Community 180`, `Community 443`, `Order Cancellation Notification`, `Community 187`, `Offer Status Module`, `Forgot Password`, `Wishlist`, `Forgot Password`, `Login Page`, `Profile Page`, `Password Reset`, `Statistics Events`, `Google Analytics`, `Yandex Metrika`, `Basic Captcha`, `Google Captcha`, `Google Sitemap`, `Yandex Market Feed`, `Account Module`, `Category Module`, `Featured Products`, `Filter Module`, `Google Hangouts`, `Information Module`, `Shipping Widget`, `Community 224`, `Community 223`, `Community 226`, `Bank Transfer Payment`, `Cheque Payment`, `Cash on Delivery`, `Free Checkout`, `LiqPay Payment`, `PayPal Standard`, `Flat Shipping`, `Free Shipping`, `Per Item Shipping`, `Pickup Shipping`, `Weight Shipping`, `Default Theme`, `Coupon Total`, `Community 242`, `Low Order Fee`, `Reward Total`, `Shipping Total`, `Subtotal Total`, `Tax Total`, `Order Total`, `Contact Form`, `Community 252`, `Community 255`, `Community 259`, `Affiliate Login`, `Sass Startup`, `Community 261`, `Currency Switcher`, `Community 263`, `Language Switcher`, `Google Base Feed`, `Google Captcha`, `Cheque Payment Confirm`, `COD CDEK Payment`, `Free Checkout Confirm`, `Community 271`, `PayPal Pro Send`, `Coupon Application`, `Google Sitemap Feed`, `Order Tracking Page`, `Error Handler`, `Google Base Categories`, `Currency Model`, `Language Model`, `Settings Model`, `Community 260`, `Checkout Login`, `Community 291`, `Recurring Checkout`, `Debug Event Hooks`, `Community 292`, `Community 262`, `Yandex Market Export`, `Yandex Metrica Tracking`, `Community 264`, `Voucher Theme Settings`, `Community 317`, `Banner Module`, `Community 318`, `Theme Event`, `Community 319`, `Community 320`, `Community 322`, `Community 323`, `Community 324`, `SMS Alert Module`, `Banner Model`, `LiqPay Payment Method`, `Free Shipping Quote`, `Item Shipping Quote`, `Filterit Total`, `Community 354`, `Community 355`, `Community 356`, `Community 357`, `Community 358`, `Yandex Beru Install`, `Community 359`, `Community 360`, `Community 361`, `Community 362`, `Community 367`, `Community 377`, `Community 378`, `Community 379`, `Community 380`, `Community 381`, `Community 382`, `Community 383`, `Community 384`, `Community 385`, `Community 386`, `Community 387`, `Community 388`, `Community 389`, `Community 390`, `Community 391`, `Community 392`, `Community 394`, `Community 396`, `Community 398`, `Community 399`, `Community 400`, `Community 401`, `Community 402`, `Community 403`, `Community 419`, `Community 421`, `Community 423`, `Russian Post Module`, `Admin Index Page`, `Attribute Group Page`, `Option Page`, `Product Page`, `Product Stickers Page`, `Community 434`, `Review Page`, `Admin Sidebar Column`, `Dashboard Page`, `Developer Page`, `File Manager Page`, `Footer Template`, `Forgot Password Page`, `Header Template`, `Login Page`, `Community 446`, `Community 447`, `Community 448`, `Community 449`, `Customer Approval Page`, `Custom Field Page`, `Community 444`, `Banner Page`, `SEO URL Settings`, `Theme Settings`, `Translation Page`, `Web Exporter`, `English Language File`, `404 Not Found Page`, `Permission Settings`, `Google Integration`, `Community 981`, `Community 982`, `Community 472`, `Captcha Settings`, `Community 492`, `Community 493`, `Community 497`, `Community 498`, `Community 499`, `Community 507`, `Community 508`?**
-  _High betweenness centrality (0.149) - this node is a cross-community bridge._
-- **Why does `Model` connect `Community 3` to `Community 513`, `Community 4`, `Community 11`, `Community 14`, `Community 528`, `Community 19`, `Community 20`, `Community 533`, `Community 28`, `Community 30`, `Community 549`, `Community 38`, `Community 551`, `Community 552`, `Community 553`, `Community 42`, `Community 556`, `Community 558`, `Community 53`, `Community 54`, `Community 570`, `Community 62`, `Community 579`, `Community 72`, `Community 74`, `Community 588`, `Community 80`, `Community 90`, `File Cache Adapter`, `Community 102`, `Order Info Response`, `API Login`, `Customer Rewards`, `Customer Transactions`, `Community 130`, `Community 142`, `Community 152`, `Product Reviews`, `Product Exporting`, `Featured Categories`, `Recently Viewed Products`, `Credit Total Module`, `Community 170`, `Community 171`, `Reward Total Module`, `Category Worksheet Export`, `Community 182`, `Logger Writer`, `Special Products`, `Community 236`, `Community 237`, `Community 249`, `Recently Viewed`, `Customer Transactions`, `Community 265`, `Community 272`, `Manufacturer Model`, `Layout Model`, `Courier Shipping Quote`, `Order Status Model`, `Zone Model`, `Community 285`, `Community 290`, `Community 294`, `Community 295`, `Community 296`, `Community 297`, `Customer Approval Emails`, `Community 308`, `Template Rendering`, `Currency API`, `Settings Table Setup`, `Community 325`, `Community 326`, `Community 327`, `Community 328`, `Community 329`, `Search Controller`, `Category Module`, `Header Controller`, `Sitemap Controller`, `IP Fraud Check`, `Low Order Fee`, `Extension List Model`, `Community 345`, `Community 350`, `Translation Event`, `Facebook Checkout Redirect`, `Community 363`, `Yandex Delivery Lift`, `Status Forwarding`, `Community 369`, `Community 374`, `Community 404`, `Community 405`, `Community 406`, `Community 407`, `Community 408`, `Community 409`, `Community 410`, `Community 411`, `Community 412`, `Community 413`, `Community 414`, `Community 415`, `Community 416`, `Community 417`, `Community 418`, `FilterIt Module`, `Filter Page`, `Manufacturer Page`, `Community 441`, `Community 445`, `Profile Page`, `Password Reset Page`, `Security Settings`, `Community 450`, `Community 451`, `Community 452`, `Community 453`, `Community 454`, `Community 455`, `Community 457`, `Community 458`, `Community 459`, `Community 460`, `Community 461`, `Community 462`, `Community 463`, `Community 464`, `Google Integration`, `Community 466`, `Community 979`, `Community 980`, `Metrika Analytics`, `Community 469`, `Community 465`, `Yandex Metrica Integration`, `Recent Items`, `Community 495`, `Community 500`, `Community 502`, `Community 503`, `Community 504`, `Community 505`, `Community 506`, `Community 509`, `Community 510`, `Community 511`?**
-  _High betweenness centrality (0.140) - this node is a cross-community bridge._
-- **Why does `PHPExcel_Worksheet` connect `Community 2` to `Excel Column`, `Community 134`, `Community 8`, `Community 520`, `Community 137`, `Community 395`, `Community 268`, `Community 269`, `Community 270`, `Community 21`, `Community 26`, `Community 283`, `Community 288`, `Community 289`, `Community 162`, `Community 166`, `Community 422`, `Community 169`, `Community 432`, `Community 177`, `Community 55`, `Community 314`, `Community 315`, `Community 61`, `Community 63`, `Community 64`, `Community 65`, `Community 199`, `Community 71`, `Community 81`, `Community 89`, `Community 90`, `Community 91`, `Community 228`, `Community 232`, `Community 373`, `Community 246`, `Community 120`, `Community 122`, `Community 253`, `Community 127`?**
-  _High betweenness centrality (0.051) - this node is a cross-community bridge._
+- **Why does `Controller` connect `Community 0` to `Community 4`, `Community 519`, `Community 13`, `Community 532`, `Community 534`, `Community 535`, `Community 536`, `Community 537`, `Community 538`, `Community 539`, `Community 28`, `Community 540`, `Community 541`, `Community 542`, `Community 32`, `Community 543`, `Community 544`, `Community 545`, `Community 548`, `Community 546`, `Community 547`, `Community 210`, `Community 554`, `Community 51`, `Community 569`, `Community 66`, `Community 585`, `Community 586`, `Community 587`, `Community 589`, `Community 590`, `Community 591`, `Community 592`, `Community 593`, `Community 594`, `Community 595`, `Community 596`, `Community 83`, `Community 598`, `Community 597`, `Product View Report`, `Voucher Total Module`, `Filter Total Module`, `Cart API Controller`, `Facebook Product Pixel`, `Shipping Total Quote`, `Community 107`, `Yandex Market DBS`, `Workbook Password Hashing`, `Measoft Shipping Quote`, `Excel Cell Iterator`, `Order Cancellation Module`, `Customer Voucher`, `Activity Dashboard`, `Availability Dashboard`, `Customer Dashboard`, `Online Users Dashboard`, `Recently Viewed Module`, `Recent Activity Dashboard`, `Sales Dashboard`, `Store Settings`, `Community 434`, `Community 142`, `Customer Activity Report`, `Customer Orders Report`, `Customer Rewards Report`, `Customer Search Report`, `Customer Transactions Report`, `Marketing Report`, `Product Purchased Report`, `Community 150`, `Community 151`, `Coupon Sales Report`, `Sales Orders Report`, `Sales Returns Report`, `Shipping Sales Report`, `Tax Sales Report`, `CDEK Total Module`, `HTML Module`, `Language Event`, `Statistics Event`, `Voucher Total Module`, `Contact Form`, `Information Model`, `Community 440`, `Community 170`, `First Mile Shipments`, `Community 442`, `Community 177`, `Community 179`, `Community 180`, `Community 443`, `Order Cancellation Notification`, `Community 187`, `Offer Status Module`, `Forgot Password`, `Wishlist`, `Forgot Password`, `Login Page`, `Profile Page`, `Password Reset`, `Statistics Events`, `Google Analytics`, `Community 211`, `Basic Captcha`, `Google Captcha`, `Google Sitemap`, `Yandex Market Feed`, `Account Module`, `Category Module`, `Featured Products`, `Filter Module`, `Google Hangouts`, `Information Module`, `Shipping Widget`, `Community 224`, `Community 223`, `Community 226`, `Bank Transfer Payment`, `Cheque Payment`, `Cash on Delivery`, `Free Checkout`, `LiqPay Payment`, `PayPal Standard`, `Community 234`, `Flat Shipping`, `Free Shipping`, `Per Item Shipping`, `Pickup Shipping`, `Weight Shipping`, `Default Theme`, `Coupon Total`, `Community 242`, `Low Order Fee`, `Reward Total`, `Shipping Total`, `Subtotal Total`, `Tax Total`, `Order Total`, `Contact Form`, `Community 252`, `Community 255`, `Community 259`, `Affiliate Login`, `Sass Startup`, `Community 261`, `Currency Switcher`, `Community 263`, `Language Switcher`, `Google Base Feed`, `Google Captcha`, `Cheque Payment Confirm`, `COD CDEK Payment`, `Free Checkout Confirm`, `Community 271`, `PayPal Pro Send`, `Coupon Application`, `Order Tracking Page`, `Error Handler`, `Google Base Categories`, `Currency Model`, `Settings Model`, `Community 260`, `Checkout Login`, `Community 291`, `Community 292`, `Debug Event Hooks`, `Recurring Checkout`, `Community 262`, `Yandex Market Export`, `Yandex Metrica Tracking`, `Community 264`, `Community 317`, `Banner Module`, `Community 318`, `Settings Table Setup`, `Theme Event`, `Community 319`, `Community 320`, `Community 322`, `Community 323`, `Community 324`, `Category Module`, `Banner Model`, `LiqPay Payment Method`, `Free Shipping Quote`, `Item Shipping Quote`, `Filterit Total`, `Facebook Checkout Redirect`, `Community 354`, `Community 355`, `Community 356`, `Community 358`, `Community 357`, `Yandex Beru Install`, `Community 359`, `Community 360`, `Community 361`, `Community 362`, `Yandex Delivery Lift`, `Community 367`, `Community 378`, `Community 379`, `Community 380`, `Community 381`, `Community 382`, `Community 383`, `Community 384`, `Community 385`, `Community 386`, `Community 387`, `Community 388`, `Community 389`, `Community 390`, `Community 391`, `Community 392`, `Community 393`, `Community 394`, `Community 395`, `Community 396`, `Community 397`, `Community 398`, `Community 399`, `Community 400`, `Community 401`, `Community 402`, `Community 403`, `Community 419`, `Community 421`, `Community 423`, `Admin Index Page`, `Attribute Group Page`, `Information Page`, `Option Page`, `Product Page`, `Product Stickers Page`, `Recurring Profile Page`, `Review Page`, `Admin Sidebar Column`, `Dashboard Page`, `Developer Page`, `File Manager Page`, `Footer Template`, `Forgot Password Page`, `Header Template`, `Login Page`, `Profile Page`, `Community 446`, `Community 447`, `Community 448`, `Community 449`, `Custom Field Page`, `Community 444`, `Banner Page`, `SEO URL Settings`, `Permission Settings`, `Google Integration`, `Google Integration`, `Metrika Analytics`, `Community 472`, `Order Page`, `Sales Page`, `Captcha Settings`, `Community 492`, `Community 493`, `Community 496`, `Community 497`, `Community 498`, `Community 499`, `Community 507`, `Community 508`?**
+  _High betweenness centrality (0.152) - this node is a cross-community bridge._
+- **Why does `Model` connect `Community 3` to `Community 513`, `Community 4`, `Community 11`, `Community 14`, `Community 528`, `Community 19`, `Community 20`, `Community 533`, `Community 28`, `Community 30`, `Community 549`, `Community 38`, `Community 551`, `Community 552`, `Community 553`, `Community 42`, `Community 556`, `Community 558`, `Community 53`, `Community 54`, `Community 570`, `Community 62`, `Community 66`, `Community 579`, `Community 72`, `Community 74`, `Community 588`, `Community 80`, `Community 90`, `File Cache Adapter`, `Community 102`, `Order Info Response`, `Order Info Request`, `API Login`, `Customer Rewards`, `Customer Transactions`, `Community 130`, `Community 142`, `Community 152`, `Product Reviews`, `Product Exporting`, `Featured Categories`, `Recently Viewed Products`, `Community 170`, `Community 171`, `Reward Total Module`, `Category Worksheet Export`, `Community 182`, `Custom Field Model`, `Yandex Metrika`, `Special Products`, `Community 236`, `Community 237`, `Community 249`, `Recently Viewed`, `Customer Transactions`, `Community 265`, `Community 272`, `Manufacturer Model`, `Layout Model`, `Web Exporter`, `Courier Shipping Quote`, `Language Model`, `Order Status Model`, `Zone Model`, `Community 285`, `Community 290`, `Community 294`, `Community 295`, `Community 296`, `Community 297`, `Customer Approval Emails`, `Community 308`, `Template Rendering`, `Voucher Theme Settings`, `Currency API`, `Community 325`, `Community 326`, `Community 327`, `Community 328`, `Community 329`, `Header Controller`, `Sitemap Controller`, `IP Fraud Check`, `Low Order Fee`, `Extension List Model`, `Community 345`, `Community 350`, `Translation Event`, `Community 363`, `Status Forwarding`, `Community 369`, `Community 374`, `Community 404`, `Community 405`, `Community 406`, `Community 407`, `Community 408`, `Community 409`, `Community 410`, `Community 411`, `Community 412`, `Community 413`, `Community 414`, `Community 415`, `Community 416`, `Community 417`, `Community 418`, `CDEK Cron Job`, `FilterIt Module`, `Russian Post Module`, `Filter Page`, `Manufacturer Page`, `Community 441`, `Community 445`, `Password Reset Page`, `Security Settings`, `Community 450`, `Community 451`, `Community 452`, `Community 453`, `Community 454`, `Community 455`, `Customer Approval Page`, `Community 457`, `Community 458`, `Community 459`, `English Language File`, `404 Not Found Page`, `Community 461`, `Theme Settings`, `Translation Page`, `Community 460`, `Community 466`, `Community 462`, `Community 463`, `Community 464`, `Community 465`, `Recent Items`, `Information Pages`, `Community 495`, `Community 500`, `Community 502`, `Community 503`, `Community 504`, `Community 505`, `Community 506`, `Community 509`, `Community 510`, `Community 511`?**
+  _High betweenness centrality (0.141) - this node is a cross-community bridge._
+- **Why does `PHPExcel_Worksheet` connect `Community 2` to `Community 134`, `Community 8`, `Community 520`, `Community 137`, `Community 268`, `Community 269`, `Community 270`, `Community 21`, `Community 26`, `Community 283`, `Community 288`, `Community 289`, `Community 162`, `Community 166`, `Community 422`, `Community 168`, `Community 169`, `Community 432`, `Community 177`, `Community 55`, `Community 312`, `Community 314`, `Community 315`, `Community 61`, `Community 63`, `Community 64`, `Community 65`, `Community 199`, `Community 71`, `Community 469`, `Community 89`, `Community 90`, `Community 91`, `Community 228`, `Community 232`, `Community 240`, `Community 373`, `Community 246`, `Community 120`, `Community 122`, `Excel Column`, `Community 127`?**
+  _High betweenness centrality (0.045) - this node is a cross-community bridge._
 - **Are the 267 inferred relationships involving `PHPExcel_Calculation_Functions` (e.g. with `.DGET()` and `.fieldExtract()`) actually correct?**
   _`PHPExcel_Calculation_Functions` has 267 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `glob с поддержкой {a,b} как GLOB_BRACE (один уровень вложенности достаточно).`, `Построчная реплика цикла применения операции. Возвращает (content, applied_count`, `name` to the rest of the system?**
-  _24 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **What connects `name`, `version`, `description` to the rest of the system?**
+  _22 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
-  _Cohesion score 0.009945536348567369 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.00938726745178358 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
-  _Cohesion score 0.024928871426635957 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.024390243902439025 - nodes in this community are weakly interconnected._

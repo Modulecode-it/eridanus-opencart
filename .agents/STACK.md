@@ -88,6 +88,16 @@ storage79/    большой backup storage/log/modification (по умолча�
 4. Проверить XML-синтаксис.
 5. После деплоя обновить OpenCart modifications и очистить релевантный cache.
 
+### Критично для этой сборки (открыто в 1.18)
+
+**Подмена из `system/storage/modification` работает ТОЛЬКО для twig-шаблонов, model, library и helper.** Теневой `system/engine/loader.php` вызывает `modification()` в `model()`/`library()`/`helper()`, но НЕ в `controller()`; языковая подмена также неактивна. Шаблоны подменяются через Template engine (`system/library/template/twig.php`).
+
+Следствия:
+- OCMOD-патчи **контроллеров и языковых файлов обязаны жить в оригинальных файлах** (`catalog/...`, `admin/...`), тени для них не исполняются.
+- Twig-патчи — тенями в modification (прецедент: availpro 1.18) либо правкой шаблонов-оригиналов.
+- Ручная сборка теней без Refresh: реплика механики refresh из `admin/controller/marketplace/modification.php` — скрипт `.agents/analysis/1.18-apply-availpro.py` (GLOB_BRACE, построчный stripos/str_replace, index на `<search>`, запись только изменённых файлов, LF).
+- Кнопка «Обновить» (Refresh) по-прежнему запрещена (аудит 1.15).
+
 ## Изменение Доставки, Оплаты Или Потока Заказа
 
 1. Определить затронутое расширение. Установленные в этом проекте:
