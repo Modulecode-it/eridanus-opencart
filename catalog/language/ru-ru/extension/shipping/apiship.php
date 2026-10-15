@@ -11,6 +11,7 @@ $_['shipping_apiship_door']                         = 'Курьер';
 $_['shipping_apiship_change_point']                 = 'сменить ПВЗ';
 $_['shipping_apiship_select_point']                 = 'выбрать ПВЗ';
 $_['shipping_apiship_error_select_point']           = 'Пожалуйста, выберите ПВЗ!';
+$_['shipping_apiship_error_address_empty']          = 'Пожалуйста, укажите адрес доставки!';
 $_['shipping_apiship_error_select_city']            = 'Необходимо выбрать город';
 
 $_['shipping_apiship_title_days']                   = 'дн.';

@@ -22,7 +22,10 @@ class ControllerCheckoutShippingMethod extends Controller {
 							'title'      => $quote['title'],
 							'quote'      => $quote['quote'],
 							'sort_order' => $quote['sort_order'],
-							'error'      => $quote['error']
+							'error'      => $quote['error'],
+							// apiship start — скрипт выбора ПВЗ для шаблона способа доставки
+							'script'      => (isset($quote['script'])) ? $quote['script'] : ''
+							// apiship end
 						);
 					}
 				}
@@ -114,6 +117,18 @@ class ControllerCheckoutShippingMethod extends Controller {
 				$json['error']['warning'] = $this->language->get('error_shipping');
 			}
 		}
+
+		// apiship start — не сохранять в сессию способ ПВЗ без выбранного пункта
+		// (порт из тени OCMOD: там блок стоял после записи в сессию — здесь до,
+		// чтобы ошибочный метод вообще не попадал в сессию; подмена контроллеров
+		// из modification неактивна, правило 1.18)
+		$code = isset($this->request->post['shipping_method']) ? $this->request->post['shipping_method'] : '';
+
+		if ((strpos($code, 'apiship') !== false) && (strpos($code, 'error') !== false)) {
+			$this->load->language('extension/shipping/apiship');
+			$json['error']['warning'] = $this->language->get('shipping_apiship_error_select_point');
+		}
+		// apiship end
 
 		if (!$json) {
 			$this->session->data['shipping_method'] = $this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]];

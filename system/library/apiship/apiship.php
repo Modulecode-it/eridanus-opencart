@@ -100,12 +100,12 @@ class Apiship {
 		$data_key = 'apiship_' . $cmd . md5($limit . print_r($filter_list,1));
 		$data_hash = md5($cmd . $limit . print_r($filter_list,1));
 
-		$data = $this->getData($data_key);
-		if ($data!==null) {			
-			if ($data['data_hash']==$data_hash) {
-				$this->toLog($data_key . ' cached');
-				return $data['rows'];
-			}
+		/* eridanus perf: общий файловый кэш справочников lists/* (было: сессия
+		   покупателя на 10 минут — холодный прогрев lists/points давал до 8.5с
+		   на первое сохранение у каждого нового посетителя) */
+		$cached = $this->sharedCacheGet($data_key, $data_hash, 6 * 3600);
+		if ($cached !== null) {
+			return $cached;
 		}
 
 
@@ -143,9 +143,45 @@ class Apiship {
 		
 		$this->toLog('shipping_apiship_data '.$cmd, ['url' => $url,	'$x_tracing_id' => $x_tracing_ids, 'output' => $rows]);
 
-		$this->setData($data_key, ['rows' => $rows, 'data_hash' => $data_hash]);
+		$this->sharedCacheSet($data_key, $data_hash, $rows, 6 * 3600);
 		return $rows;
 	}
+
+	/* eridanus perf start: общий (между сессиями) файловый кэш ответов ApiShip в
+	   DIR_CACHE; TTL зашит в запись, несовпадение data_hash игнорируется.
+	   Кладут сюда только успешные ответы — ошибки остаются некэшированными. */
+	private function sharedCacheGet($key, $data_hash, $ttl_sec) {
+		$file = DIR_CACHE . 'apiship.' . md5($key) . '.cache';
+		if (!is_file($file)) return null;
+
+		$handle = @fopen($file, 'r');
+		if (!$handle) return null;
+
+		@flock($handle, LOCK_SH);
+		$raw = stream_get_contents($handle);
+		@flock($handle, LOCK_UN);
+		fclose($handle);
+
+		$data = @unserialize($raw);
+		if (!is_array($data) || !isset($data['time'], $data['hash'], $data['value'])) return null;
+		if (time() > $data['time'] || $data['hash'] !== $data_hash) return null;
+
+		return $data['value'];
+	}
+
+	private function sharedCacheSet($key, $data_hash, $value, $ttl_sec) {
+		$file = DIR_CACHE . 'apiship.' . md5($key) . '.cache';
+		$handle = @fopen($file, 'c');
+		if (!$handle) return;
+
+		@flock($handle, LOCK_EX);
+		@ftruncate($handle, 0);
+		@fwrite($handle, serialize(['time' => time() + $ttl_sec, 'hash' => $data_hash, 'value' => $value]));
+		fflush($handle);
+		@flock($handle, LOCK_UN);
+		fclose($handle);
+	}
+	/* eridanus perf end */
 
 	public function setData($key, $value, $expired_timeout_minuts = 10) {
 
@@ -345,12 +381,11 @@ class Apiship {
 		$data_hash = md5($country.$region.$city.$postcode.$ext_address.print_r($providers,1).print_r($products,1).$total.$cash_on_delivery.print_r($extraParams,1));
 		$data_key = 'apiship_calculator';
 
-		$data = $this->getData($data_key);
-		if ($data!==null) {			
-			if ($data['data_hash']==$data_hash) {
-				$this->toLog($data_key . ' cached');
-				return $data;
-			}
+		/* eridanus perf: общий кэш калькулятора (было: сессия на 10 минут);
+		   хэш аргументов включает состав корзины — цена не отстаёт от корзины */
+		$cached = $this->sharedCacheGet($data_key, $data_hash, 1800);
+		if ($cached !== null) {
+			return $cached;
 		}
 
 		$calculate_data = $this->calculate_places($products, $total);
@@ -444,7 +479,7 @@ class Apiship {
 			];
 		}
 
-		$this->setData($data_key, $data);
+		$this->sharedCacheSet($data_key, $data_hash, $data, 1800);
 		return $data;
 
 	}

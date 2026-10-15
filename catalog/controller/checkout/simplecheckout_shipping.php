@@ -264,7 +264,27 @@ class ControllerCheckoutSimpleCheckoutShipping extends SimpleController {
     }
 
     private function validator($shippingMethod) {
-        // тут можно добавить необходимые проверки для нестандартных модулей доставки 
+        /* apiship start — портировано из тени OCMOD (контроллерная подмена modification
+           на этой сборке неактивна, правило 1.18; в тени патч ошибочно вставлен в список
+           параметров функции и синтаксически неисправен) */
+        if ((strpos($shippingMethod, 'apiship') !== false) && (strpos($shippingMethod, 'error') !== false)) {
+            $this->load->language('extension/shipping/apiship');
+            return $this->language->get('shipping_apiship_error_select_point');
+        }
+
+        /* apiship: курьер (door) без адреса доставки не пропускаем —
+           «нет адреса — нельзя идти дальше» (фидбек заказчика, задача 1.23) */
+        if (strpos($shippingMethod, 'apiship.door') !== false) {
+            $address = !empty($this->session->data['simple']['shipping_address']) ? $this->session->data['simple']['shipping_address'] : array();
+
+            if (empty($address['address_1'])) {
+                $this->load->language('extension/shipping/apiship');
+                return $this->language->get('shipping_apiship_error_address_empty');
+            }
+        }
+        /* apiship end */
+
+        // тут можно добавить необходимые проверки для нестандартных модулей доставки
         // выбранный вариант доставки приходит в $shippingMethod
         // если нужно предотвратить создание заказа и вывести ошибку, то достаточно вернуть текст ошибки
         // return 'выберите пункт выдачи!';
