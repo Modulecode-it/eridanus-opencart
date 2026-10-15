@@ -259,6 +259,18 @@
 		width: 33.33% !important;
 	}
 }
+@media (min-width: 992px) and (max-width: 1200px) {
+	/* в 4-колоночной сетке слот 33.33% ≈ 70px — слово «ПОСТУПЛЕНИИ» (84px
+	   при 11px) не помещается; видимой кнопке отдаём половину ряда,
+	   иконкам после неё — по четверти; когда кнопка скрыта (товар в
+	   наличии), правила не срабатывают и ряд остаётся 33.33%×3 */
+	.product-thumb .button-group button.notify:not(.hidden) {
+		width: 50% !important;
+	}
+	.product-thumb .button-group button.notify:not(.hidden) ~ button {
+		width: 25% !important;
+	}
+}
 @media (max-width: 480px) {
 	.product-thumb .button-group button.notify {
 		font-size: 10px !important;
@@ -270,21 +282,21 @@
 	cursor: pointer;
 }
 
-/* Карточка товара: та же высота, что у «Купить» (btn-lg, 46px),
-   на мобильных длинный текст переносится без роста кнопки */
+/* Карточка товара: та же высота, что у «Купить» (btn-lg, 46px); текст
+   переносится на всех ширинах (bootstrap nowrap от .btn снят — иначе на
+   768–1200px надпись обрезается), две строки при 16px/18px + паддинг 4px
+   дают ровно 46px */
+#button-cart + button.notify_product {
+	padding: 4px 12px !important;
+	font-size: 16px !important;
+	line-height: 18px !important;
+	white-space: normal !important;
+}
 #button-cart + button.notify_product:not(.hidden) {
 	display: flex !important;
 	justify-content: center;
 	align-items: center;
 	min-height: 46px;
-}
-@media (max-width: 767px) {
-	#button-cart + button.notify_product {
-		padding: 4px 10px !important;
-		font-size: 14px !important;
-		line-height: 18px !important;
-		white-space: normal !important;
-	}
 }
 
 .send-avail-form-block{
