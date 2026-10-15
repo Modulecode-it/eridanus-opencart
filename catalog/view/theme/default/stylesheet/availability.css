@@ -231,35 +231,60 @@
 	overflow-y:scroll;
 }
 /*********************************************************edit-modal-avail styles***********************************************/
-.product-thumb .button-group button + button.notify {
-	width: 60%;
-	border-left: 1px solid #ddd;
+
+/* Кнопка «Сообщить о поступлении» в листингах: вровень с «Купить» —
+   та же высота ряда (40px), текст в две строки мелким шрифтом,
+   bootstrap-оформление .btn (паддинги/nowrap/радиус) снято */
+.product-thumb .button-group button.notify {
+	height: 40px;
+	padding: 0 4px !important;
+	border: none !important;
+	border-radius: 0 !important;
+	box-shadow: none !important;
+	font-size: 11px !important;
+	line-height: 14px !important;
+	white-space: normal !important;
 }
-@media (max-width: 767px){
-
-	.product-thumb .button-group button + button.notify {
-		width: 33%;
-	}
+/* :not(.hidden) — не перебивать bootstrap-скрытие кнопки у товаров в наличии */
+.product-thumb .button-group button.notify:not(.hidden) {
+	display: flex !important;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
-@media (max-width: 1200px){
-
-	.product-thumb .button-group button + button.notify {
-		width: 33%;
-	}
-}
-
-
-@media (max-width: 767px){
+@media (max-width: 1200px) {
+	/* слот 33.33% как у остальных кнопок ряда, иначе 60% из темы
+	   (правило .avail-button-cart.hidden + button) вытесняет иконки */
 	.product-thumb .button-group button.notify {
-		width: 33%;
+		width: 33.33% !important;
 	}
-
+}
+@media (max-width: 480px) {
+	.product-thumb .button-group button.notify {
+		font-size: 10px !important;
+		line-height: 13px !important;
+	}
 }
 .product-thumb .button-group button.notify:hover {
-	color: #444;
-	background-color: #ddd;
 	text-decoration: none;
 	cursor: pointer;
+}
+
+/* Карточка товара: та же высота, что у «Купить» (btn-lg, 46px),
+   на мобильных длинный текст переносится без роста кнопки */
+#button-cart + button.notify_product:not(.hidden) {
+	display: flex !important;
+	justify-content: center;
+	align-items: center;
+	min-height: 46px;
+}
+@media (max-width: 767px) {
+	#button-cart + button.notify_product {
+		padding: 4px 10px !important;
+		font-size: 14px !important;
+		line-height: 18px !important;
+		white-space: normal !important;
+	}
 }
 
 .send-avail-form-block{
