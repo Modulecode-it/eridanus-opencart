@@ -4905,9 +4905,9 @@
     "semantic_hash": "8078dbbaf59011a30229edc1805a86f5"
   },
   "catalog/controller/checkout/shipping_method.php": {
-    "mtime": 1780923560.8138256,
-    "ast_hash": "d128a19633851b69c4e89f839d1eedbe",
-    "semantic_hash": "d128a19633851b69c4e89f839d1eedbe"
+    "mtime": 1792071130.1139941,
+    "ast_hash": "cbb81eba9fcb7fbb7f238b8a1adb8fb7",
+    "semantic_hash": ""
   },
   "catalog/controller/checkout/success.php": {
     "mtime": 1780923560.8138256,
@@ -11725,8 +11725,8 @@
     "semantic_hash": ""
   },
   "catalog/controller/checkout/simplecheckout_shipping.php": {
-    "mtime": 1789746250.9151468,
-    "ast_hash": "16422e0384be28d4542f762d114b2a8f",
+    "mtime": 1792072126.7861574,
+    "ast_hash": "8badcfbeeb1d44d57ccf3a7c9844c92b",
     "semantic_hash": ""
   },
   "catalog/controller/checkout/simplecheckout_shipping_address.php": {
@@ -12125,8 +12125,8 @@
     "semantic_hash": ""
   },
   "catalog/language/ru-ru/extension/shipping/apiship.php": {
-    "mtime": 1787058684.815677,
-    "ast_hash": "ec8919999861e18cd83645de2602a2fd",
+    "mtime": 1792072143.9639606,
+    "ast_hash": "27721f4b53848fd338492cda45c80b84",
     "semantic_hash": ""
   },
   "catalog/model/extension/shipping/apiship.php": {
@@ -12140,8 +12140,8 @@
     "semantic_hash": ""
   },
   "system/library/apiship/apiship.php": {
-    "mtime": 1787058684.972679,
-    "ast_hash": "a17f74344e6ec0a222ea541c54c891c9",
+    "mtime": 1792071813.1180673,
+    "ast_hash": "157b57bce5ac67aa2d2d662f956ccb2b",
     "semantic_hash": ""
   },
   ".agents/analysis/1.13-simple-settings-backup-before-layout-2026-09-19.json": {
