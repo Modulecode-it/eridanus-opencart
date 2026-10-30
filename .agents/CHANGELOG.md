@@ -4,6 +4,12 @@
 
 Формат: `Keep a Changelog`, даты в ISO (`YYYY-MM-DD`).
 
+## [1.0.26] — 2026-10-30
+
+### Added
+- **1.21 сессия-3** (журнал — runbook 1.21 §«Журнал выполнения (сессия 3)»): карта ПВЗ на проде работает (точки 5Post+Яндекс; вопрос про ЛК apiship.ru снят, тарифы x5 активны); cron добавлен в Планировщик ISPmgr (проверка — после починки HTTPS); **HTTPS-цепочка eridanus.ru: intermediate НЕ отдаётся** — openssl с машины агента: leaf CN=www.eridanus.ru + 2 кросс-root'а (Root R46/R6) без `GlobalSign GCC R46 AlphaSSL CA 2025` → verify error 20/21; браузеры маскируют (AIA), wget/curl падают ⇒ **cron-wget на проде не работает, пока цепочка не доклеена**. Intermediate скачан по AIA-URL: `agent-deploy-kit/gsgccr46alphasslca2025.crt` (SHA-256 D2:AC:…:5C, до 23.06.2029), `openssl verify` с ним → OK; вставить в ISPmgr (SSL → «Цепочка сертификатов»).
+- **Битая git-тень `system/storage/modification/.../simplecheckout_shipping.php` удалена из git** (задача из 1.21-сессии-2): diff с оригиналом — отличия только в `validator()` 266–287 (в тени вставка apiship в списке параметров), оригинал — надмножество (обе проверки 1.23); прод уже работает без тени, dev-контейнер использует свой набор теней — удаление безопасно, excludes §3.2 не нужны.
+
 ## [1.0.25] — 2026-10-29
 
 ### Added
