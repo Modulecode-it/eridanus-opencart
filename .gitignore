@@ -61,3 +61,4 @@ Thumbs.db
 # Правило задачи 0.5: браузерный доступ AI к dev-сайту разрешён, креды живут
 # здесь и не попадают в git. Шаблон — .agents/templates/dev-secrets.md
 .secrets/
+__pycache__/

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Как получить HAR</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', system-ui, sans-serif; }
+  body { width:1280px; height:800px; overflow:hidden; background:#5f6368; position:relative; }
+
+  /* окно Chrome (инкогнито — тёмная рамка) */
+  .win { position:absolute; inset:8px; background:#fff; border-radius:10px; overflow:hidden;
+         box-shadow:0 6px 30px rgba(0,0,0,.45); display:flex; flex-direction:column; }
+  .tabbar { height:40px; background:#202124; display:flex; align-items:flex-end; padding:0 10px; gap:8px; }
+  .tab { background:#35363a; color:#e8eaed; border-radius:9px 9px 0 0; padding:8px 16px; font-size:13px; display:flex; gap:8px; align-items:center; }
+  .tab .close { color:#9aa0a6; }
+  .incognito { display:flex; align-items:center; gap:6px; color:#9aa0a6; font-size:13px; padding:0 8px 8px; }
+  .incognito .hat { width:18px; height:18px; border-radius:50%; background:#9aa0a6; position:relative; }
+  .incognito .hat::after { content:''; position:absolute; left:3px; top:7px; width:12px; height:5px; background:#202124; border-radius:2px; }
+  .toolbar { height:44px; background:#35363a; display:flex; align-items:center; gap:12px; padding:0 14px; }
+  .navbtn { width:16px; height:16px; border-radius:50%; border:2px solid #9aa0a6; }
+  .addr { flex:1; background:#202124; color:#e8eaed; border-radius:16px; padding:8px 16px; font-size:13.5px;
+          display:flex; align-items:center; gap:8px; }
+  .lock { width:10px; height:8px; background:#81c995; clip-path:polygon(15% 100%,85% 100%,85% 45%,65% 45%,65% 30%,50% 12%,35% 30%,35% 45%,15% 45%); }
+  .viewport { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+
+  /* страница чекаута */
+  .page { flex:1; padding:18px 60px; overflow:hidden; background:#fff; }
+  .page h1 { font-size:20px; margin-bottom:12px; color:#222; }
+  .cartrow { display:flex; align-items:center; gap:14px; border:1px solid #e0e0e0; border-radius:8px; padding:10px 14px; margin-bottom:14px; max-width:640px; }
+  .thumb { width:44px; height:44px; background:#f1f3f4; border-radius:6px; }
+  .cartname { font-size:14px; color:#333; }
+  .cartprice { margin-left:auto; font-weight:600; color:#333; font-size:14px; }
+  .fields { display:flex; flex-direction:column; gap:10px; max-width:640px; }
+  .frow { display:flex; gap:12px; }
+  .field { flex:1; }
+  .field label { display:block; font-size:12.5px; color:#555; margin-bottom:4px; }
+  .ctrl { border:1px solid #dadce0; border-radius:5px; padding:8px 10px; font-size:14px; color:#333; background:#fff; position:relative; }
+  .ctrl.sel::after { content:'▾'; position:absolute; right:10px; color:#5f6368; }
+  .shipbox { border:1px solid #e0e0e0; border-radius:8px; padding:12px 14px; max-width:640px; }
+  .shipbox h3 { font-size:14px; margin-bottom:8px; color:#222; }
+  .opt { display:flex; align-items:center; gap:8px; font-size:14px; color:#333; padding:4px 0; }
+  .opt .radio { width:15px; height:15px; border:2px solid #5f6368; border-radius:50%; }
+  .opt.on .radio { border-color:#229ac8; background:radial-gradient(circle, #229ac8 40%, #fff 45%); }
+  .payline { margin-top:10px; font-size:14px; color:#333; display:flex; gap:8px; align-items:center; }
+
+  /* DevTools снизу */
+  .devtools { height:300px; background:#fff; border-top:1px solid #bdc1c6; display:none; flex-direction:column; }
+  body[data-step="2"] .devtools, body[data-step="3"] .devtools, body[data-step="4"] .devtools,
+  body[data-step="5"] .devtools, body[data-step="6"] .devtools { display:flex; }
+  .dt-tabs { display:flex; gap:22px; padding:8px 16px 0; border-bottom:1px solid #dadce0; font-size:12.5px; color:#5f6368; }
+  .dt-tab { padding:6px 2px 8px; position:relative; }
+  .dt-tab.net { color:#1a73e8; font-weight:600; }
+  .dt-tab.net::after { content:''; position:absolute; left:0; right:0; bottom:-1px; height:2px; background:#1a73e8; }
+  .dt-toolbar { display:flex; align-items:center; gap:12px; padding:7px 14px; border-bottom:1px solid #eee; font-size:12px; color:#333; }
+  .rec { width:14px; height:14px; border-radius:50%; background:#e53935; }
+  .filter { flex:1; max-width:260px; border:1px solid #dadce0; border-radius:4px; padding:4px 10px; color:#9aa0a6; }
+  .dt-grid { flex:1; font-size:12px; color:#333; overflow:hidden; }
+  .dt-hrow { display:flex; gap:4px; padding:6px 14px 6px; border-bottom:1px solid #eee; color:#5f6368; background:#f8f9fa; position:sticky; top:0; }
+  .c1 { width:300px; } .c2 { width:70px; } .c3 { width:90px; } .c4 { width:230px; } .c5 { width:80px; } .c6 { width:60px; }
+  .req { display:flex; gap:4px; padding:5px 14px; border-bottom:1px solid #f5f5f5; }
+  .req .name { color:#1a73e8; }
+  .st200 { color:#1e8e3e; }
+  .dt-empty { padding:24px 16px; color:#5f6368; font-size:12.5px; }
+  body[data-step="3"] .reqs { opacity:.35; }
+
+  /* контекстное меню (шаг 5) */
+  .ctx { display:none; position:absolute; left:150px; top:430px; background:#fff; border:1px solid #dadce0;
+         border-radius:6px; box-shadow:0 6px 24px rgba(0,0,0,.3); padding:6px 0; width:360px; z-index:50; font-size:13.5px; }
+  body[data-step="5"] .ctx { display:block; }
+  .ctx div { padding:7px 16px; color:#333; }
+  .ctx .hl { background:#1a73e8; color:#fff; font-weight:600; }
+
+  /* панель загрузок (шаг 6) */
+  .dl { display:none; position:absolute; right:20px; top:96px; width:340px; background:#fff; border:1px solid #dadce0;
+        border-radius:8px; box-shadow:0 6px 24px rgba(0,0,0,.3); padding:14px; z-index:50; }
+  body[data-step="6"] .dl { display:block; }
+  .dl .file { font-size:13.5px; color:#1a73e8; font-weight:600; margin-bottom:4px; }
+  .dl .sub { font-size:12px; color:#5f6368; }
+
+  /* подсветки шагов */
+  .hl-box { display:none; position:absolute; border:4px solid #e53935; border-radius:8px; z-index:40; pointer-events:none; }
+  .hl-box::after { content:attr(data-label); position:absolute; top:-42px; left:50%; transform:translateX(-50%);
+                   background:#e53935; color:#fff; font-size:15px; font-weight:600; padding:6px 14px; border-radius:8px; white-space:nowrap; }
+  body[data-step="2"] .hl-net { display:block; left:150px; top:510px; width:110px; height:44px; }
+  body[data-step="4"] .hl-form { display:block; left:50px; top:255px; width:660px; height:130px; }
+  .key { display:none; position:absolute; z-index:40; background:#fff; border:2px solid #5f6368; border-bottom-width:5px;
+         border-radius:8px; font-size:20px; font-weight:700; color:#333; padding:10px 18px; }
+  body[data-step="1"] .key-f12 { display:block; right:150px; top:180px; }
+  body[data-step="3"] .key-f5 { display:block; right:150px; top:180px; }
+
+  /* подпись-комментарий */
+  .caption { position:absolute; left:50%; bottom:14px; transform:translateX(-50%); max-width:1180px;
+             background:rgba(20,20,20,.9); color:#fff; font-size:19px; line-height:1.4; font-weight:600;
+             padding:12px 26px; border-radius:12px; text-align:center; z-index:60; box-shadow:0 4px 16px rgba(0,0,0,.4); }
+  .stepnum { position:absolute; right:22px; top:16px; background:rgba(20,20,20,.9); color:#fff; font-size:15px;
+             font-weight:600; padding:7px 14px; border-radius:10px; z-index:60; }
+</style>
+</head>
+<body data-step="1">
+
+<div class="win">
+  <div class="tabbar">
+    <div class="incognito"><div class="hat"></div> Инкогнито</div>
+    <div class="tab">Оформление заказа — eridanus.ru <span class="close">✕</span></div>
+    <div class="tab" style="background:#2b2c2f">+</div>
+  </div>
+  <div class="toolbar">
+    <div class="navbtn"></div><div class="navbtn"></div><div class="navbtn" style="border-color:#9aa0a6"></div>
+    <div class="addr"><span class="lock"></span> https://eridanus.ru/index.php?route=checkout/simplecheckout</div>
+  </div>
+  <div class="viewport">
+    <div class="page">
+      <h1>Оформление заказа</h1>
+      <div class="cartrow">
+        <div class="thumb"></div>
+        <div class="cartname">Сумочка KAKOO Зверята — Единорог, 1 шт</div>
+        <div class="cartprice">810 р.</div>
+      </div>
+      <div class="fields">
+        <div class="frow">
+          <div class="field"><label>* Регион</label><div class="ctrl sel">Санкт-Петербург</div></div>
+          <div class="field"><label>* Город</label><div class="ctrl">Санкт-Петербург</div></div>
+        </div>
+        <div class="frow">
+          <div class="field"><label>* Индекс</label><div class="ctrl">190000</div></div>
+          <div class="field"><label>* Адрес</label><div class="ctrl">Тестовая ул, 1</div></div>
+        </div>
+      </div>
+      <div class="shipbox" style="margin-top:12px">
+        <h3>Способ доставки</h3>
+        <div class="opt on"><span class="radio"></span> Самовывоз 5Post 1-10 дн. — 221 р.</div>
+        <div class="opt"><span class="radio"></span> Самовывоз Яндекс.Доставка 3 дн. — 166 р.</div>
+        <div class="opt"><span class="radio"></span> Курьер Яндекс.Доставка 3 дн. — 323 р.</div>
+        <div class="payline"><span class="radio" style="border-color:#229ac8;background:radial-gradient(circle,#229ac8 40%,#fff 45%)"></span> Оплата картой на сайте банка</div>
+      </div>
+    </div>
+
+    <div class="devtools">
+      <div class="dt-tabs">
+        <div class="dt-tab">Элементы</div>
+        <div class="dt-tab">Консоль</div>
+        <div class="dt-tab net">Сеть</div>
+        <div class="dt-tab">Источники</div>
+        <div class="dt-tab">Производительность</div>
+      </div>
+      <div class="dt-toolbar">
+        <div class="rec"></div>
+        <div class="filter">Фильтр</div>
+        <div>☰ Сохранить все как HAR с содержимым</div>
+      </div>
+      <div class="dt-grid">
+        <div class="dt-hrow"><div class="c1">Название</div><div class="c2">Статус</div><div class="c3">Тип</div><div class="c4">Инициатор</div><div class="c5">Размер</div><div class="c6">Время</div></div>
+        <div class="reqs">
+          <div class="req"><div class="c1 name">simplecheckout</div><div class="c2 st200">200</div><div class="c3">fetch</div><div class="c4">checkout:34</div><div class="c5">18,2 КБ</div><div class="c6">412 мс</div></div>
+          <div class="req"><div class="c1 name">cart/add</div><div class="c2 st200">200</div><div class="c3">xhr</div><div class="c4">common:12</div><div class="c5">3,1 КБ</div><div class="c6">96 мс</div></div>
+          <div class="req"><div class="c1 name">apiship.js</div><div class="c2 st200">200</div><div class="c3">script</div><div class="c4">simplecheckout:88</div><div class="c5">44 КБ</div><div class="c6">31 мс</div></div>
+          <div class="req"><div class="c1 name">stylesheet.css</div><div class="c2 st200">200</div><div class="c3">stylesheet</div><div class="c4">eridanus.ru</div><div class="c5">121 КБ</div><div class="c6">52 мс</div></div>
+          <div class="req"><div class="c1 name">jquery-3…min.js</div><div class="c2 st200">200</div><div class="c3">script</div><div class="c4">eridanus.ru</div><div class="c5">87 КБ</div><div class="c6">28 мс</div></div>
+          <div class="req"><div class="c1 name">simplecheckout</div><div class="c2 st200">200</div><div class="c3">fetch</div><div class="c4">checkout:34</div><div class="c5">21,7 КБ</div><div class="c6">508 мс</div></div>
+        </div>
+        <div class="dt-empty" id="dtempty">Запись событий сети включена…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ctx">
+  <div>Открыть в новой вкладке</div>
+  <div>Открыть ссылку</div>
+  <div>Копировать адрес ссылки</div>
+  <div class="hl">Сохранить все как HAR (с содержимым)</div>
+  <div>Копировать → Копировать адрес ссылки</div>
+</div>
+
+<div class="dl">
+  <div class="file">eridanus.ru ….har</div>
+  <div class="sub">Файл сохранён в папку «Загрузки»</div>
+</div>
+
+<div class="hl-box hl-net" data-label="Вкладка «Сеть»"></div>
+<div class="hl-box hl-form" data-label="Заполните регион и город"></div>
+<div class="key key-f12">F12</div>
+<div class="key key-f5">F5</div>
+
+<div class="stepnum" id="stepnum"></div>
+<div class="caption" id="cap"></div>
+
+<script>
+  const caps = [
+    '', // 0 не используется
+    'Шаг 1 из 6. Откройте оформление заказа в режиме инкогнито (корзина с товаром) и нажмите на клавиатуре клавишу F12',
+    'Шаг 2 из 6. Открылась панель разработчика — вверху панели нажмите вкладку «Сеть»',
+    'Шаг 3 из 6. Обновите страницу (клавиша F5) — список запросов начнёт заполняться',
+    'Шаг 4 из 6. Не закрывая панель, заполните регион и город, как обычно, выберите оплату картой и дождитесь списка доставки',
+    'Шаг 5 из 6. Щёлкните правой кнопкой мыши по любой строке списка и выберите «Сохранить все как HAR (с содержимым)»',
+    'Шаг 6 из 6. Файл сохранится в «Загрузки» — пришлите его ответным письмом. Страницу оплаты банка при открытой панели не открывайте'
+  ];
+  const step = Math.max(1, Math.min(6, parseInt(new URLSearchParams(location.search).get('step') || '1', 10)));
+  document.body.dataset.step = step;
+  document.getElementById('cap').textContent = caps[step];
+  document.getElementById('stepnum').textContent = 'Шаг ' + step + ' / 6';
+  document.getElementById('dtempty').style.display = (step === 2) ? 'block' : 'none';
+  if (step === 2) document.querySelector('.reqs').style.display = 'none';
+
+  // привязка подсветок к реальным элементам
+  const anchor = (boxSel, elSel, pad) => {
+    const box = document.querySelector(boxSel), el = document.querySelector(elSel);
+    if (!box || !el) return;
+    const r = el.getBoundingClientRect();
+    box.style.left = (r.left - pad) + 'px';
+    box.style.top = (r.top - pad) + 'px';
+    box.style.width = (r.width + pad * 2) + 'px';
+    box.style.height = (r.height + pad * 2) + 'px';
+  };
+  if (step === 2) anchor('.hl-net', '.dt-tab.net', 6);
+  if (step === 4) anchor('.hl-form', '.fields', 10);
+</script>
+</body>
+</html>
