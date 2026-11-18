@@ -382,8 +382,10 @@ class Apiship {
 		$data_key = 'apiship_calculator';
 
 		/* eridanus perf: общий кэш калькулятора (было: сессия на 10 минут);
-		   хэш аргументов включает состав корзины — цена не отстаёт от корзины */
-		$cached = $this->sharedCacheGet($data_key, $data_hash, 1800);
+		   хэш аргументов включает состав корзины — цена не отстаёт от корзины.
+		   eridanus fix 1.27: TTL полного ответа 300с (было 1800) — транзиентно
+		   урезанный ответ агрегатора не должен жить в кэше полчаса */
+		$cached = $this->sharedCacheGet($data_key, $data_hash, 300);
 		if ($cached !== null) {
 			return $cached;
 		}
@@ -479,7 +481,39 @@ class Apiship {
 			];
 		}
 
-		$this->sharedCacheSet($data_key, $data_hash, $data, 1800);
+		/* eridanus fix 1.27: плохой ответ калькулятора не держим в кэше подолгу
+		   (диагноз 1.25/1.26: пустой/урезанный ответ ApiShip фиксировался общим
+		   кэшем на 30 мин по хэшу корзины — службы «пропадали» у покупателей).
+		   Пустой (нет тарифов ни точкой, ни дверью; сюда же null-body от сбоя
+		   curl/битого JSON) — не кешируем вовсе. Асимметричный (тарифы только в
+		   одном из типов) — может быть и честным покрытием региона (Псков), и
+		   урезанным ответом, поэтому короткий TTL 120с. Полный — базовый 300с. */
+		$point_tariffs = 0;
+		if (isset($data['body']['deliveryToPoint']) && is_array($data['body']['deliveryToPoint']))
+		foreach ($data['body']['deliveryToPoint'] as $provider) {
+			$point_tariffs += isset($provider['tariffs']) ? count($provider['tariffs']) : 0;
+		}
+
+		$door_tariffs = 0;
+		if (isset($data['body']['deliveryToDoor']) && is_array($data['body']['deliveryToDoor']))
+		foreach ($data['body']['deliveryToDoor'] as $provider) {
+			$door_tariffs += isset($provider['tariffs']) ? count($provider['tariffs']) : 0;
+		}
+
+		if ($point_tariffs == 0 && $door_tariffs == 0) {
+			$this->toLog('shipping_apiship_calculator cache_empty_not_stored', ['x-tracing-id' => $x_tracing_id, 'data_hash' => $data_hash, 'body' => $data['body']], true);
+
+			return $data;
+		}
+
+		$cache_ttl = 300;
+
+		if ($point_tariffs == 0 || $door_tariffs == 0) {
+			$cache_ttl = 120;
+			$this->toLog('shipping_apiship_calculator cache_partial_ttl_120', ['x-tracing-id' => $x_tracing_id, 'data_hash' => $data_hash, 'point_tariffs' => $point_tariffs, 'door_tariffs' => $door_tariffs], true);
+		}
+
+		$this->sharedCacheSet($data_key, $data_hash, $data, $cache_ttl);
 		return $data;
 
 	}
