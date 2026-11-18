@@ -1,4 +1,9 @@
-class ApishipMap {
+/* Фикс «ApishipMap is not defined» (1.26): при AJAX-вставке блока доставки
+   Simple этот файл исполняется через jQuery globalEval (indirect eval), где
+   декларация class не сохраняется после завершения eval. var-присваивание
+   кладёт класс на window и переживает eval; при обычной загрузке через
+   <script> поведение не меняется. */
+var ApishipMap = class ApishipMap {
 	constructor() {
 		this.ID_MODAL = 'apiship_yandex_map';
 		this.YANDEX_MAP_CONTAINER_ID = 'apiship_yandex_map_container';
@@ -343,4 +348,4 @@ class ApishipMap {
 		
 		this.modal.open();
 	}
-}
+};
