@@ -4,6 +4,11 @@
 
 Формат: `Keep a Changelog`, даты в ISO (`YYYY-MM-DD`).
 
+## [1.0.36] — 2026-11-18
+
+### Fixed
+- **Прод-деплой 1.26+1.27 вручную (на проде нет git)** — Максим залил 2 файла (`catalog/view/javascript/apiship.js`, `system/library/apiship/apiship.php`); агент проверил на проде (гость): файл с фиксом на сервере, `ApishipMap` определён в AJAX-сценарии, карта ПВЗ открывается, котировки СПб полные (221/174/331). Версия `apiship.js?v=` поднята пересохранением формы модуля (`1744072→1395217598`) — ключ `shipping_apiship_version_js_mod` генерируется `rand()` при каждом открытии формы (`admin/controller/extension/shipping/apiship.php:50`), отдельного поля в UI нет. Полезно: ai_agent на проде НЕ существует (Максим ошибочно считал креды как на dev) — рабочий вход ITtech1 (`.secrets/prod-admin.md`, заметка добавлена); прод — shared-хостинг ISPmanager без git: рабочие изменения возить файлами (список изменившегося с последнего прод-деплоя: `git diff --name-only <последний прод-коммит>..HEAD -- catalog/ system/ admin/`).
+
 ## [1.0.35] — 2026-11-18
 
 ### Fixed
