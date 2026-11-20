@@ -12140,8 +12140,8 @@
     "semantic_hash": ""
   },
   "system/library/apiship/apiship.php": {
-    "mtime": 1794998336.453278,
-    "ast_hash": "b41a8a7ac199cd44d744e2a98fcb0468",
+    "mtime": 1795180410.8197603,
+    "ast_hash": "e5f93fd52e4777b166bcbedffc339a16",
     "semantic_hash": ""
   },
   ".agents/analysis/1.13-simple-settings-backup-before-layout-2026-09-19.json": {
@@ -12202,6 +12202,16 @@
   "agent-media/har-instruction.mp4": {
     "mtime": 1793966257.3229923,
     "ast_hash": "064476906d70f325c1db854d6076fbb7",
+    "semantic_hash": ""
+  },
+  "agent-tmp/apiship_calc_probe.py": {
+    "mtime": 1795180194.6739883,
+    "ast_hash": "8402dc6c1c87cfe47b4efd37598ffcae",
+    "semantic_hash": ""
+  },
+  "agent-tmp/probe_out.json": {
+    "mtime": 1795180075.4359362,
+    "ast_hash": "9f306d740d7c4650cad79fd6e036921d",
     "semantic_hash": ""
   }
 }
